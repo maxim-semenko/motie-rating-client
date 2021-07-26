@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import HomePage from "./components/HomePage";
+import {BrowserRouter} from "react-router-dom";
+import Route from "react-router-dom/Route";
+import AboutPage from "./components/AboutPage";
+import SearchPage from "./components/SearchPage";
+import FeedbackPage from "./components/FeedbackPage";
+import TopPage from "./components/TopPage";
+import CabinetPage from "./components/CabinetPage";
+import ProtectRoute from "./components/ProtectRoute";
+import BasketPage from "./components/BasketPage";
+import PurchasesPage from "./components/PurchasesPage";
+import BalancePage from "./components/BalancePage";
+import ProfileEditPage from "./components/ProfileEditPage";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <Route exact path="/" component={HomePage}/>
+                <Route exact path="/top" component={TopPage}/>
+                <Route exact path="/search" component={SearchPage}/>
+                <Route exact path="/about" component={AboutPage}/>
+                <Route exact path="/feedback" component={FeedbackPage}/>
+                <ProtectRoute path="/profile/cabinet" component={CabinetPage}/>
+                <ProtectRoute path="/profile/basket" component={BasketPage}/>
+                <ProtectRoute path="/profile/purchases" component={PurchasesPage}/>
+                <ProtectRoute path="/profile/balance" component={BalancePage}/>
+                <ProtectRoute path="/profile/edit" component={ProfileEditPage}/>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;

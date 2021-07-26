@@ -1,0 +1,15 @@
+.my-link {
+    text-decoration: none;
+    color: white;
+}
+
+.my-link:hover {
+    text-decoration: none;
+    color: #3a78dd;
+}
+
+.menu-icon {
+    position: relative;
+    left: -3px;
+    top: -5px;
+}
