@@ -2,7 +2,7 @@ import axios from "axios";
 
 const AUTH_API_BASE_URL = "http://localhost:8088/api/v1/auth";
 
-class BookService {
+class AuthService {
 
     // Login user
     login(request) {
@@ -14,6 +14,13 @@ class BookService {
         return axios.post(AUTH_API_BASE_URL + '/register', request);
     }
 
+    // Logout user
+    logout(cookies) {
+        cookies.remove("jwt", {path: "/"});
+        localStorage.removeItem("user");
+    }
+
+
 }
 
-export default new BookService();
+export default new AuthService();

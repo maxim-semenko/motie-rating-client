@@ -4,7 +4,7 @@ import Redirect from 'react-router-dom/Redirect';
 import jwt from "jsonwebtoken";
 import {Cookies} from "react-cookie";
 
-const cookies = new Cookies;
+const cookies = new Cookies();
 
 function ProtectRoute({component: Component, ...rest}) {
     return (

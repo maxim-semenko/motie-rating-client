@@ -3,14 +3,13 @@ import {Col, Container, Navbar} from "react-bootstrap";
 
 class Footer extends Component {
     render() {
-        let currentYear = new Date().getUTCFullYear();
         return (
-            <div>
-                <Navbar fixed="bottom" bg="dark" variant="dark">
+            <div style={{paddingTop: "5px"}}>
+                <Navbar bg="dark" variant="dark">
                     <Container>
                         <Col lg={12} className="text-center text-muted">
                             <div>
-                                {currentYear}, All rights Reserved by Maxim Semenko
+                                {new Date().getUTCFullYear()}, All rights Reserved by Maxim Semenko
                             </div>
                         </Col>
                     </Container>

@@ -7,6 +7,7 @@ import CenterModalSignUp from "./CenterModalSignUp";
 import {Cookies} from "react-cookie";
 import {FaShoppingCart} from "react-icons/all";
 import Button from "react-bootstrap/Button";
+import AuthService from "../service/AuthService";
 
 const cookies = new Cookies();
 
@@ -18,7 +19,6 @@ class NavigationBar extends Component {
             showSignIn: false,
             showSignUp: false,
             showLogOut: false,
-            showing: true,
             showAlert: true
         }
     }
@@ -77,10 +77,9 @@ class NavigationBar extends Component {
 
 
     logOut() {
-        console.log("LOGOUT")
-        cookies.remove("jwt", {path: "/"});
-        localStorage.removeItem("user");
-        this.setState({showing: false});
+        AuthService.logout(cookies);
+        // cookies.remove("jwt", {path: "/"});
+        // localStorage.removeItem("user");
     }
 
     render() {

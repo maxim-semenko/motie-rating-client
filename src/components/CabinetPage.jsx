@@ -35,7 +35,9 @@ class CabinetPage extends Component {
                                        style={{paddingTop: "25px", paddingBottom: "35px"}}>
                                 <h3 className="text-center">ADMIN FUNCTIONAL</h3>
                                 <div className="d-grid gap-2" style={{marginTop: "15px"}}>
-                                    <Button variant="outline-warning" size="lg"><b>Go to admin profile</b></Button>{' '}
+                                    <Button href="/profile/admin" variant="outline-warning" size="lg">
+                                        <b>Go to admin profile</b>
+                                    </Button>{' '}
                                 </div>
                             </Jumbotron>
                         </div>
@@ -94,8 +96,6 @@ class CabinetPage extends Component {
                         </Col>
                     </Row>
                 </Container>
-                <br/>
-                <br/>
                 <Footer/>
             </div>
         );

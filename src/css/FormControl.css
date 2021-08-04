@@ -1,0 +1,28 @@
+.sign-in-input {
+    border: none;
+    border-bottom: 1px solid grey;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0 0 0 0;
+    color: white;
+    background: transparent;
+}
+
+.sign-in-input:hover {
+    color: white;
+    background: transparent;
+}
+
+.sign-in-input:focus {
+    color: white;
+    background: transparent;
+}
+
+.modal-dark {
+    /*background: #343a40;*/
+    border-bottom-color: #343a40;
+}
+
+.customCard {
+    background: black;
+}

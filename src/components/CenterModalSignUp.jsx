@@ -45,15 +45,13 @@ class CenterModalSignUp extends Component {
             lastname: this.state.lastname,
             email: this.state.email,
             username: this.state.username,
-            password: this.state.password}
+            password: this.state.password
+        }
 
         AuthService.register(request).then((response) => {
             console.log(response.data);
-
-            // this.props.history.push("/")
         });
         console.log(request);
-
     }
 
     render() {
@@ -67,17 +65,9 @@ class CenterModalSignUp extends Component {
             background: "transparent"
         }
         return (
-            <Modal
-                {...this.props}
-                size="lg"
-
-                // aria-labelledby="contained-modal-title-vcenter"
-                // centered
-            >
+            <Modal{...this.props} size="lg">
                 <Modal.Header closeButton style={{background: "#343a40"}}>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Sign up
-                    </Modal.Title>
+                    <Modal.Title id="contained-modal-title-vcenter">Sign up</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{background: "#343a40"}}>
                     <Form>

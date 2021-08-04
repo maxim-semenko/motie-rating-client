@@ -13,3 +13,9 @@
     left: -3px;
     top: -5px;
 }
+
+
+.special_modal .modal-content{
+    background-color: #343a40;
+    /*color: #fff;*/
+}

@@ -10,7 +10,6 @@ class BasketPage extends Component {
         this.state = {
             list: []
         }
-
     }
 
     showList() {
@@ -29,12 +28,6 @@ class BasketPage extends Component {
             </div>
         )
     }
-
-
-    componentDidMount() {
-
-    }
-
 
     render() {
         return (

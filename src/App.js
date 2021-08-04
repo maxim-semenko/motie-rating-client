@@ -13,6 +13,7 @@ import BasketPage from "./components/BasketPage";
 import PurchasesPage from "./components/PurchasesPage";
 import BalancePage from "./components/BalancePage";
 import ProfileEditPage from "./components/ProfileEditPage";
+import AdminPage from "./components/AdminPage";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                 <ProtectRoute path="/profile/purchases" component={PurchasesPage}/>
                 <ProtectRoute path="/profile/balance" component={BalancePage}/>
                 <ProtectRoute path="/profile/edit" component={ProfileEditPage}/>
+                <ProtectRoute path="/profile/admin" component={AdminPage}/>
             </BrowserRouter>
         </div>
     );
