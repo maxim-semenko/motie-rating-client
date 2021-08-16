@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import NavigationBar from "./NavigationBar";
 import Footer from "./Footer";
 import CSSTransition from "react-transition-group/CSSTransition";
@@ -6,12 +6,6 @@ import Alert from "react-bootstrap/Alert";
 import '../css/Example.css'
 
 class SearchPage extends Component {
-
-    // const [show, setShow] = useState(false);
-    //
-    // useEffect(() => {
-    //     document.title = `Вы нажали  раз`;
-    // });
 
     constructor(props) {
         super(props);

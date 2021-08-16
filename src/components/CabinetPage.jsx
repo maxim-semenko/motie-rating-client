@@ -42,9 +42,7 @@ class CabinetPage extends Component {
                             </Jumbotron>
                         </div>
                         :
-                        <div>
-
-                        </div>
+                        null
                 }
             </div>
         )
@@ -67,8 +65,11 @@ class CabinetPage extends Component {
                                         <img
                                             alt=""
                                             src={imgUser}
-                                            width="256"
-                                            height="256"
+                                            style={{resize: "both", width: "100%", height: "256px"}}
+                                            // style={{width: "100%",
+                                            //     height: "auto",
+                                            //     /* Magic! */
+                                            //     maxWidth: "50vw"}}
                                         />
                                         <div className="d-grid gap-2" style={{marginTop: "20px"}}>
                                             <Button variant="outline-success" size="lg" href="/profile/edit">

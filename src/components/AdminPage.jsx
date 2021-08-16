@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import {Link} from "react-router-dom";
-import {AiFillHome, ImUsers, MdLocalMovies, RiFeedbackFill, VscFeedback} from "react-icons/all";
+import {ImUsers, MdLocalMovies, RiFeedbackFill} from "react-icons/all";
 
 class AdminPage extends Component {
     render() {

@@ -7,7 +7,6 @@ import '../css/Example.css'
 import '../css/FormControl.css'
 import CSSTransition from "react-transition-group/CSSTransition";
 import Alert from "react-bootstrap/Alert";
-import Jumbotron from "react-bootstrap/Jumbotron";
 
 const cookies = new Cookies();
 
