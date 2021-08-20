@@ -1,17 +1,11 @@
 import React, {Component} from 'react';
-import NavigationBar from "./NavigationBar";
-import Footer from "./Footer";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import {Form} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import UserService from "../service/UserService";
+import {Alert, Button, Col, Container, Form, Jumbotron, Row} from "react-bootstrap";
+import NavigationBar from "../NavigationBar";
 import CSSTransition from "react-transition-group/CSSTransition";
-import Alert from "react-bootstrap/Alert";
+import Footer from "../Footer";
+import UserService from "../../service/UserService";
 
-class ProfileEditPage extends Component {
+class ClassProfileEditPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -185,4 +179,4 @@ class ProfileEditPage extends Component {
     }
 }
 
-export default ProfileEditPage;
+export default ClassProfileEditPage;

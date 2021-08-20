@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {Form, Modal} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import {Button, Form, Modal} from "react-bootstrap";
 import AuthService from "../service/AuthService";
 
-class CenterModalSignUp extends Component {
+class ClassCenterModalSignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +36,6 @@ class CenterModalSignUp extends Component {
         this.setState({email: event.target.value})
     }
 
-
     register = (e) => {
         e.preventDefault();
         let request = {
@@ -51,7 +49,6 @@ class CenterModalSignUp extends Component {
         AuthService.register(request).then((response) => {
             console.log(response.data);
         });
-        console.log(request);
     }
 
     render() {
@@ -108,4 +105,4 @@ class CenterModalSignUp extends Component {
     }
 }
 
-export default CenterModalSignUp;
+export default ClassCenterModalSignUp;

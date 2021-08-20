@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
-import NavigationBar from "./NavigationBar";
-import {Container, Jumbotron, Row} from "react-bootstrap";
-import Footer from "./Footer";
-import FilmService from "../service/FilmService";
-import Card from "react-bootstrap/Card";
-
-import '../css/FormControl.css';
+import {Card, Container, Jumbotron, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import BasketService from "../service/BasketService";
+import Footer from "../Footer";
+import AddRemoveFilmBasketComponent from "../AddRemoveFilmBasketComponent";
+import NavigationBar from "../NavigationBar";
+import BasketService from "../../service/BasketService";
+import FilmService from "../../service/FilmService";
+import '../../styles/FormControl.css';
 
-
-class HomePage extends Component {
+class ClassHomePage extends Component {
     price;
     timeInMinutes;
 
@@ -20,25 +17,38 @@ class HomePage extends Component {
 
         this.state = {
             films: [],
-            basketList: []
+            basketList: [],
+            isLogin: false
         }
 
         this.addToBasket = this.addToBasket.bind(this);
         this.removeFromBasket = this.removeFromBasket.bind(this);
+
+        this.setIsLogin = this.setIsLogin.bind(this);
+    }
+
+    setIsLogin() {
+        this.setState({isLogin: !this.state.isLogin})
     }
 
     componentDidMount() {
+        if (localStorage.getItem("user")) {
+            this.setState({isLogin: true})
+        } else {
+            this.setState({isLogin: false});
+        }
         FilmService.getAll().then((res) => {
             this.setState({films: res.data})
         })
-        BasketService.getById(JSON.parse(localStorage.getItem("user")).basket.id)
-            .then((response) => {
-                console.log(response.data);
-                this.setState({basketList: response.data.filmList});
-            }).catch(function (error) {
-
-            }
-        )
+        if (localStorage.getItem("user") != null) {
+            BasketService.getById(JSON.parse(localStorage.getItem("user")).basket.id)
+                .then((response) => {
+                    this.setState({basketList: response.data.filmList});
+                }).catch(function (error) {
+                    console.log(error);
+                }
+            )
+        }
     }
 
     addToBasket(filmId) {
@@ -46,7 +56,7 @@ class HomePage extends Component {
             .then((response) => {
                 this.setState({basketList: response.data.filmList});
             }).catch(function (error) {
-
+                console.log(error);
             }
         )
     }
@@ -57,65 +67,31 @@ class HomePage extends Component {
                 this.setState({basketList: response.data.filmList});
                 this.setState({totalPrice: response.data.summa});
             }).catch(function (error) {
-
+                console.log(error);
             }
         )
     }
 
-    checkIsContainInBasket(filmId) {
-        const array1 = this.state.basketList;
+    checkContain(filmId) {
+        const list = this.state.basketList;
         let isContain = false;
 
-        // for (const key of iterator) {
-        //     console.log(key);
-        // }
-        for (let key in array1) {
-            if (array1[key].id === filmId) {
-                isContain = true;
-                console.log("isContain = " + isContain + " id = " + filmId);
-
-                break;
-            }
-            // console.log("key " + key + " has value " + array1[key].id);
-        }
-        return (
-            <div>
-
-                {
-                    isContain === true ?
-                        <div>
-                            <div className="d-grid gap-2" style={{marginTop: "20px"}}>
-                                <Button variant="outline-success">
-                                    Buy film
-                                </Button>{' '}
-                                <Button variant="outline-danger"
-                                        onClick={() => this.removeFromBasket(filmId)}>
-                                    Remove from basket
-                                </Button>
-                            </div>
-                        </div>
-                        :
-                        <div>
-                            <div className="d-grid gap-2" style={{marginTop: "20px"}}>
-                                <Button variant="outline-success">
-                                    Buy film
-                                </Button>{' '}
-                                <Button variant="outline-primary"
-                                        onClick={() => this.addToBasket(filmId)}>
-                                    Add to basket
-                                </Button>
-                            </div>
-                        </div>
+        for (let key in list) {
+            if (list.hasOwnProperty(key)) {
+                if (list[key].id === filmId) {
+                    isContain = true;
+                    break;
                 }
-            </div>
-        )
-    }
+            }
+        }
 
+        return isContain;
+    }
 
     render() {
         return (
             <div>
-                <NavigationBar/>
+                <NavigationBar setIsLoginMethod={this.setIsLogin}/>
                 <Container>
                     <Jumbotron className="bg-dark text-white" style={{marginTop: "20px", paddingTop: "20px"}}>
                         <Container>
@@ -124,12 +100,13 @@ class HomePage extends Component {
                                     this.state.films.slice(0).reverse().map(films =>
                                         <div className="col-md-6 col-xl-4" style={{marginTop: "30px"}} key={films.id}>
                                             <Card className="customCard">
-                                                <Link to="/about">
+                                                <Link to={{pathname: `film/${films.id}`}}>
                                                     <Card.Img variant="top" height="450rem" src={films.imageURL}/>
                                                 </Link>
                                                 <Card.Title style={{paddingTop: "5px"}}>
-                                                    <Link to="/about" className="my-link">
-                                                        <h3 style={{textTransform: "uppercase"}}>{films.name}</h3>
+                                                    <Link to={{pathname: `film/${films.id}`}} className="my-link">
+                                                        <h5 style={{textTransform: "uppercase"}}><b>{films.name}</b>
+                                                        </h5>
                                                     </Link>
                                                 </Card.Title>
                                                 <Card.Body style={{paddingTop: "0px"}}>
@@ -140,8 +117,12 @@ class HomePage extends Component {
                                                     }}>
                                                         <b>Price: {films.price}$</b>
                                                     </div>
-                                                    {this.checkIsContainInBasket(films.id)}
-
+                                                    <AddRemoveFilmBasketComponent
+                                                        isContain={this.checkContain(films.id)}
+                                                        filmId={films.id}
+                                                        methodAdd={this.addToBasket}
+                                                        methodRemove={this.removeFromBasket}
+                                                    />
                                                 </Card.Body>
                                             </Card>
                                         </div>
@@ -153,9 +134,8 @@ class HomePage extends Component {
                 </Container>
                 <Footer/>
             </div>
-        )
-            ;
+        );
     }
 }
 
-export default HomePage;
+export default ClassHomePage;

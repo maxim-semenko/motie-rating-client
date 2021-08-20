@@ -1,12 +1,11 @@
 import React from 'react';
-import Route from 'react-router-dom/Route';
-import Redirect from 'react-router-dom/Redirect';
+import {Redirect, Route} from 'react-router-dom';
 import jwt from "jsonwebtoken";
 import {Cookies} from "react-cookie";
 
-const cookies = new Cookies();
 
 function ProtectRoute({component: Component, ...rest}) {
+    const cookies = new Cookies();
     return (
         <Route
             {...rest}
@@ -22,9 +21,7 @@ function ProtectRoute({component: Component, ...rest}) {
                 if (token) {
                     return <Component/>;
                 } else {
-                    return (
-                        <Redirect to={{pathname: "/", state: {from: props.location}}}/>
-                    );
+                    return <Redirect to={{pathname: "/", state: {from: props.location}}}/>
                 }
             }}
         />

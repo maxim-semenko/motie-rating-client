@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import NavigationBar from "./NavigationBar";
-import {Col, Container, Jumbotron, Row} from "react-bootstrap";
-import Footer from "./Footer";
-import imgUser from "../img/user.svg";
-import Button from "react-bootstrap/Button";
-import ProfileMenu from "./ProfileMenu";
+import {Button, Col, Container, Jumbotron, Row} from "react-bootstrap";
+import NavigationBar from "../NavigationBar";
+import ProfileMenu from "../ProfileMenu";
+import Footer from "../Footer";
+import imgUser from "../../img/user.svg";
 
-class CabinetPage extends Component {
+class ClassCabinetPage extends Component {
     roles;
     balance;
 
@@ -66,10 +65,6 @@ class CabinetPage extends Component {
                                             alt=""
                                             src={imgUser}
                                             style={{resize: "both", width: "100%", height: "256px"}}
-                                            // style={{width: "100%",
-                                            //     height: "auto",
-                                            //     /* Magic! */
-                                            //     maxWidth: "50vw"}}
                                         />
                                         <div className="d-grid gap-2" style={{marginTop: "20px"}}>
                                             <Button variant="outline-success" size="lg" href="/profile/edit">
@@ -103,4 +98,4 @@ class CabinetPage extends Component {
     }
 }
 
-export default CabinetPage;
+export default ClassCabinetPage;

@@ -16,10 +16,6 @@ class BasketService {
         return axios.get(AUTH_API_BASE_URL + '/' + id);
     }
 
-    // Exist user by username
-    existByUsername(request) {
-        return axios.get(AUTH_API_BASE_URL + '/find/' + request);
-    }
 
     // Update user
     update(request) {

@@ -3,14 +3,14 @@ import {Form, Modal} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import AuthService from "../service/AuthService";
 import {Cookies} from "react-cookie";
-import '../css/Example.css'
-import '../css/FormControl.css'
+import '../styles/Example.css'
+import '../styles/FormControl.css'
 import CSSTransition from "react-transition-group/CSSTransition";
 import Alert from "react-bootstrap/Alert";
 
 const cookies = new Cookies();
 
-class CenterModalSignIn extends Component {
+class ClassCenterModalSignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,6 +47,7 @@ class CenterModalSignIn extends Component {
             .then((response) => {
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 cookies.set("jwt", response.data.token, {path: "/", sameSite: "strict", maxAge: 3600 * 24 * 60});
+                this.props.setIsLoginMethod();
                 this.closeWindow()
             }).catch(function (error) {
                 self.setState({showError: true});
@@ -136,4 +137,4 @@ class CenterModalSignIn extends Component {
     }
 }
 
-export default CenterModalSignIn;
+export default ClassCenterModalSignIn;
