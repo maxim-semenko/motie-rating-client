@@ -1,13 +1,7 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
 
-/**
- * @param {{isContain:boolean}} props
- * @param {{filmId:number}} props
- * @param props.methodAdd method
- * @param props.methodRemove method
- */
-function AddRemoveFilmBasketComponent(props) {
+function AddRemoveFilmBasket(props) {
     return (
         <div>
             {
@@ -30,14 +24,14 @@ function AddRemoveFilmBasketComponent(props) {
                                 <b>Buy film</b>
                             </Button>{' '}
                             <Button variant="outline-primary" disabled={!localStorage.getItem("user")}
-                                    onClick={() => props.methodAdd(props.filmId)}>
+                                    onClick={() => props.methodAdd(props.film)}>
                                 <b>Add to basket</b>
                             </Button>
                         </div>
                     </div>
             }
         </div>
-    );
+    )
 }
 
-export default AddRemoveFilmBasketComponent;
+export default AddRemoveFilmBasket

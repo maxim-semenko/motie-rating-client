@@ -1,8 +1,8 @@
-import React from 'react';
-import {Button, Card} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import React from 'react'
+import {Button, Card} from "react-bootstrap"
+import {Link} from "react-router-dom"
 
-function BasketItemComponent(props) {
+function BasketItem(props) {
     return (
         <div>
             <Card className="customCard" style={{textAlign: "left"}}>
@@ -33,4 +33,4 @@ function BasketItemComponent(props) {
     );
 }
 
-export default BasketItemComponent;
+export default BasketItem

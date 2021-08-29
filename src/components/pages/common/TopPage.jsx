@@ -1,6 +1,6 @@
-import React from 'react';
-import NavigationBar from "../NavigationBar";
-import Footer from "../Footer";
+import React from 'react'
+import NavigationBar from "../../NavigationBar"
+import Footer from "../../Footer"
 
 function TopPage() {
     return (
@@ -12,4 +12,4 @@ function TopPage() {
     );
 }
 
-export default TopPage;
+export default TopPage

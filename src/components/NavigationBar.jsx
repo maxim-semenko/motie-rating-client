@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
-import {Button, Container, Nav, Navbar} from "react-bootstrap";
-import {FaShoppingCart} from "react-icons/all";
-import ClassCenterModalSignIn from "./ClassCenterModalSignIn";
-import ClassCenterModalSignUp from "./ClassCenterModalSignUp";
-import {Cookies} from "react-cookie";
+import React, {useState} from 'react'
+import {Button, Container, Nav, Navbar} from "react-bootstrap"
+import {FaShoppingCart} from "react-icons/all"
+import SignInModal from "./pages/common/SignInModal"
+import SignUpModal from "./pages/common/SignUpModal"
+import {Cookies} from "react-cookie"
 import imgLogo from "../img/logo.svg"
-import AuthService from "../service/AuthService";
+import AuthService from "../service/AuthService"
 
 function NavigationBar(props) {
     const [showSignInModal, setShowSignInModal] = useState(false)
     const [showSignUpModal, setShowSignUpModal] = useState(false)
-    const cookies = new Cookies();
+    const cookies = new Cookies()
 
-    function isLogin() {
+    const isLogin = () => {
         return (
             <div>
                 {
@@ -24,8 +24,8 @@ function NavigationBar(props) {
                         </div>
                         :
                         <div>
-                            <Button variant="outline-primary" onClick={() => setShowSignInModal(true)}>Sign
-                                in</Button>{' '}
+                            <Button variant="outline-primary" onClick={() => setShowSignInModal(true)}>Sign in</Button>
+                            {' '}
                             <Button variant="outline-success" onClick={() => setShowSignUpModal(true)}>Sign up</Button>
                         </div>
                 }
@@ -33,7 +33,7 @@ function NavigationBar(props) {
         )
     }
 
-    function isShowBasketImage() {
+    const isShowBasketImage = () => {
         return (
             <div>
                 {
@@ -51,9 +51,9 @@ function NavigationBar(props) {
 
     return (
         <div>
-            <ClassCenterModalSignIn show={showSignInModal} onHide={() => setShowSignInModal(false)}
-                                    setIsLoginMethod={props.setIsLoginMethod}/>
-            <ClassCenterModalSignUp show={showSignUpModal} onHide={() => setShowSignUpModal(false)}/>
+            <SignInModal show={showSignInModal} onHide={() => setShowSignInModal(false)}
+                         setIsLoginMethod={props.setIsLoginMethod}/>
+            <SignUpModal show={showSignUpModal} onHide={() => setShowSignUpModal(false)}/>
 
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" style={{fontSize: "18px"}}>
                 <Container>
@@ -81,4 +81,4 @@ function NavigationBar(props) {
     );
 }
 
-export default NavigationBar;
+export default NavigationBar

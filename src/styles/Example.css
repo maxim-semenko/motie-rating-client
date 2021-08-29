@@ -1,16 +1,24 @@
 .my-node-enter {
+    /*opacity: 0;*/
     opacity: 0;
+    transform: scale(0.95);
 }
 .my-node-enter-active {
+    /*opacity: 1;*/
+    /*transition: opacity 400ms;*/
     opacity: 1;
-    transition: opacity 400ms;
+    transform: translateX(0);
+    transition: opacity 300ms ease, transform 300ms;
 }
 .my-node-exit {
     opacity: 1;
 }
 .my-node-exit-active {
+    /*opacity: 0;*/
+    /*transition: opacity 400ms;*/
     opacity: 0;
-    transition: opacity 400ms;
+    transform: scale(0.95);
+    transition: opacity 300ms ease, transform 300ms;
 }
 
 /* полоса прокрутки (скроллбар) */

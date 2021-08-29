@@ -1,6 +1,6 @@
-import React from 'react';
-import NavigationBar from "../NavigationBar";
-import Footer from "../Footer";
+import React from 'react'
+import NavigationBar from "../../NavigationBar"
+import Footer from "../../Footer"
 
 function SearchPage() {
     return (
@@ -12,4 +12,4 @@ function SearchPage() {
     );
 }
 
-export default SearchPage;
+export default SearchPage

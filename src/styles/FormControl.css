@@ -1,4 +1,4 @@
-.sign-in-input {
+.my-input {
     border: none;
     border-bottom: 1px solid grey;
     border-radius: 0;
@@ -8,14 +8,21 @@
     background: transparent;
 }
 
-.sign-in-input:hover {
+.my-input:hover {
     color: white;
     background: transparent;
 }
 
-.sign-in-input:focus {
+.my-input:focus {
     color: white;
     background: transparent;
+}
+
+.my-input:active, .my-input:focus {
+    outline: none;
+}
+.my-input::-moz-focus-inner {
+    border: 0;
 }
 
 .modal-dark {

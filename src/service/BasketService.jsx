@@ -1,21 +1,20 @@
 import axios from "axios";
 
-const AUTH_API_BASE_URL = "http://localhost:8088/api/v1/baskets";
+const AUTH_API_BASE_URL = "/api/v1/baskets";
 
 class BasketService {
 
-    add(userId, filmId) {
-        return axios.post(AUTH_API_BASE_URL + '/user/' + userId + '/film/' + filmId);
+    add(basketId, filmId) {
+        return axios.post(AUTH_API_BASE_URL + '/basket/' + basketId + '/film/' + filmId);
     }
 
-    remove(userId, filmId) {
-        return axios.delete(AUTH_API_BASE_URL + '/user/' + userId + '/film/' + filmId);
+    remove(basketId, filmId) {
+        return axios.delete(AUTH_API_BASE_URL + '/basket/' + basketId + '/film/' + filmId);
     }
 
-    getById(id) {
-        return axios.get(AUTH_API_BASE_URL + '/' + id);
+    async getById(id) {
+        return await axios.get(AUTH_API_BASE_URL + '/' + id);
     }
-
 
     // Update user
     update(request) {

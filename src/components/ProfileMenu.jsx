@@ -1,7 +1,7 @@
-import React from 'react';
-import {AiFillHome, AiFillShopping, FaShoppingCart, ImExit, MdAccountBalance} from "react-icons/all";
-import {Jumbotron} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import React from 'react'
+import {AiFillHome, AiFillShopping, FaShoppingCart, ImExit, MdAccountBalance} from "react-icons/all"
+import {Jumbotron} from "react-bootstrap"
+import {Link} from "react-router-dom"
 import '../styles/ProfileMenu.css'
 
 function ProfileMenu() {
@@ -45,4 +45,4 @@ function ProfileMenu() {
     );
 }
 
-export default ProfileMenu;
+export default ProfileMenu

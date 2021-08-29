@@ -1,8 +1,8 @@
-import React from 'react';
-import {Col, Container, Jumbotron, Row} from "react-bootstrap";
-import NavigationBar from "../NavigationBar";
-import ProfileMenu from "../ProfileMenu";
-import Footer from "../Footer";
+import React from 'react'
+import {Col, Container, Jumbotron, Row} from "react-bootstrap"
+import NavigationBar from "../../NavigationBar"
+import ProfileMenu from "../../ProfileMenu"
+import Footer from "../../Footer"
 
 function BalancePage() {
     return (
@@ -26,4 +26,4 @@ function BalancePage() {
     );
 }
 
-export default BalancePage;
+export default BalancePage

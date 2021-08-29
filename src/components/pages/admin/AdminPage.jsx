@@ -1,9 +1,9 @@
-import React from 'react';
-import {Col, Container, Jumbotron, Row} from "react-bootstrap";
-import {ImUsers, MdLocalMovies, RiFeedbackFill} from "react-icons/all";
-import {Link} from "react-router-dom";
-import NavigationBar from "../NavigationBar";
-import Footer from "../Footer";
+import React from 'react'
+import {Col, Container, Jumbotron, Row} from "react-bootstrap"
+import {ImUsers, MdLocalMovies, RiFeedbackFill} from "react-icons/all"
+import {Link} from "react-router-dom"
+import NavigationBar from "../../NavigationBar"
+import Footer from "../../Footer"
 
 function AdminPage() {
     return (
@@ -13,14 +13,14 @@ function AdminPage() {
                 <Row>
                     <Col lg={12} style={{marginTop: "20px", padding: "20px 20px 20px 20px", textAlign: "left"}}>
                         <Jumbotron className="bg-dark text-white">
-                            <Link to="/profile/cabinet" className="my-link">
+                            <Link to="/profile/admin/all-users" className="my-link">
                                 <h5>
                                     <span className="menu-icon"><ImUsers size={24}/></span>USERS CONTROL
                                 </h5>
                             </Link>
                             <hr/>
                             <br/>
-                            <Link to="/profile/cabinet" className="my-link">
+                            <Link to="/profile/admin/all-films" className="my-link">
                                 <h5>
                                     <span className="menu-icon"><MdLocalMovies size={24}/></span>FILMS CONTROL
                                 </h5>
@@ -42,4 +42,4 @@ function AdminPage() {
     );
 }
 
-export default AdminPage;
+export default AdminPage

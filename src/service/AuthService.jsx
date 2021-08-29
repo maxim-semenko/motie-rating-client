@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const AUTH_API_BASE_URL = "http://localhost:8088/api/v1/auth";
+const AUTH_API_BASE_URL = "/api/v1/auth";
 
 class AuthService {
 
@@ -19,8 +19,6 @@ class AuthService {
         cookies.remove("jwt", {path: "/"});
         localStorage.removeItem("user");
     }
-
-
 }
 
 export default new AuthService();

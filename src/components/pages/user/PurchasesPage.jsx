@@ -1,18 +1,21 @@
 import React from 'react';
 import {Col, Container, Jumbotron, Row} from "react-bootstrap";
-import NavigationBar from "../NavigationBar";
-import Footer from "../Footer";
-import '../../styles/FormControl.css'
+import NavigationBar from "../../NavigationBar";
+import ProfileMenu from "../../ProfileMenu";
+import Footer from "../../Footer";
 
-function AboutPage() {
+function PurchasesPage()  {
     return (
         <div>
             <NavigationBar/>
             <Container>
                 <Row>
-                    <Col lg={12} style={{marginTop: "20px"}}>
+                    <Col lg={3} style={{marginTop: "20px"}}>
+                        <ProfileMenu/>
+                    </Col>
+                    <Col lg={9} style={{marginTop: "20px"}}>
                         <Jumbotron className="bg-dark text-white">
-                            ABOUT PAGE
+                            Your purchases
                         </Jumbotron>
                     </Col>
                 </Row>
@@ -20,7 +23,6 @@ function AboutPage() {
             <Footer/>
         </div>
     );
-
 }
 
-export default AboutPage;
+export default PurchasesPage;
