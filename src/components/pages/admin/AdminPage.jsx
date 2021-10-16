@@ -27,11 +27,26 @@ function AdminPage() {
                             </Link>
                             <hr/>
                             <br/>
-                            <Link to="/profile/cabinet" className="my-link">
+                            <Link to="/profile/admin/all-genres" className="my-link">
                                 <h5>
-                                    <span className="menu-icon"><RiFeedbackFill size={24}/></span>USER'S MESSAGES
+                                    <span className="menu-icon"><MdLocalMovies size={24}/></span>GENRES CONTROL
                                 </h5>
                             </Link>
+                            <hr/>
+                            <br/>
+                            <Link to="/profile/all-countries" className="my-link">
+                                <h5>
+                                    <span className="menu-icon"><RiFeedbackFill size={24}/></span>COUNTRIES CONTROL
+                                </h5>
+                            </Link>
+                            <hr/>
+                            <br/>
+                            <Link to="/profile/admin/all-roles" className="my-link">
+                                <h5>
+                                    <span className="menu-icon"><MdLocalMovies size={24}/></span>ROLES CONTROL
+                                </h5>
+                            </Link>
+
                             <hr/>
                         </Jumbotron>
                     </Col>

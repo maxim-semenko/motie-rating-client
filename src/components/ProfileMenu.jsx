@@ -2,7 +2,9 @@ import React from 'react'
 import {AiFillHome, AiFillShopping, FaShoppingCart, ImExit, MdAccountBalance} from "react-icons/all"
 import {Jumbotron} from "react-bootstrap"
 import {Link} from "react-router-dom"
+import {Cookies} from "react-cookie"
 import '../styles/ProfileMenu.css'
+import AuthService from "../service/AuthService";
 
 function ProfileMenu() {
     return (
@@ -35,7 +37,7 @@ function ProfileMenu() {
                     </h5>
                 </Link>
                 <hr/>
-                <Link to="/" className="my-link">
+                <Link to="/" className="my-link" onClick={() => AuthService.logout(new Cookies())}>
                     <h5>
                         <span className="menu-icon"><ImExit size={24}/></span>LOGOUT
                     </h5>

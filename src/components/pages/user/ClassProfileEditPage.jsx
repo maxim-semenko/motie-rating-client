@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Alert, Button, Col, Container, Form, Jumbotron, Row} from "react-bootstrap";
-import NavigationBar from "../../NavigationBar";
 import CSSTransition from "react-transition-group/CSSTransition";
+import NavigationBar from "../../NavigationBar";
 import Footer from "../../Footer";
 import UserService from "../../../service/UserService";
 
@@ -73,10 +73,8 @@ class ClassProfileEditPage extends Component {
                 localStorage.setItem("user", JSON.stringify(response.data));
                 self.setState({showSuccess: true});
             }).catch(function (error) {
-                // if (error.response.data) {
-                    self.setState({showError: error.response.data.message});
-                    console.log(error.response);
-                // }
+                self.setState({showError: error.response.data.message});
+                console.log(error.response);
             }
         );
     }

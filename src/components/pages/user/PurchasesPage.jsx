@@ -4,7 +4,7 @@ import NavigationBar from "../../NavigationBar";
 import ProfileMenu from "../../ProfileMenu";
 import Footer from "../../Footer";
 
-function PurchasesPage()  {
+function PurchasesPage() {
     return (
         <div>
             <NavigationBar/>

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {Col, Container, Jumbotron, Row} from "react-bootstrap"
+import CSSTransition from "react-transition-group/CSSTransition"
 import NavigationBar from "../../NavigationBar"
 import ProfileMenu from "../../ProfileMenu"
 import BasketItem from "../../BasketItem"
-import CSSTransition from "react-transition-group/CSSTransition"
 import Footer from "../../Footer"
 import BasketService from "../../../service/BasketService"
 import spinner from "../../../img/spinner.svg"
@@ -16,7 +16,7 @@ function BasketPage() {
 
     useEffect(() => {
             setLoading(true)
-            BasketService.getById(user.basket.id)
+            BasketService.getById(user.id)
                 .then(response => {
                     setBasketList(response.data.filmList)
                     setTotalPrice(response.data.summa)
@@ -25,11 +25,11 @@ function BasketPage() {
                     console.log(error)
                 }
             )
-        }, [user.basket.id]
+        }, [user.id]
     )
 
     const removeFromBasket = (filmId) => {
-        BasketService.remove(user.basket.id, filmId)
+        BasketService.remove(user.id, filmId)
             .then(response => {
                 setBasketList(response.data.filmList)
                 setTotalPrice(response.data.summa)

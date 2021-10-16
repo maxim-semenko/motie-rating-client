@@ -30,42 +30,59 @@ function SignUpModal(props) {
     }
 
     return (
-        <Modal{...props} size="lg">
-            <Modal.Header closeButton style={{background: "#343a40"}}>
+        <Modal{...props} size="lg"
+              dialogClassName="modal-90w public-profile-modal-class"
+              aria-labelledby="example-custom-modal-styling-title"
+              className="special_modal">
+            <Modal.Header closeButton>
                 <Modal.Title>Sign up</Modal.Title>
             </Modal.Header>
-            <Modal.Body style={{background: "#343a40"}}>
+            <Modal.Body className="modal-dark">
                 <Form>
                     <Form.Group>
                         <Form.Label><b>FIRSTNAME</b></Form.Label>
-                        <Form.Control className="my-input" type="text" placeholder="Enter firstname" autocomplete="off"
+                        <Form.Control className="my-input"
+                                      type="text"
+                                      placeholder="Enter firstname"
+                                      autocomplete="off"
                                       onChange={event => setFirstname(event.target.value)}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>LASTNAME</b></Form.Label>
-                        <Form.Control className="my-input" type="text" placeholder="Enter lastname" autocomplete="off"
+                        <Form.Control className="my-input"
+                                      type="text"
+                                      placeholder="Enter lastname"
+                                      autocomplete="off"
                                       onChange={event => setLastname(event.target.value)}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>EMAIL</b></Form.Label>
-                        <Form.Control className="my-input" type="email" placeholder="Enter email" autocomplete="off"
+                        <Form.Control className="my-input"
+                                      type="email"
+                                      placeholder="Enter email"
+                                      autocomplete="off"
                                       onChange={event => setEmail(event.target.value)}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>USERNAME</b></Form.Label>
-                        <Form.Control className="my-input" type="text" placeholder="Enter username" autocomplete="off"
+                        <Form.Control className="my-input"
+                                      type="text"
+                                      placeholder="Enter username"
+                                      autocomplete="off"
                                       onChange={event => setUsername(event.target.value)}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>PASSWORD</b></Form.Label>
-                        <Form.Control className="my-input" type="password" placeholder="Enter password"
+                        <Form.Control className="my-input"
+                                      type="password"
+                                      placeholder="Enter password"
                                       onChange={event => setPassword(event.target.value)}/>
                     </Form.Group>
                 </Form>
             </Modal.Body>
-            <Modal.Footer style={{background: "#343a40"}}>
-                <Button onClick={props.onHide}>Close</Button>
-                <Button variant="primary" type="submit" onClick={register}>Sign up</Button>
+            <Modal.Footer>
+                <Button variant="outline-danger" onClick={props.onHide}>Close</Button>
+                <Button variant="outline-primary" type="submit" onClick={register}>Sign up</Button>
             </Modal.Footer>
         </Modal>
     )

@@ -16,27 +16,27 @@ import ClassAboutFilmPage from "./components/pages/common/AboutFilmPage";
 import AdminPage from "./components/pages/admin/AdminPage";
 import AllUsersPage from "./components/pages/admin/AllUsersPage";
 import AllFilmsPage from "./components/pages/admin/AllFilmsPage";
+import AllGenresPage from "./components/pages/admin/AllGenresPage";
 
 
 function App() {
     return (
         <div className="App">
-            <BrowserRouter>
-                <Route exact path="/" component={HomePage}/>
-                <Route exact path="/top" component={TopPage}/>
-                <Route exact path="/search" component={SearchPage}/>
-                <Route exact path="/about" component={AboutPage}/>
-                <Route exact path="/feedback" component={FeedbackPage}/>
-                <Route exact path="/film/:id" component={ClassAboutFilmPage}/>
-                <ProtectRoute path="/profile/cabinet" component={ClassCabinetPage}/>
-                <ProtectRoute path="/profile/basket" component={BasketPage}/>
-                <ProtectRoute path="/profile/purchases" component={PurchasesPage}/>
-                <ProtectRoute path="/profile/balance" component={BalancePage}/>
-                <ProtectRoute path="/profile/edit" component={ClassProfileEditPage}/>
-                <ProtectRoute path="/profile/admin/controllers" component={AdminPage}/>
-                <ProtectRoute path="/profile/admin/all-users" component={AllUsersPage}/>
-                <ProtectRoute path="/profile/admin/all-films" component={AllFilmsPage}/>
-            </BrowserRouter>
+            <Route exact path="/" component={HomePage}/>
+            <Route exact path="/top" component={TopPage}/>
+            <Route exact path="/search" component={SearchPage}/>
+            <Route exact path="/about" component={AboutPage}/>
+            <Route exact path="/feedback" component={FeedbackPage}/>
+            <Route exact path="/film/:id" component={ClassAboutFilmPage}/>
+            <ProtectRoute path="/profile/cabinet" component={ClassCabinetPage}/>
+            <ProtectRoute path="/profile/basket" component={BasketPage}/>
+            <ProtectRoute path="/profile/purchases" component={PurchasesPage}/>
+            <ProtectRoute path="/profile/balance" component={BalancePage}/>
+            <ProtectRoute path="/profile/edit" component={ClassProfileEditPage}/>
+            <ProtectRoute path="/profile/admin/controllers" component={AdminPage}/>
+            <ProtectRoute path="/profile/admin/all-users" component={AllUsersPage}/>
+            <ProtectRoute path="/profile/admin/all-films" component={AllFilmsPage}/>
+            <ProtectRoute path="/profile/admin/all-genres" component={AllGenresPage}/>
         </div>
     );
 }

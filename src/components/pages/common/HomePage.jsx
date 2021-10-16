@@ -1,26 +1,27 @@
 import React, {useEffect, useState} from 'react'
 import {Card, Container, Jumbotron, Row} from "react-bootstrap"
 import {Link} from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux";
+import CSSTransition from "react-transition-group/CSSTransition"
 import NavigationBar from "../../NavigationBar"
 import AddRemoveFilmBasket from "../../AddRemoveFilmBasket"
-import CSSTransition from "react-transition-group/CSSTransition"
 import Footer from "../../Footer"
 import BasketService from "../../../service/BasketService"
-import FilmService from "../../../service/FilmService"
 import spinner from "../../../img/spinner.svg"
 import '../../../styles/FormControl.css'
+import {getFilms} from "../../../redux/film/FilmAction";
 
 function HomePage() {
-    const [loading, setLoading] = useState(false)
-    const [films, setFilms] = useState([])
+
+    const dispatch = useDispatch()
+    const {films, loading, currentPage, sizePage} = useSelector(state => state.dataFilms)
     const [basketList, setBasketList] = useState([])
     const [isLogin, setIsLogin] = useState(false)
 
     useEffect(() => {
-            setLoading(true);
             localStorage.getItem("user") !== null ? setIsLogin(true) : setIsLogin(false)
             if (isLogin) {
-                BasketService.getById(JSON.parse(localStorage.getItem("user")).basket.id)
+                BasketService.getById(JSON.parse(localStorage.getItem("user")).id)
                     .then(response => {
                         setBasketList(response.data.filmList)
                     }).catch(error => {
@@ -28,17 +29,14 @@ function HomePage() {
                     }
                 )
             }
-            FilmService.findAll().then(response => {
-                setFilms(response.data)
-                setLoading(false)
-            })
+            dispatch(getFilms(currentPage, sizePage))
 
-        }, [isLogin]
+        }, [currentPage, isLogin, sizePage]
     )
 
 
     const addToBasket = (film) => {
-        BasketService.add(JSON.parse(localStorage.getItem("user")).basket.id, film.id)
+        BasketService.add(JSON.parse(localStorage.getItem("user")).id, film.id)
             .then(response => {
                 setBasketList([...basketList, film])
                 console.log(response)
@@ -49,14 +47,15 @@ function HomePage() {
     }
 
     const removeFromBasket = (filmId) => {
-        BasketService.remove(JSON.parse(localStorage.getItem("user")).basket.id, filmId)
+        BasketService.remove(JSON.parse(localStorage.getItem("user")).id, filmId)
             .then(response => {
                 setBasketList(basketList.filter(item => item.id !== filmId))
                 console.log(response)
-            }).catch(error => {
-                console.log(error)
-            }
-        )
+            })
+            .catch(error => {
+                    console.log(error)
+                }
+            )
     }
 
     const checkContain = (filmId) => {

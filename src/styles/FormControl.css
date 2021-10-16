@@ -21,12 +21,12 @@
 .my-input:active, .my-input:focus {
     outline: none;
 }
+
 .my-input::-moz-focus-inner {
     border: 0;
 }
 
 .modal-dark {
-    /*background: #343a40;*/
     border-bottom-color: #343a40;
 }
 

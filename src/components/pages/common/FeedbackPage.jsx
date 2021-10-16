@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import NavigationBar from "../../NavigationBar";
 import Footer from "../../Footer";
 import {useHistory} from 'react-router-dom'
-import {Button} from "react-bootstrap";
-import UserService from "../../../service/UserService";
 
 function FeedbackPage(props) {
     const history = useHistory('');
@@ -13,9 +11,6 @@ function FeedbackPage(props) {
     const [username, setUsername] = useState('');
     const [firstname, setFirstname] = useState('');
     useEffect(() => {
-        // const search = window.location.search;
-        // const params = new URLSearchParams(search);
-        // setUsername(params.get('username'));
         if (params.toString() === "") {
             console.log("AAAAAAAAAa");
         }

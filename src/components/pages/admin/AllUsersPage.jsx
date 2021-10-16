@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Form, Jumbotron, Row, Table} from "react-bootstrap"
-import NavigationBar from "../../NavigationBar"
 import CSSTransition from "react-transition-group/CSSTransition"
+import NavigationBar from "../../NavigationBar"
 import Footer from "../../Footer"
 import UserService from "../../../service/UserService"
 import {useHistory} from "react-router-dom";
@@ -23,14 +23,13 @@ function AllUsersPage() {
             && user.firstname.toLowerCase().includes(firstnameValue.toLowerCase())
             && user.lastname.toLowerCase().includes(lastnameValue.toLowerCase())
             && user.email.toLowerCase().includes(emailValue.toLowerCase())
-            && (rolesValue !== "" ? user.roles[0].name.includes(rolesValue) : true)
+            && (rolesValue !== "" ?
+                user.roles.length === 1 ? user.roles[0].name.includes(rolesValue) :
+                    user.roles[1].name.includes(rolesValue) : true)
     })
 
 
     useEffect(() => {
-            const user = JSON.parse(localStorage.getItem("user"));
-            const object = {id: 1, name: "ROLE_ADMIN"}
-            console.log(user.roles.some(r => r.name === object.name))
             if (params.toString() !== "") {
                 if (params.get("username") !== null) {
                     setUsernameValue(params.get("username"))

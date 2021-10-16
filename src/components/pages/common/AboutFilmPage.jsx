@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Col, Container, Jumbotron, Row} from "react-bootstrap"
-import NavigationBar from "../../NavigationBar"
 import CSSTransition from "react-transition-group/CSSTransition"
+import NavigationBar from "../../NavigationBar"
 import Footer from "../../Footer"
 import ReactStars from "react-rating-stars-component"
 import FilmService from "../../../service/FilmService"
@@ -11,6 +11,7 @@ function AboutFilmPage(props) {
     const [loading, setLoading] = useState(false)
     const [film, setFilm] = useState([])
     const [genre, setGenre] = useState('')
+    const [country, setCountry] = useState('')
     const [rating, setRating] = useState(0)
 
     useEffect(() => {
@@ -19,6 +20,7 @@ function AboutFilmPage(props) {
                 .then(response => {
                     setFilm(response.data)
                     setGenre(response.data.genre.name)
+                    setCountry(response.data.country.name)
                     setLoading(false)
                 }).catch(error => {
                     console.log(error)
@@ -54,6 +56,8 @@ function AboutFilmPage(props) {
                                         <h1 style={{textTransform: "uppercase"}}>{film.name}</h1>
                                         <p style={{textAlign: "justify"}}>{film.description}</p>
                                         <hr/>
+                                        <b>Country: {country}</b>
+                                        <br/>
                                         <b>Time: {film.timeInMinutes} minutes</b>
                                         <br/>
                                         <b>Genre: {genre}</b>
