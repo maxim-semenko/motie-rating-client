@@ -13,21 +13,6 @@ function AllGenresPage() {
 
     const [loading, setLoading] = useState(false)
     const [genreList, setGenreList] = useState([])
-    // const [usernameValue, setUsernameValue] = useState('')
-    // const [firstnameValue, setFirstnameValue] = useState('')
-    // const [lastnameValue, setLastnameValue] = useState('')
-    // const [emailValue, setEmailValue] = useState('')
-    // const [rolesValue, setRolesValue] = useState('')
-    // const filterUserList = userList.filter(user => {
-    //     return user.username.toLowerCase().includes(usernameValue.toLowerCase())
-    //         && user.firstname.toLowerCase().includes(firstnameValue.toLowerCase())
-    //         && user.lastname.toLowerCase().includes(lastnameValue.toLowerCase())
-    //         && user.email.toLowerCase().includes(emailValue.toLowerCase())
-    //         && (rolesValue !== "" ?
-    //             user.roles.length === 1 ? user.roles[0].name.includes(rolesValue) :
-    //                 user.roles[1].name.includes(rolesValue) : true)
-    // })
-
 
     useEffect(() => {
             if (genreList.length === 0) {
@@ -47,8 +32,8 @@ function AllGenresPage() {
     return (
         <div>
             <NavigationBar/>
-            <Container fluid>
-                <Col lg={12} style={{marginTop: "20px"}}>
+            <Container>
+                <Col lg={12} style={{marginTop: "20px", padding: "20px 20px 20px 20px"}}>
                     <Jumbotron className="bg-dark text-white">
                         <Row>
                             <div style={{margin: "0 auto"}}>
@@ -61,15 +46,15 @@ function AllGenresPage() {
                                     <b>Add genre</b>
                                 </Button>
                             </div>
-                            <Table striped bordered hover variant="dark">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th style={{minWidth: "15rem"}}>Action</th>
-                                </tr>
-                                </thead>
-                                <CSSTransition in={!loading} classNames="my-node" timeout={1000} unmountOnExit>
+                            <CSSTransition in={!loading} classNames="my-node" timeout={1000} unmountOnExit>
+                                <Table striped bordered hover variant="dark">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th style={{minWidth: "15rem"}}>Action</th>
+                                    </tr>
+                                    </thead>
                                     <tbody>
                                     {
                                         genreList.map(genre =>
@@ -88,8 +73,8 @@ function AllGenresPage() {
                                         )
                                     }
                                     </tbody>
-                                </CSSTransition>
-                            </Table>
+                                </Table>
+                            </CSSTransition>
                         </Row>
                     </Jumbotron>
                 </Col>

@@ -66,7 +66,6 @@ function NavigationBar(props) {
                         <Nav className="me-auto">
                             <Nav.Link href="/"><b>HOME</b></Nav.Link>
                             <Nav.Link href="/top"><b>TOP</b></Nav.Link>
-                            <Nav.Link href="/search"><b>SEARCH</b></Nav.Link>
                             <Nav.Link href="/about"><b>ABOUT</b></Nav.Link>
                             <Nav.Link href="/feedback"><b>FEEDBACK</b></Nav.Link>
                         </Nav>

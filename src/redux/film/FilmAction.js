@@ -45,6 +45,7 @@ export const getFilms = (currentPage = 1, sizePage = 15) => {
 
 export const getFilmById = (id) => {
     return function (dispatch) {
+        dispatch(setLoading(true))
         FilmService.getById(id)
             .then((resp) => {
                 dispatch(gotFilmById(resp.data))
@@ -56,10 +57,10 @@ export const getFilmById = (id) => {
     }
 }
 
-export const saveFilm = (film) => {
+export const createFilm = (film) => {
     return function (dispatch) {
-        FilmService.save(film)
-            .then((resp) => {
+        FilmService.create(film)
+            .then(() => {
                 dispatch(getFilms(store.getState().dataOfStudents.currentPage, store.getState().dataOfStudents.perPage))
             })
             .catch(error => {
@@ -71,7 +72,7 @@ export const saveFilm = (film) => {
 export const updateFilm = (film) => {
     return function (dispatch) {
         FilmService.update(film)
-            .then((resp) => {
+            .then(() => {
                 dispatch(getFilms(store.getState().dataOfStudents.currentPage, store.getState().dataOfStudents.perPage))
             })
             .catch(error => {
@@ -84,7 +85,7 @@ export const updateFilm = (film) => {
 export const deleteFilmById = (id) => {
     return function (dispatch) {
         FilmService.deleteById(id)
-            .then((resp) => {
+            .then(() => {
                 dispatch(getFilms(store.getState().dataOfStudents.currentPage, store.getState().dataOfStudents.perPage))
             })
             .catch(error => {

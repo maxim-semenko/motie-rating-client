@@ -5,7 +5,7 @@ const initialState = {
     film: {},
     loading: false,
     currentPage: 1,
-    sizePage: 15,
+    sizePage: 9,
     totalElements: 0,
     totalPages: 0,
     numberOfElements: 0

@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Form, Jumbotron, Row, Table} from "react-bootstrap"
 import CSSTransition from "react-transition-group/CSSTransition"
-import NavigationBar from "../../NavigationBar"
-import Footer from "../../Footer"
-import UserService from "../../../service/UserService"
+import NavigationBar from "../../../NavigationBar"
+import Footer from "../../../Footer"
+import UserService from "../../../../service/UserService"
 import {useHistory} from "react-router-dom";
+import {setCurrentPage, setSizePage} from "../../../../redux/film/FilmAction";
+import Pagination from "react-js-pagination";
 
 function AllUsersPage() {
     const history = useHistory('');
@@ -18,6 +20,8 @@ function AllUsersPage() {
     const [lastnameValue, setLastnameValue] = useState('')
     const [emailValue, setEmailValue] = useState('')
     const [rolesValue, setRolesValue] = useState('')
+
+
     const filterUserList = userList.filter(user => {
         return user.username.toLowerCase().includes(usernameValue.toLowerCase())
             && user.firstname.toLowerCase().includes(firstnameValue.toLowerCase())
@@ -83,6 +87,35 @@ function AllUsersPage() {
                                     <b>Back to controllers</b>
                                 </Button>
                             </div>
+                            {/*<div style={{margin: "0"}}>*/}
+                            {/*    <Form style={{textAlign: "left"}}>*/}
+                            {/*        <Form.Group className="mb-4">*/}
+                            {/*            <Form.Label> Size of elements:</Form.Label>*/}
+                            {/*            <Form.Control as={"input"} type={"number"}*/}
+                            {/*                          placeholder={"Count of elements of page"}*/}
+                            {/*                          value={sizePage}*/}
+                            {/*                          onChange={event => {*/}
+                            {/*                              dispatch(setSizePage(event.target.value));*/}
+                            {/*                              dispatch(setCurrentPage(1))*/}
+                            {/*                          }*/}
+                            {/*                          }*/}
+                            {/*                          min={"1"}*/}
+                            {/*                          max={totalElements} style={{width: "120px"}}>*/}
+                            {/*            </Form.Control>*/}
+                            {/*        </Form.Group>*/}
+                            {/*        <Form.Group className="mb-4">*/}
+                            {/*            <Pagination itemClass="page-item"*/}
+                            {/*                        linkClass="page-link"*/}
+                            {/*                        activePage={currentPage}*/}
+                            {/*                        itemsCountPerPage={sizePage}*/}
+                            {/*                        totalItemsCount={totalElements}*/}
+                            {/*                        pageRangeDisplayed={5}*/}
+                            {/*                        onChange={(pageNumber) => dispatch(setCurrentPage(pageNumber))}*/}
+                            {/*            />*/}
+                            {/*        </Form.Group>*/}
+                            {/*    </Form>*/}
+                            {/*</div>*/}
+
                             <Table striped bordered hover variant="dark">
                                 <thead>
                                 <tr>

@@ -46,7 +46,6 @@ function AdminPage() {
                                     <span className="menu-icon"><MdLocalMovies size={24}/></span>ROLES CONTROL
                                 </h5>
                             </Link>
-
                             <hr/>
                         </Jumbotron>
                     </Col>
