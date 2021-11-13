@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Jumbotron, Row} from "react-bootstrap"
-import NavigationBar from "../../NavigationBar"
-import ProfileMenu from "../../ProfileMenu"
+import NavigationBar from "../common/NavigationBar"
+import ProfileMenu from "./ProfileMenu"
 import Footer from "../../Footer"
 import imgUser from "../../../img/user.svg"
+import {Link} from "react-router-dom";
 
 function CabinetPage() {
     const user = JSON.parse(localStorage.getItem("user"))
@@ -39,9 +40,11 @@ function CabinetPage() {
                                          style={{resize: "both", width: "100%", height: "256px"}}
                                     />
                                     <div className="d-grid gap-2" style={{marginTop: "20px"}}>
-                                        <Button variant="outline-success" size="lg" href="/profile/edit">
-                                            <b>Edit profile</b>
-                                        </Button>
+                                        <Link to="/profile/edit">
+                                            <Button variant="outline-success" size="lg">
+                                                <b>Edit profile</b>
+                                            </Button>
+                                        </Link>
                                     </div>
                                 </Col>
                                 <Col lg={8} style={{textAlign: "left", paddingTop: "20px"}}>
@@ -53,8 +56,6 @@ function CabinetPage() {
                                         <b>FIRSTNAME: {user.firstname}</b></p>
                                     <p style={{borderBottom: "1px solid grey", paddingBottom: "5px"}}>
                                         <b>LASTNAME: {user.lastname}</b></p>
-                                    <p style={{borderBottom: "1px solid grey", paddingBottom: "5px"}}>
-                                        <b>BALANCE: {user.balance}$</b></p>
                                 </Col>
                             </Row>
                         </Jumbotron>
@@ -66,10 +67,12 @@ function CabinetPage() {
                                     <Jumbotron className="bg-dark text-white"
                                                style={{paddingTop: "15px", paddingBottom: "25px"}}>
                                         <div className="d-grid gap-2" style={{marginTop: "15px"}}>
-                                            <Button href="/profile/admin/controllers" variant="outline-warning"
-                                                    size="lg">
-                                                <b>Go to admin profile</b>
-                                            </Button>{' '}
+                                            <Link to="/profile/admin/controllers">
+                                                <Button variant="outline-warning"
+                                                        size="lg">
+                                                    <b>Go to admin profile</b>
+                                                </Button>{' '}
+                                            </Link>
                                         </div>
                                     </Jumbotron>
                                 </div>

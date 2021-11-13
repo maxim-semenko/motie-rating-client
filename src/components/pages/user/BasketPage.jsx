@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {Col, Container, Jumbotron, Row} from "react-bootstrap"
 import CSSTransition from "react-transition-group/CSSTransition"
-import NavigationBar from "../../NavigationBar"
-import ProfileMenu from "../../ProfileMenu"
+import NavigationBar from "../common/NavigationBar"
+import ProfileMenu from "./ProfileMenu"
 import BasketItem from "../../BasketItem"
 import Footer from "../../Footer"
 import BasketService from "../../../service/BasketService"
@@ -10,12 +10,11 @@ import spinner from "../../../img/spinner.svg"
 
 function BasketPage() {
     const user = JSON.parse(localStorage.getItem("user"))
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [basketList, setBasketList] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
-            setLoading(true)
             BasketService.getById(user.id)
                 .then(response => {
                     setBasketList(response.data.filmList)

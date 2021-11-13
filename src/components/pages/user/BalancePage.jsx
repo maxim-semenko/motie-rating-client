@@ -1,7 +1,7 @@
 import React from 'react'
 import {Col, Container, Jumbotron, Row} from "react-bootstrap"
-import NavigationBar from "../../NavigationBar"
-import ProfileMenu from "../../ProfileMenu"
+import NavigationBar from "../common/NavigationBar"
+import ProfileMenu from "./ProfileMenu"
 import Footer from "../../Footer"
 
 function BalancePage() {

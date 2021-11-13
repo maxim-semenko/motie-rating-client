@@ -1,34 +1,34 @@
 import axios from "axios"
 import {Cookies} from "react-cookie"
 
-const AUTH_API_BASE_URL = "/api/v1/films/"
+const FILM_API_BASE_URL = "/api/v1/films"
 const cookies = new Cookies()
 
 class FilmService {
 
     async getAll(page, size) {
-        console.log(`/api/v1/films/?page=${page - 1}&size=${size}`)
-        return await axios.get(`/api/v1/films/?page=${page - 1}&size=${size}`)
+        console.log(`/api/v1/films?page=${page - 1}&size=${size}&sort=id,desc`)
+        return axios.get(FILM_API_BASE_URL + `?page=${page - 1}&size=${size}&sort=id,desc`)
     }
 
     async getById(id) {
-        return await axios.get(AUTH_API_BASE_URL + id)
+        return axios.get(FILM_API_BASE_URL + '/' + id)
     }
 
     async create(request) {
-        return await axios.post(AUTH_API_BASE_URL, request, {
+        return axios.post(FILM_API_BASE_URL, request, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })
     }
 
-    async update(request) {
-        return await axios.post(AUTH_API_BASE_URL, request, {
+    async update(request, id) {
+        return axios.put(FILM_API_BASE_URL + '/' + id, request, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })
     }
 
     async deleteById(id) {
-        return await axios.delete(AUTH_API_BASE_URL + id, {
+        return axios.delete(FILM_API_BASE_URL + '/' + id, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })
     }

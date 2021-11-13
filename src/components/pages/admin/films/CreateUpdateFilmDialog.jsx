@@ -2,19 +2,21 @@ import React, {useEffect, useState} from 'react'
 import {Button, Col, Form, Modal, Row} from "react-bootstrap"
 import '../../../../styles/Animation.css'
 import '../../../../styles/FormControl.css'
-import FilmService from "../../../../service/FilmService";
 import GenreService from "../../../../service/GenreService";
 import CountryService from "../../../../service/CountryService";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {createFilm, updateFilm} from "../../../../redux/film/FilmAction";
 
 
-function CreateUpdateFilmModal(props) {
+function CreateUpdateFilmDialog(props) {
     const [genreList, setGenreList] = useState([])
     const [countryList, setCountryList] = useState([])
 
+    const dispatch = useDispatch()
     const {film, loading} = useSelector(state => state.dataFilms)
     const [loadingAll, setLoadingAll] = useState(true)
 
+    const [id, setId] = useState()
     const [name, setName] = useState('')
     const [year, setYear] = useState('')
     const [time, setTime] = useState('')
@@ -38,6 +40,7 @@ function CreateUpdateFilmModal(props) {
 
     useEffect(() => {
             if (props.method === "update") {
+                setId(film.id)
                 setName(film.name)
                 setYear(film.year)
                 setTime(film.timeInMinutes)
@@ -87,15 +90,22 @@ function CreateUpdateFilmModal(props) {
             description: description,
             genre: genre
         }
-        FilmService.create(request)
-            .then(response => {
-                // props.updateList();
-                closeModal()
-            }).catch(error => {
-                // setShowError(true)
-                console.log(error)
-            }
-        )
+        if (props.method === "create") {
+            dispatch(createFilm(request))
+            // FilmService.create(request)
+            //     .then(response => {
+            //         // props.updateList();
+            //         closeModal()
+            //     }).catch(error => {
+            //         // setShowError(true)
+            //         console.log(error)
+            //     }
+            // )
+        } else {
+            dispatch(updateFilm(request, id))
+        }
+        props.onHide()
+
         // if (!findFormErrors()) {
         //     login(event)
         // }
@@ -186,7 +196,6 @@ function CreateUpdateFilmModal(props) {
                                     <Form.Control className="my-input"
                                                   as="select" aria-label="Default select example"
                                                   onChange={event => setCountry(JSON.parse(event.target.value))}>
-                                        <option value="null">Select...</option>
                                         {countryList.map((item, index) =>
                                             <option
                                                 selected={props.method === "create" ? false : item.name === country.name}
@@ -201,11 +210,11 @@ function CreateUpdateFilmModal(props) {
                                     <Form.Label style={{marginBottom: "0px"}}><b>GENRE</b></Form.Label>
                                     <Form.Control className="my-input" as="select" aria-label="Default select example"
                                                   onChange={event => setGenre(JSON.parse(event.target.value))}>
-                                        <option value="null">Select...</option>
                                         {genreList.map((item, index) =>
-                                            <option selected={props.method === "create" ? false : item.name === genre.name}
-                                                    key={index}
-                                                    value={JSON.stringify(item)}>
+                                            <option
+                                                selected={props.method === "create" ? false : item.name === genre.name}
+                                                key={index}
+                                                value={JSON.stringify(item)}>
                                                 {item.name}
                                             </option>
                                         )}
@@ -262,4 +271,4 @@ function CreateUpdateFilmModal(props) {
     )
 }
 
-export default CreateUpdateFilmModal
+export default CreateUpdateFilmDialog

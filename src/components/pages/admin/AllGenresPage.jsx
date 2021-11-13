@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
 import CSSTransition from "react-transition-group/CSSTransition"
-import NavigationBar from "../../NavigationBar"
+import NavigationBar from "../common/NavigationBar"
 import Footer from "../../Footer"
 import {useHistory} from "react-router-dom";
 import GenreService from "../../../service/GenreService";

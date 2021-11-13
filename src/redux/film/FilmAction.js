@@ -61,7 +61,7 @@ export const createFilm = (film) => {
     return function (dispatch) {
         FilmService.create(film)
             .then(() => {
-                dispatch(getFilms(store.getState().dataOfStudents.currentPage, store.getState().dataOfStudents.perPage))
+                dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
             })
             .catch(error => {
                 console.log(error)
@@ -69,11 +69,11 @@ export const createFilm = (film) => {
     }
 }
 
-export const updateFilm = (film) => {
+export const updateFilm = (film, id) => {
     return function (dispatch) {
-        FilmService.update(film)
+        FilmService.update(film, id)
             .then(() => {
-                dispatch(getFilms(store.getState().dataOfStudents.currentPage, store.getState().dataOfStudents.perPage))
+                dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
             })
             .catch(error => {
                 console.log(error)
@@ -86,7 +86,7 @@ export const deleteFilmById = (id) => {
     return function (dispatch) {
         FilmService.deleteById(id)
             .then(() => {
-                dispatch(getFilms(store.getState().dataOfStudents.currentPage, store.getState().dataOfStudents.perPage))
+                dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
             })
             .catch(error => {
                 console.log(error)

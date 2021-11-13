@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import NavigationBar from "../../NavigationBar";
+import NavigationBar from "./NavigationBar";
 import Footer from "../../Footer";
 import {useHistory} from 'react-router-dom'
 

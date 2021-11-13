@@ -6,13 +6,11 @@ import store from "./redux/Store";
 import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <Provider store={store}>
-                <App/>
-            </Provider>
-        </BrowserRouter>
-    </React.StrictMode>,
+    <BrowserRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </BrowserRouter>,
     document.getElementById('root')
 );
 

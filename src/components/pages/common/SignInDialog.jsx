@@ -6,8 +6,7 @@ import AuthService from "../../../service/AuthService"
 import '../../../styles/Animation.css'
 import '../../../styles/FormControl.css'
 
-
-function SignInModal(props) {
+function SignInDialog(props) {
     const cookies = new Cookies()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -47,17 +46,14 @@ function SignInModal(props) {
     const findFormErrors = () => {
         let isErrors = false
         // name errors
-        if (!username || username === '') {
+        if (username.length < 3) {
             isErrors = true
-            setUsernameError('username cannot be blank!')
-        } else if (username.length < 3) {
-            isErrors = true
-            setUsernameError('username is too short!')
+            setUsernameError('username is short (min: 3)')
         }
         // password errors
-        if (!password || password === '') {
+        if (password.length < 4) {
             isErrors = true
-            setPasswordError('password cannot be blank!')
+            setPasswordError('password is short (min: 4)')
         }
         return isErrors
     }
@@ -82,11 +78,6 @@ function SignInModal(props) {
     }
 
     const closeModal = () => {
-        setShowError(false)
-        setUsername('')
-        setPassword('')
-        setUsernameError('')
-        setPasswordError('')
         props.onHide()
     }
 
@@ -136,4 +127,4 @@ function SignInModal(props) {
     )
 }
 
-export default SignInModal
+export default SignInDialog

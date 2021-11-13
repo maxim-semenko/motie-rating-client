@@ -8,6 +8,7 @@ function SignUpModal(props) {
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
     const [email, setEmail] = useState('')
+    const [showSuccesfulSignUp, setShowSuccesfulSignUp] = useState(false);
 
     /**
      * Method that register by user's params of from input form.
@@ -25,7 +26,12 @@ function SignUpModal(props) {
 
         AuthService.register(request).then(response => {
             console.log(response.data)
-            props.onHide()
+            setShowSuccesfulSignUp(true)
+            setTimeout(function () {
+                if (props.show) {
+                    props.onHide()
+                }
+            }, 5000);
         })
     }
 
@@ -38,6 +44,16 @@ function SignUpModal(props) {
                 <Modal.Title>Sign up</Modal.Title>
             </Modal.Header>
             <Modal.Body className="modal-dark">
+                {
+                    showSuccesfulSignUp ?
+                        <div>
+                            ALL OK
+                        </div>
+                        :
+                        <div>
+
+                        </div>
+                }
                 <Form>
                     <Form.Group>
                         <Form.Label><b>FIRSTNAME</b></Form.Label>

@@ -16,6 +16,7 @@ import AdminPage from "./components/pages/admin/AdminPage";
 import AllUsersPage from "./components/pages/admin/users/AllUsersPage";
 import AllFilmsPage from "./components/pages/admin/films/AllFilmsPage";
 import AllGenresPage from "./components/pages/admin/AllGenresPage";
+import AllCountriesPage from "./components/pages/admin/AllCountriesPage";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
             <ProtectRoute path="/profile/admin/controllers" component={AdminPage}/>
             <ProtectRoute path="/profile/admin/all-users" component={AllUsersPage}/>
             <ProtectRoute path="/profile/admin/all-films" component={AllFilmsPage}/>
+            <ProtectRoute path="/profile/admin/all-countries" component={AllCountriesPage}/>
             <ProtectRoute path="/profile/admin/all-genres" component={AllGenresPage}/>
         </div>
     );

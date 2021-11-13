@@ -1,6 +1,6 @@
 import React from 'react'
 import {Col, Container, Jumbotron, Row} from "react-bootstrap"
-import NavigationBar from "../../NavigationBar"
+import NavigationBar from "./NavigationBar"
 import Footer from "../../Footer"
 import '../../../styles/FormControl.css'
 
