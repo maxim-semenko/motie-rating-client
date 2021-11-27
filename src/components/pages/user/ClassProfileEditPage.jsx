@@ -1,182 +1,167 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, Button, Col, Container, Form, Jumbotron, Row} from "react-bootstrap";
 import CSSTransition from "react-transition-group/CSSTransition";
 import NavigationBar from "../common/NavigationBar";
 import Footer from "../../Footer";
 import UserService from "../../../service/UserService";
 
-class ClassProfileEditPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: JSON.parse(localStorage.getItem("user")),
-            firstname: '',
-            lastname: '',
-            username: '',
-            email: '',
-            password: '',
-            showError: false,
-            showSuccess: false,
-            errors: new Map([
-                ["username", ''],
-                ["email", ''],
-                ["password", ''],
-            ])
-        }
-        this.update = this.update.bind(this);
+function ProfileEditPage(props) {
+
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showError, setShowError] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => {
+        let user = JSON.parse(localStorage.getItem("user"))
+        setFirstname(user.firstname)
+        setLastname(user.lastname)
+        setUsername(user.username)
+        setEmail(user.email)
+    }, [])
+
+    const changeUsernameHandler = (event) => {
+        setUsername(event.target.value)
     }
 
-    componentDidMount() {
-        this.setState({firstname: this.state.user.firstname});
-        this.setState({lastname: this.state.user.lastname});
-        this.setState({username: this.state.user.username});
-        this.setState({email: this.state.user.email});
+    const changePasswordHandler = (event) => {
+        setPassword(event.target.value)
     }
 
-    changeUsernameHandler = (event) => {
-        this.setState({username: event.target.value})
+    const changeFirstnameHandler = (event) => {
+        setFirstname(event.target.value)
     }
 
-    changePasswordHandler = (event) => {
-        this.setState({password: event.target.value})
+    const changeLastnameHandler = (event) => {
+        setLastname(event.target.value)
     }
 
-    changeFirstnameHandler = (event) => {
-        this.setState({firstname: event.target.value})
+    const changeEmailHandler = (event) => {
+        setEmail(event.target.value)
     }
 
-    changeLastnameHandler = (event) => {
-        this.setState({lastname: event.target.value})
-    }
-
-    changeEmailHandler = (event) => {
-        this.setState({email: event.target.value})
-    }
-
-    update = (e) => {
-        e.preventDefault();
-        this.setState({showSuccess: false})
-        let self = this;
+    const update = (event) => {
+        event.preventDefault();
+        setShowSuccess(false)
         let request = {
-            id: this.state.user.id,
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            email: this.state.email,
-            username: this.state.username,
-            roles: this.state.user.roles,
-            basket: this.state.user.basket,
+            id: JSON.parse(localStorage.getItem("user")).id,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            username: username,
         }
 
         UserService.update(request)
             .then((response) => {
                 console.log(response.data);
                 localStorage.setItem("user", JSON.stringify(response.data));
-                self.setState({showSuccess: true});
+                setShowSuccess(true)
             }).catch(function (error) {
-                self.setState({showError: error.response.data.message});
                 console.log(error.response);
+                setShowError(error.response.data.message)
             }
         );
     }
 
-    render() {
-        return (
-            <div>
-                <NavigationBar/>
-                <Container>
-                    <Row>
-                        <Col lg={12} style={{marginTop: "20px"}}>
-                            <Jumbotron className="bg-dark text-white"
-                                       style={{textAlign: "left", paddingTop: "20px", paddingBottom: "20px"}}>
-                                <Form>
-                                    <CSSTransition in={this.state.showError} classNames="my-node" timeout={500}
-                                                   unmountOnExit>
-                                        <Alert variant="danger" onClose={() => this.setState({showError: false})}
-                                               dismissible>
-                                            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                                            <p>{this.state.showError}! Try again.</p>
-                                        </Alert>
-                                    </CSSTransition>
-                                    <CSSTransition in={this.state.showSuccess} classNames="my-node" timeout={500}
-                                                   unmountOnExit>
-                                        <Alert variant="success" onClose={() => this.setState({showSuccess: false})}
-                                               dismissible>
-                                            <Alert.Heading>It's OK!</Alert.Heading>
-                                            <p>Your profile was edited successfully!</p>
-                                        </Alert>
-                                    </CSSTransition>
-                                    <Row>
-                                        <Col>
-                                            <Form.Group as={Col} controlId="formGridEmail">
-                                                <Form.Label><b>FIRSTNAME</b></Form.Label>
-                                                <Form.Control type="text" className="my-input"
-                                                              value={this.state.firstname}
-                                                              onChange={this.changeFirstnameHandler}
-                                                              placeholder="Enter firstname"/>
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
-                                            <Form.Group as={Col} controlId="formGridEmail">
-                                                <Form.Label><b>LASTNAME</b></Form.Label>
-                                                <Form.Control type="text" className="my-input"
-                                                              value={this.state.lastname}
-                                                              onChange={this.changeLastnameHandler}
-                                                              placeholder="Enter lastname"/>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                    <Form.Group as={Col} controlId="formGridEmail">
-                                        <Form.Label><b>USERNAME</b></Form.Label>
-                                        <Form.Control type="text" className="my-input"
-                                                      value={this.state.username}
-                                                      onChange={this.changeUsernameHandler}
-                                                      placeholder="Enter username"/>
-                                    </Form.Group>
-                                    <Form.Group as={Col} controlId="formGridEmail">
-                                        <Form.Label><b>EMAIL</b></Form.Label>
-                                        <Form.Control type="email" className="my-input"
-                                                      value={this.state.user.email}
-                                                      onChange={this.changeEmailHandler}
-                                                      placeholder="Enter email"/>
-                                    </Form.Group>
-                                    <div style={{textAlign: "right", paddingRight: "1.5%"}}>
-                                        <Button variant="outline-success" size="lg" onClick={this.update}>
-                                            Edit profile
-                                        </Button>
-                                    </div>
-                                </Form>
-                                <hr/>
-                                <Form>
-                                    <Row>
-                                        <Col>
-                                            <Form.Group as={Col} controlId="formGridEmail">
-                                                <Form.Label><b>NEW PASSWORD</b></Form.Label>
-                                                <Form.Control type="text" className="my-input"
-                                                              placeholder="Enter new password"/>
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
-                                            <Form.Group as={Col} controlId="formGridEmail">
-                                                <Form.Label><b>REPEAT NEW PASSWORD</b></Form.Label>
-                                                <Form.Control type="email" className="my-input"
-                                                              placeholder="Enter again new password"/>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                    <div style={{textAlign: "right", paddingRight: "1.5%"}}>
-                                        <Button variant="outline-success" size="lg" href="/profile/edit">
-                                            Edit password
-                                        </Button>
-                                    </div>
-                                </Form>
-                            </Jumbotron>
-                        </Col>
-                    </Row>
-                </Container>
-                <Footer/>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <NavigationBar/>
+            <Container>
+                <Row>
+                    <Col lg={12} style={{marginTop: "20px"}}>
+                        <Jumbotron className="bg-dark text-white"
+                                   style={{textAlign: "left", paddingTop: "20px", paddingBottom: "20px"}}>
+                            <Form>
+                                <CSSTransition in={showError} classNames="my-node" timeout={500}
+                                               unmountOnExit>
+                                    <Alert variant="danger" onClose={() => setShowError(false)}
+                                           dismissible>
+                                        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                                        <p>{showError}! Try again.</p>
+                                    </Alert>
+                                </CSSTransition>
+                                <CSSTransition in={showSuccess} classNames="my-node" timeout={500}
+                                               unmountOnExit>
+                                    <Alert variant="success" onClose={() => setShowSuccess(false)}
+                                           dismissible>
+                                        <Alert.Heading>It's OK!</Alert.Heading>
+                                        <p>Your profile was edited successfully!</p>
+                                    </Alert>
+                                </CSSTransition>
+                                <Row>
+                                    <Col>
+                                        <Form.Group as={Col} controlId="formGridEmail">
+                                            <Form.Label><b>FIRSTNAME</b></Form.Label>
+                                            <Form.Control type="text" className="my-input"
+                                                          value={firstname}
+                                                          onChange={changeFirstnameHandler}
+                                                          placeholder="Enter firstname"/>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group as={Col} controlId="formGridEmail">
+                                            <Form.Label><b>LASTNAME</b></Form.Label>
+                                            <Form.Control type="text" className="my-input"
+                                                          value={lastname}
+                                                          onChange={changeLastnameHandler}
+                                                          placeholder="Enter lastname"/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Form.Group as={Col} controlId="formGridEmail">
+                                    <Form.Label><b>USERNAME</b></Form.Label>
+                                    <Form.Control type="text" className="my-input"
+                                                  value={username}
+                                                  onChange={changeUsernameHandler}
+                                                  placeholder="Enter username"/>
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="formGridEmail">
+                                    <Form.Label><b>EMAIL</b></Form.Label>
+                                    <Form.Control type="email" className="my-input"
+                                                  value={email}
+                                                  onChange={changeEmailHandler}
+                                                  placeholder="Enter email"/>
+                                </Form.Group>
+                                <div style={{textAlign: "right", paddingRight: "1.5%"}}>
+                                    <Button variant="outline-success" size="lg" onClick={update}>
+                                        Edit profile
+                                    </Button>
+                                </div>
+                            </Form>
+                            <hr/>
+                            <Form>
+                                <Row>
+                                    <Col>
+                                        <Form.Group as={Col} controlId="formGridEmail">
+                                            <Form.Label><b>NEW PASSWORD</b></Form.Label>
+                                            <Form.Control type="text" className="my-input"
+                                                          placeholder="Enter new password"/>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group as={Col} controlId="formGridEmail">
+                                            <Form.Label><b>REPEAT NEW PASSWORD</b></Form.Label>
+                                            <Form.Control type="email" className="my-input"
+                                                          placeholder="Enter again new password"/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <div style={{textAlign: "right", paddingRight: "1.5%"}}>
+                                    <Button variant="outline-success" size="lg" href="/profile/edit">
+                                        Edit password
+                                    </Button>
+                                </div>
+                            </Form>
+                        </Jumbotron>
+                    </Col>
+                </Row>
+            </Container>
+            <Footer/>
+        </div>
+    );
 }
 
-export default ClassProfileEditPage;
+export default ProfileEditPage;

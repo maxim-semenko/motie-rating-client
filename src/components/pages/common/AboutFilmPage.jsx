@@ -38,7 +38,6 @@ function AboutFilmPage(props) {
             <NavigationBar/>
             <Container>
                 <Jumbotron className="bg-dark text-white" style={{marginTop: "20px", padding: "20px 20px 40px 0px"}}>
-                    {/*<CSSTransition in={!loading} classNames="my-node" timeout={1000} unmountOnExit>*/}
                     <Container>
                         {loading ?
                             <div>
@@ -67,7 +66,6 @@ function AboutFilmPage(props) {
                             </Row>
                         }
                     </Container>
-                    {/*</CSSTransition>*/}
                 </Jumbotron>
             </Container>
             <Footer/>

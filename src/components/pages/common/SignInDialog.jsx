@@ -5,6 +5,7 @@ import {Cookies} from "react-cookie"
 import AuthService from "../../../service/AuthService"
 import '../../../styles/Animation.css'
 import '../../../styles/FormControl.css'
+import {Link} from "react-router-dom";
 
 function SignInDialog(props) {
     const cookies = new Cookies()
@@ -118,6 +119,10 @@ function SignInDialog(props) {
                         <Form.Control.Feedback type='invalid'>{passwordError}</Form.Control.Feedback>
                     </Form.Group>
                 </Form>
+                <Link to={"/restore-password"}>
+                    <b>Forgot password?</b>
+                </Link>
+
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="outline-danger" onClick={closeModal}>Close</Button>

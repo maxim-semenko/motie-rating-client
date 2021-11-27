@@ -7,10 +7,10 @@ import NavigationBar from "./NavigationBar"
 import AddRemoveFilmBasket from "../../AddRemoveFilmBasket"
 import Footer from "../../Footer"
 import BasketService from "../../../service/BasketService"
-import '../../../styles/FormControl.css'
 import {getFilms} from "../../../redux/film/FilmAction";
 import Pagination from "react-js-pagination";
 import Spinner from "react-bootstrap/Spinner";
+import '../../../styles/FormControl.css'
 
 function HomePage() {
     const dispatch = useDispatch()
@@ -45,10 +45,11 @@ function HomePage() {
             .then(response => {
                 setBasketList([...basketList, film])
                 console.log(response)
-            }).catch(error => {
-                console.log(error)
-            }
-        )
+            })
+            .catch(error => {
+                    console.log(error)
+                }
+            )
     }
 
     const removeFromBasket = (filmId) => {
@@ -106,7 +107,7 @@ function HomePage() {
                                                     borderRadius: "10px",
                                                     margin: "5px 20% 20px 20%"
                                                 }}>
-                                                    <b>Price: {film.price}$</b>
+                                                    <b>Rating: {film.rating}</b>
                                                 </div>
                                                 <AddRemoveFilmBasket
                                                     isContain={checkContain(film.id)}
@@ -121,9 +122,7 @@ function HomePage() {
                             }
                         </Row>
                     </CSSTransition>
-
                 </div>
-
             )
         }
     }
@@ -133,6 +132,9 @@ function HomePage() {
             <NavigationBar setIsLoginMethod={setIsLogin}/>
             <Container>
                 <Jumbotron className="bg-dark text-white" style={{marginTop: "20px", paddingTop: "20px"}}>
+                    <h1 style={{textAlign: "left", marginLeft: "12px", marginBottom: "15px"}}>
+                        The list lasted added films
+                    </h1>
                     <Container>
                         <div>
                             <Pagination itemClass="page-item"

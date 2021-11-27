@@ -5,15 +5,16 @@ import '../../../../styles/FormControl.css'
 import GenreService from "../../../../service/GenreService";
 import CountryService from "../../../../service/CountryService";
 import {useDispatch, useSelector} from "react-redux";
-import {createFilm, updateFilm} from "../../../../redux/film/FilmAction";
-
+import {createFilm, getFilms, updateFilm} from "../../../../redux/film/FilmAction";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreateUpdateFilmDialog(props) {
     const [genreList, setGenreList] = useState([])
     const [countryList, setCountryList] = useState([])
 
     const dispatch = useDispatch()
-    const {film, loading} = useSelector(state => state.dataFilms)
+    const {film, loading, currentPage, sizePage, totalElements} = useSelector(state => state.dataFilms)
     const [loadingAll, setLoadingAll] = useState(true)
 
     const [id, setId] = useState()
@@ -23,20 +24,37 @@ function CreateUpdateFilmDialog(props) {
     const [price, setPrice] = useState('')
     const [imageURL, setImageURL] = useState('')
     const [description, setDescription] = useState('')
-    const [genre, setGenre] = useState('')
-    const [country, setCountry] = useState('')
+    const [genre, setGenre] = useState('null')
+    const [country, setCountry] = useState('null')
 
-    const [usernameError, setUsernameError] = useState('')
-    const [passwordError, setPasswordError] = useState('')
+    const [nameError, setNameError] = useState('')
+    const [yearError, setYearError] = useState('')
+    const [timeError, setTimeError] = useState('')
+    const [priceError, setPriceError] = useState('')
 
     /**
      * Method that set username value
      * @param event
      */
-    // const changeUsernameHandler = (event) => {
-    //     setUsernameError('')
-    //     setUsername(event.target.value)
-    // }
+    const changeNameHandler = (event) => {
+        setName(event.target.value)
+        setNameError('')
+    }
+
+    const changeYearHandler = (event) => {
+        setYear(event.target.value)
+        setYearError('')
+    }
+
+    const changeTimeHandler = (event) => {
+        setTime(event.target.value)
+        setTimeError('')
+    }
+
+    const changePriceHandler = (event) => {
+        setPrice(event.target.value)
+        setPriceError('')
+    }
 
     useEffect(() => {
             if (props.method === "update") {
@@ -69,66 +87,91 @@ function CreateUpdateFilmDialog(props) {
         }, [film.name, props.method]
     )
 
-    /**
-     * Method that set password value
-     * @param event
-     */
-    const changePasswordHandler = (event) => {
-        setPasswordError('')
-        // setPassword(event.target.value)
-    }
-
     const handleSubmit = (event) => {
         event.preventDefault()
-        let request = {
-            name: name,
-            country: country,
-            year: year,
-            timeInMinutes: time,
-            price: price,
-            imageURL: imageURL,
-            description: description,
-            genre: genre
-        }
-        if (props.method === "create") {
-            dispatch(createFilm(request))
-            // FilmService.create(request)
-            //     .then(response => {
-            //         // props.updateList();
-            //         closeModal()
-            //     }).catch(error => {
-            //         // setShowError(true)
-            //         console.log(error)
-            //     }
-            // )
-        } else {
-            dispatch(updateFilm(request, id))
-        }
-        props.onHide()
 
-        // if (!findFormErrors()) {
-        //     login(event)
-        // }
+        if (!findFormErrors()) {
+            let request = {
+                name: name,
+                country: country,
+                year: year,
+                timeInMinutes: time,
+                price: price,
+                imageURL: imageURL,
+                description: description,
+                genre: genre
+            }
+            if (props.method === "create") {
+                console.log(request)
+                if ((country === null || country === undefined) ||
+                    (genre === null || genre === undefined)) {
+                    alert("ERROR")
+                } else {
+                    dispatch(createFilm(request))
+                        .then((response) => {
+                            console.log(response)
+                            dispatch(getFilms(currentPage, sizePage))
+                            notifySuccess()
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                            notifyError()
+                        });
+                }
+            } else {
+                dispatch(updateFilm(request, id))
+            }
+        }
     }
 
 
-    // const findFormErrors = () => {
-    //     let isErrors = false
-    //     // name errors
-    //     if (!username || username === '') {
-    //         isErrors = true
-    //         setUsernameError('username cannot be blank!')
-    //     } else if (username.length < 3) {
-    //         isErrors = true
-    //         setUsernameError('username is too short!')
-    //     }
-    //     // password errors
-    //     if (!password || password === '') {
-    //         isErrors = true
-    //         setPasswordError('password cannot be blank!')
-    //     }
-    //     return isErrors
-    // }
+    const findFormErrors = () => {
+        let isErrors = false
+
+        // name errors
+        if (!name || name === '') {
+            isErrors = true
+            setNameError('name cannot be empty!')
+        } else if (name.length < 1) {
+            isErrors = true
+            setNameError('name is too short!')
+        } else if (name.length > 50) {
+            isErrors = true
+            setNameError('name is too long!')
+        }
+
+        // year errors
+        if (!year || year === '') {
+            isErrors = true
+            setYearError('year cannot be empty!')
+        }
+
+        // time errors
+        if (!time || time === '') {
+            isErrors = true
+            setTimeError('time cannot be empty!')
+        }
+
+        // price errors
+        if (!price || price === '') {
+            isErrors = true
+            setPriceError('price cannot be empty!')
+        } else if (price <= 0) {
+            isErrors = true
+            setPriceError('price cannot be <= 0!')
+        }
+        return isErrors
+    }
+
+
+    const notifyError = () => toast.error('Error to create a new film, please check your input data!', {
+        position: "top-right",
+    });
+
+    const notifySuccess = () => toast.success('The new film was created successfully!', {
+        position: "top-right",
+    });
+
 
     const showContent = () => {
         if (!loadingAll) {
@@ -144,8 +187,10 @@ function CreateUpdateFilmDialog(props) {
                                         className="my-input"
                                         placeholder="Enter name"
                                         value={name}
-                                        onChange={event => setName(event.target.value)}
+                                        onChange={changeNameHandler}
+                                        isInvalid={nameError}
                                     />
+                                    <Form.Control.Feedback type='invalid'>{nameError}</Form.Control.Feedback>
                                 </Form.Group>
                                 <Row>
                                     <Col>
@@ -155,47 +200,47 @@ function CreateUpdateFilmDialog(props) {
                                                           className="my-input"
                                                           placeholder="Enter year"
                                                           value={year}
-                                                          onChange={event => setYear(event.target.value)}/>
+                                                          onChange={changeYearHandler}
+                                                          isInvalid={yearError}
+                                            />
+                                            <Form.Control.Feedback type='invalid'>{yearError}</Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
-                                            <Form.Label style={{marginBottom: "0px"}}><b>TIME (minutes)</b></Form.Label>
+                                            <Form.Label style={{marginBottom: "0px"}}><b>TIME (in
+                                                minutes)</b></Form.Label>
                                             <Form.Control type="text"
                                                           className="my-input"
                                                           placeholder="Enter time"
                                                           value={time}
-                                                          onChange={event => setTime(event.target.value)}/>
+                                                          onChange={changeTimeHandler}
+                                                          isInvalid={timeError}
+                                            />
+                                            <Form.Control.Feedback type='invalid'>{timeError}</Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group as={Col}>
                                             <Form.Label style={{marginBottom: "0px"}}><b>PRICE</b></Form.Label>
                                             <Form.Control
-                                                type="text"
+                                                type="number"
                                                 className="my-input"
                                                 placeholder="Enter price"
                                                 value={price}
-                                                onChange={event => setPrice(event.target.value)}
+                                                onChange={changePriceHandler}
+                                                isInvalid={priceError}
                                             />
+                                            <Form.Control.Feedback type='invalid'>{priceError}</Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{marginBottom: "0px"}}><b>IMAGE-URL</b></Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        className="my-input"
-                                        placeholder="Enter url-image"
-                                        value={imageURL}
-                                        onChange={event => setImageURL(event.target.value)}
-                                    />
-                                </Form.Group>
                                 <Form.Group as={Col}>
                                     <Form.Label style={{marginBottom: "0px"}}><b>COUNTRY</b></Form.Label>
                                     <Form.Control className="my-input"
                                                   as="select" aria-label="Default select example"
                                                   onChange={event => setCountry(JSON.parse(event.target.value))}>
+                                        <option key={0} value={"null"}>Select...</option>
                                         {countryList.map((item, index) =>
                                             <option
                                                 selected={props.method === "create" ? false : item.name === country.name}
@@ -210,6 +255,7 @@ function CreateUpdateFilmDialog(props) {
                                     <Form.Label style={{marginBottom: "0px"}}><b>GENRE</b></Form.Label>
                                     <Form.Control className="my-input" as="select" aria-label="Default select example"
                                                   onChange={event => setGenre(JSON.parse(event.target.value))}>
+                                        <option key={0} value={"null"}>Select...</option>
                                         {genreList.map((item, index) =>
                                             <option
                                                 selected={props.method === "create" ? false : item.name === genre.name}
@@ -229,6 +275,17 @@ function CreateUpdateFilmDialog(props) {
                                               value={description}
                                               onChange={event => setDescription(event.target.value)}/>
                             </Form.Group>
+                            <Form.Group as={Col}>
+                                <Form.Label style={{marginBottom: "0px"}}><b>IMAGE-URL</b></Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className="my-input"
+                                    placeholder="Enter url-image"
+                                    value={imageURL}
+                                    onChange={event => setImageURL(event.target.value)}
+                                />
+                                <img alt="" src={imageURL} height="200px" style={{marginTop: "10px"}}/>
+                            </Form.Group>
                         </Col>
                     </Row>
                 </div>
@@ -242,30 +299,24 @@ function CreateUpdateFilmDialog(props) {
         }
     }
 
-
-    const closeModal = () => {
-        props.onHide()
-    }
-
+    toast.configure()
     return (
-        <Modal{...props} size="lg"
-              dialogClassName="modal-90w public-profile-modal-class"
-              aria-labelledby="example-custom-modal-styling-title"
-              className="special_modal">
+        <Modal{...props} size="lg" className="special_modal">
             <Modal.Header closeButton>
-                <Modal.Title>{props.method === "create" ? "Create film" : "Update film"}</Modal.Title>
+                <Modal.Title style={{color: "#9a9da0"}}>
+                    <b>{props.method === "create" ? "Create film" : "Update film"}</b>
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body className="modal-dark">
                 {showContent()}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="outline-danger" onClick={closeModal}>Close</Button>
+                <Button variant="outline-danger" onClick={() => props.onHide()}>Close</Button>
                 <Button variant={props.method === "create" ? "outline-primary" : "outline-success"}
                         type="submit"
                         onClick={handleSubmit}>
                     {props.method === "create" ? "Create" : "Update"}
                 </Button>
-
             </Modal.Footer>
         </Modal>
     )

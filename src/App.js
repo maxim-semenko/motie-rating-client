@@ -15,8 +15,9 @@ import ClassAboutFilmPage from "./components/pages/common/AboutFilmPage";
 import AdminPage from "./components/pages/admin/AdminPage";
 import AllUsersPage from "./components/pages/admin/users/AllUsersPage";
 import AllFilmsPage from "./components/pages/admin/films/AllFilmsPage";
-import AllGenresPage from "./components/pages/admin/AllGenresPage";
-import AllCountriesPage from "./components/pages/admin/AllCountriesPage";
+import AllGenresPage from "./components/pages/admin/genres/AllGenresPage";
+import AllCountriesPage from "./components/pages/admin/countries/AllCountriesPage";
+import RestorePasswordPage from "./components/pages/common/RestorePasswordPage";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route exact path="/top" component={TopPage}/>
             <Route exact path="/about" component={AboutPage}/>
             <Route exact path="/feedback" component={FeedbackPage}/>
+            <Route exact path="/restore-password" component={RestorePasswordPage}/>
             <Route exact path="/film/:id" component={ClassAboutFilmPage}/>
             <ProtectRoute path="/profile/cabinet" component={ClassCabinetPage}/>
             <ProtectRoute path="/profile/basket" component={BasketPage}/>

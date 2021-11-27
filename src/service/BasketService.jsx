@@ -6,14 +6,14 @@ const cookies = new Cookies()
 
 class BasketService {
 
-    async add(userId, filmId) {
-        return axios.post(BASKET_API_BASE_URL + '/user/' + userId + '/film/' + filmId, null, {
+    async add(id, filmId) {
+        return axios.post(BASKET_API_BASE_URL + '/' + id + '/film/' + filmId, null, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`},
         })
     }
 
-    async remove(userId, filmId) {
-        return axios.delete(BASKET_API_BASE_URL + '/user/' + userId + '/film/' + filmId, {
+    async remove(id, filmId) {
+        return axios.delete(BASKET_API_BASE_URL + '/' + id + '/film/' + filmId, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`},
         })
     }

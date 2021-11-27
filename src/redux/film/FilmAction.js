@@ -27,6 +27,11 @@ export const setLoading = (loading) => ({
     payload: loading
 })
 
+export const setSuccessCreate = (successCreate) => ({
+    type: types.SET_SUCCESS_CREATED,
+    payload: successCreate
+})
+
 //============================================ Axios requests ==========================================================
 
 export const getFilms = (currentPage = 1, sizePage = 15) => {
@@ -57,16 +62,53 @@ export const getFilmById = (id) => {
     }
 }
 
-export const createFilm = (film) => {
-    return function (dispatch) {
-        FilmService.create(film)
-            .then(() => {
-                dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
+// export const createFilm = (film) => {
+//     return function (dispatch) {
+//         dispatch(setSuccessCreate(false))
+//         FilmService.create(film)
+//             .then(() => {
+//                 dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
+//                 dispatch(setSuccessCreate(true))
+//             })
+//             .catch(error => {
+//                 console.log(error)
+//                 dispatch(setSuccessCreate(false))
+//             })
+//     }
+// }
+
+// export const createFilm = (film) => {
+//     return (dispatch) => {
+//         dispatch(setSuccessCreate(false))
+//         FilmService.create(film)
+//             .then(() => {
+//                 dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
+//                 dispatch(setSuccessCreate(true))
+//             })
+//             .catch(error => {
+//                 console.log(error)
+//                 dispatch(setSuccessCreate(false))
+//             })
+//     }
+// }
+
+export function createFilm(film) {
+    return (dispatch) => {
+        dispatch(setSuccessCreate(false))
+
+        return new Promise((resolve, reject) => {
+            FilmService.create(film)
+            .then((response) => {
+                console.log(response)
+                //dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
+                return resolve(response);
             })
             .catch(error => {
                 console.log(error)
+                return reject(error);
             })
-    }
+        })
+    };
 }
 
 export const updateFilm = (film, id) => {

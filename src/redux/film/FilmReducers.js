@@ -8,7 +8,8 @@ const initialState = {
     sizePage: 9,
     totalElements: 0,
     totalPages: 0,
-    numberOfElements: 0
+    numberOfElements: 0,
+    successCreated: false,
 }
 
 const filmReducers = (state = initialState, action) => {
@@ -47,6 +48,11 @@ const filmReducers = (state = initialState, action) => {
             return {
                 ...state,
                 loading: action.payload
+            }
+        case types.SET_SUCCESS_CREATED:
+            return {
+                ...state,
+                successCreated: action.payload
             }
         default:
             return state

@@ -5,15 +5,19 @@ import Footer from "../../../Footer"
 import CreateUpdateFilmDialog from "./CreateUpdateFilmDialog";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteFilmById, getFilmById, getFilms, setCurrentPage, setSizePage} from "../../../../redux/film/FilmAction";
+import {getFilmById, getFilms, setCurrentPage, setSizePage} from "../../../../redux/film/FilmAction";
 import Pagination from "react-js-pagination";
 import Spinner from 'react-bootstrap/Spinner'
+import RemoveFilmDialog from "./RemoveFilmDialog";
+import AboutFilmDialog from "./AboutFilmDialog";
 
 function AllFilmsPage() {
     const dispatch = useDispatch()
     const {films, loading, currentPage, sizePage, totalElements} = useSelector(state => state.dataFilms)
 
-    const [showAddEditFilmModal, setShowAddEditFilmModal] = useState(false)
+    const [showAddEditFilmDialog, setShowAddEditFilmDialog] = useState(false)
+    const [showAboutFilmDialog, setShowAboutFilmDialog] = useState(false)
+    const [showRemoveFilmDialog, setShowRemoveFilmDialog] = useState(false)
     const [method, setMethod] = useState("")
 
     useEffect(() => {
@@ -24,22 +28,28 @@ function AllFilmsPage() {
         }, [currentPage, dispatch, sizePage, totalElements]
     )
 
+    const aboutFilm = (id) => {
+        dispatch(getFilmById(id))
+        setShowAboutFilmDialog(true)
+    }
+
     const removeFilm = (id) => {
-        dispatch(deleteFilmById(id))
+        dispatch(getFilmById(id))
+        setShowRemoveFilmDialog(true)
     }
 
     const createFilm = () => {
-        setShowAddEditFilmModal(true);
+        setShowAddEditFilmDialog(true);
         setMethod("create")
     }
 
     /**
-     * Method that load needed ашдь by id and open CreateUpdateFilmDialog with method update.
-     * @param {number} id  - Student id
+     * Method that load needed film by id and open CreateUpdateFilmDialog with method update.
+     * @param {number} id  - Film id
      */
     const editFilm = (id) => {
         dispatch(getFilmById(id))
-        setShowAddEditFilmModal(true);
+        setShowAddEditFilmDialog(true);
         setMethod("update")
     }
 
@@ -80,7 +90,8 @@ function AllFilmsPage() {
                                                 onClick={() => removeFilm(film.id)}>
                                             <b>Remove</b>
                                         </Button>{' '}
-                                        <Button variant="outline-warning">
+                                        <Button variant="outline-warning"
+                                                onClick={() => aboutFilm(film.id)}>
                                             <b>More info</b>
                                         </Button>
                                     </td>
@@ -93,15 +104,34 @@ function AllFilmsPage() {
         )
     }
 
+
     return (
         <div>
             {
-                showAddEditFilmModal ?
+                showAddEditFilmDialog ?
                     <CreateUpdateFilmDialog
-                        show={showAddEditFilmModal}
-                        onHide={() => setShowAddEditFilmModal(false)}
+                        show={showAddEditFilmDialog}
+                        onHide={() => setShowAddEditFilmDialog(false)}
                         method={method}
                         updateList={getFilms}
+                    />
+                    :
+                    null
+            }
+            {
+                showRemoveFilmDialog ?
+                    <RemoveFilmDialog
+                        show={showRemoveFilmDialog}
+                        onHide={() => setShowRemoveFilmDialog(false)}
+                    />
+                    :
+                    null
+            }
+            {
+                showAboutFilmDialog ?
+                    <AboutFilmDialog
+                        show={showAboutFilmDialog}
+                        onHide={() => setShowAboutFilmDialog(false)}
                     />
                     :
                     null

@@ -12,12 +12,18 @@ function BasketItem(props) {
                     </Link>
                 </Card.Header>
                 <Card.Body>
-                    <blockquote className="blockquote mb-0">
-                        <p style={{textAlign: "justify"}}>
-                            Description: {props.film.description}
-                        </p>
-                    </blockquote>
-                    <div className="d-grid gap-2" style={{marginTop: "20px"}}>
+                    <div>
+                        <img alt="" src={props.film.imageURL} height="200px"
+                             style={{float: "left", paddingRight: "10px", paddingBottom: "10px"}}/>
+                        <blockquote className="blockquote mb-0">
+                            <p style={{textAlign: "justify"}}>
+                                Description: {props.film.description}
+                            </p>
+                        </blockquote>
+                    </div>
+
+                    <br/>
+                    <div className="d-grid gap-2" style={{clear: "both"}}>
                         <Button variant="outline-success">
                             <b>Buy film({props.film.price}$)</b>
                         </Button>{' '}

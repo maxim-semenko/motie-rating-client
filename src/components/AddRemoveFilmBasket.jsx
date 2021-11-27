@@ -9,10 +9,10 @@ function AddRemoveFilmBasket(props) {
                     <div>
                         <div className="d-grid gap-2" style={{marginTop: "20px"}}>
                             <Button variant="outline-success">
-                                <b>Buy film</b>
+                                <b>Buy ({props.film.price}$)</b>
                             </Button>{' '}
                             <Button variant="outline-danger" onClick={() => props.methodRemove(props.film.id)}>
-                                <b>Remove from basket</b>
+                                <b>From basket</b>
                             </Button>
                         </div>
                     </div>
@@ -20,11 +20,11 @@ function AddRemoveFilmBasket(props) {
                     <div>
                         <div className="d-grid gap-2" style={{marginTop: "20px"}}>
                             <Button variant="outline-success" disabled={!localStorage.getItem("user")}>
-                                <b>Buy film</b>
+                                <b>Buy ({props.film.price}$)</b>
                             </Button>{' '}
                             <Button variant="outline-primary" disabled={!localStorage.getItem("user")}
                                     onClick={() => props.methodAdd(props.film)}>
-                                <b>Add to basket</b>
+                                <b>To basket</b>
                             </Button>
                         </div>
                     </div>

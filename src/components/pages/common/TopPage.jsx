@@ -3,7 +3,6 @@ import NavigationBar from "./NavigationBar"
 import Footer from "../../Footer"
 import {Card, Col, Container, Jumbotron, Row} from "react-bootstrap";
 import 'react-slideshow-image/dist/styles.css'
-import SimpleImageSlider from "react-simple-image-slider";
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -29,7 +28,7 @@ function TopPage() {
         desktop: {
             breakpoint: {max: 3000, min: 1024},
             items: 3,
-            slidesToSlide: 1 // optional, default to 1.
+            slidesToSlide: 3 // optional, default to 1.
         },
         tablet: {
             breakpoint: {max: 1024, min: 464},
@@ -47,21 +46,12 @@ function TopPage() {
         <div>
             <NavigationBar/>
             <Container>
-
                 <Row>
                     <Col lg={12} style={{marginTop: "20px"}}>
                         <Jumbotron className="bg-dark text-white" style={{textAlign: "left"}}>
                             <h1>The best films in every genre by all time</h1>
                             <br/>
                             <h2>TOP 10 ACTION FILMS </h2>
-                            <SimpleImageSlider
-                                width={350}
-                                height={520}
-                                images={slideImages}
-                                showBullets={true}
-                                showNavs={true}
-                                autoPlay={true}
-                            />
                             <br/>
                             <h2>TOP 10 COMEDY FILMS</h2>
                             <Carousel
@@ -91,11 +81,13 @@ function TopPage() {
                                     <Card.Img variant="top" height="450rem"
                                               src="https://upload.wikimedia.org/wikipedia/ru/f/fc/Thor_poster.jpg"/>
                                 </div>
-                                <div style={{marginRight: "5px"}}><Card.Img variant="top" height="450rem"
-                                                                            src="https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014.jpg"/>
+                                <div style={{marginRight: "5px"}}>
+                                    <Card.Img variant="top" height="450rem"
+                                              src="https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014.jpg"/>
                                 </div>
-                                <div style={{marginRight: "5px"}}><Card.Img variant="top" height="450rem"
-                                                                            src="https://www.timeout.ru/wp-content/uploads/films/666.jpg"/>
+                                <div style={{marginRight: "5px"}}>
+                                    <Card.Img variant="top" height="450rem"
+                                              src="https://www.timeout.ru/wp-content/uploads/films/666.jpg"/>
                                 </div>
                             </Carousel>
                             <br/>
