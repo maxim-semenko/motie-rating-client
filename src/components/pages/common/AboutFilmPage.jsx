@@ -14,7 +14,6 @@ function AboutFilmPage(props) {
     const [rating, setRating] = useState(0)
 
     useEffect(() => {
-            // setLoading(true)
             FilmService.getById(props.match.params.id)
                 .then(response => {
                     setFilm(response.data)

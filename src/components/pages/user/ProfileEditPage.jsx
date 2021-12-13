@@ -4,6 +4,7 @@ import CSSTransition from "react-transition-group/CSSTransition";
 import NavigationBar from "../common/NavigationBar";
 import Footer from "../../Footer";
 import UserService from "../../../service/UserService";
+import {Link} from "react-router-dom";
 
 function ProfileEditPage(props) {
 
@@ -71,7 +72,13 @@ function ProfileEditPage(props) {
             <NavigationBar/>
             <Container>
                 <Row>
-                    <Col lg={12} style={{marginTop: "20px"}}>
+                    <Col lg={12} style={{marginTop: "20px", textAlign: "left"}}>
+                        <Link to="/profile/cabinet">
+                            <Button variant="outline-danger"
+                                    style={{marginBottom: "20px"}}>
+                                <b>Back to profile</b>
+                            </Button>
+                        </Link>{' '}
                         <Jumbotron className="bg-dark text-white"
                                    style={{textAlign: "left", paddingTop: "20px", paddingBottom: "20px"}}>
                             <Form>
@@ -126,8 +133,11 @@ function ProfileEditPage(props) {
                                                   placeholder="Enter email"/>
                                 </Form.Group>
                                 <div style={{textAlign: "right", paddingRight: "1.5%"}}>
-                                    <Button variant="outline-success" size="lg" onClick={update}>
-                                        Edit profile
+                                    <Button variant="outline-danger">
+                                        <b>Delete profile</b>
+                                    </Button>{' '}
+                                    <Button variant="outline-success" onClick={update}>
+                                        <b>Edit profile</b>
                                     </Button>
                                 </div>
                             </Form>
@@ -136,22 +146,22 @@ function ProfileEditPage(props) {
                                 <Row>
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
-                                            <Form.Label><b>NEW PASSWORD</b></Form.Label>
+                                            <Form.Label><b>OLD PASSWORD</b></Form.Label>
                                             <Form.Control type="text" className="my-input"
-                                                          placeholder="Enter new password"/>
+                                                          placeholder="Enter old password"/>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
-                                            <Form.Label><b>REPEAT NEW PASSWORD</b></Form.Label>
+                                            <Form.Label><b>NEW PASSWORD</b></Form.Label>
                                             <Form.Control type="email" className="my-input"
-                                                          placeholder="Enter again new password"/>
+                                                          placeholder="Enter new password"/>
                                         </Form.Group>
                                     </Col>
                                 </Row>
                                 <div style={{textAlign: "right", paddingRight: "1.5%"}}>
-                                    <Button variant="outline-success" size="lg" href="/profile/edit">
-                                        Edit password
+                                    <Button variant="outline-success" href="/profile/edit">
+                                        <b>Edit password</b>
                                     </Button>
                                 </div>
                             </Form>

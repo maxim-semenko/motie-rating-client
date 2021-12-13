@@ -33,7 +33,7 @@ const userReducers = (state = initialState, action) => {
                 ...state,
                 currentPage: action.payload
             }
-        case types.SET_SIZE_PAGE:
+        case types.SET_SIZE_PAGE_USER:
             return {
                 ...state,
                 sizePage: action.payload

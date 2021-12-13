@@ -1,4 +1,5 @@
 import * as types from "./FilmActionType"
+import {SET_SIZE_PAGE_FILM} from "./FilmActionType";
 
 const initialState = {
     films: [],
@@ -9,7 +10,6 @@ const initialState = {
     totalElements: 0,
     totalPages: 0,
     numberOfElements: 0,
-    successCreated: false,
 }
 
 const filmReducers = (state = initialState, action) => {
@@ -39,7 +39,7 @@ const filmReducers = (state = initialState, action) => {
                 ...state,
                 currentPage: action.payload
             }
-        case types.SET_SIZE_PAGE:
+        case types.SET_SIZE_PAGE_FILM:
             return {
                 ...state,
                 sizePage: action.payload
@@ -48,11 +48,6 @@ const filmReducers = (state = initialState, action) => {
             return {
                 ...state,
                 loading: action.payload
-            }
-        case types.SET_SUCCESS_CREATED:
-            return {
-                ...state,
-                successCreated: action.payload
             }
         default:
             return state

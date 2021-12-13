@@ -18,18 +18,13 @@ export const setCurrentPage = (page) => ({
 })
 
 export const setSizePage = (size) => ({
-    type: types.SET_SIZE_PAGE,
+    type: types.SET_SIZE_PAGE_FILM,
     payload: size
 })
 
 export const setLoading = (loading) => ({
     type: types.SET_LOADING,
     payload: loading
-})
-
-export const setSuccessCreate = (successCreate) => ({
-    type: types.SET_SUCCESS_CREATED,
-    payload: successCreate
 })
 
 //============================================ Axios requests ==========================================================
@@ -62,45 +57,12 @@ export const getFilmById = (id) => {
     }
 }
 
-// export const createFilm = (film) => {
-//     return function (dispatch) {
-//         dispatch(setSuccessCreate(false))
-//         FilmService.create(film)
-//             .then(() => {
-//                 dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
-//                 dispatch(setSuccessCreate(true))
-//             })
-//             .catch(error => {
-//                 console.log(error)
-//                 dispatch(setSuccessCreate(false))
-//             })
-//     }
-// }
-
-// export const createFilm = (film) => {
-//     return (dispatch) => {
-//         dispatch(setSuccessCreate(false))
-//         FilmService.create(film)
-//             .then(() => {
-//                 dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
-//                 dispatch(setSuccessCreate(true))
-//             })
-//             .catch(error => {
-//                 console.log(error)
-//                 dispatch(setSuccessCreate(false))
-//             })
-//     }
-// }
-
 export function createFilm(film) {
     return (dispatch) => {
-        dispatch(setSuccessCreate(false))
-
         return new Promise((resolve, reject) => {
             FilmService.create(film)
             .then((response) => {
                 console.log(response)
-                //dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
                 return resolve(response);
             })
             .catch(error => {

@@ -17,7 +17,7 @@ export const setCurrentPage = (page) => ({
 })
 
 export const setSizePage = (size) => ({
-    type: types.SET_SIZE_PAGE,
+    type: types.SET_SIZE_PAGE_USER,
     payload: size
 })
 

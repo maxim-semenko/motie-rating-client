@@ -9,15 +9,16 @@ import AuthService from "../../../service/AuthService"
 import {Link} from "react-router-dom";
 
 function NavigationBar(props) {
+    const cookies = new Cookies()
     const [showSignInModal, setShowSignInModal] = useState(false)
     const [showSignUpModal, setShowSignUpModal] = useState(false)
-    const cookies = new Cookies()
+    const token = cookies.get("jwt");
 
     const isLogin = () => {
         return (
             <div>
                 {
-                    cookies.get("jwt") != null ?
+                    token != null ?
                         <div>
                             <Link to="/profile/cabinet">
                                 <Button variant="outline-primary"><b>profile</b></Button>{' '}
@@ -40,7 +41,7 @@ function NavigationBar(props) {
         return (
             <div>
                 {
-                    cookies.get("jwt") != null ?
+                    token != null ?
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/profile/basket">
                                 <span style={{color: "white"}}>

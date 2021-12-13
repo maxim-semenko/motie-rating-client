@@ -120,7 +120,7 @@ function SignInDialog(props) {
                     </Form.Group>
                 </Form>
                 <Link to={"/restore-password"}>
-                    <b>Forgot password?</b>
+                    <b style={{color: "white"}}>Forgot password?</b>
                 </Link>
 
             </Modal.Body>

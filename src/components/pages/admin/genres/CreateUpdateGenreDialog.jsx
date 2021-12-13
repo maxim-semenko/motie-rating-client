@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CartFilm(props) {
+function CreateUpdateGenreDialog(props) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function CartFilm(props) {
     );
 }
 
-export default CartFilm;
+export default CreateUpdateGenreDialog;

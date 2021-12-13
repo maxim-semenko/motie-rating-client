@@ -14,7 +14,7 @@ function CreateUpdateFilmDialog(props) {
     const [countryList, setCountryList] = useState([])
 
     const dispatch = useDispatch()
-    const {film, loading, currentPage, sizePage, totalElements} = useSelector(state => state.dataFilms)
+    const {film, loading, currentPage, sizePage} = useSelector(state => state.dataFilms)
     const [loadingAll, setLoadingAll] = useState(true)
 
     const [id, setId] = useState()
@@ -24,13 +24,17 @@ function CreateUpdateFilmDialog(props) {
     const [price, setPrice] = useState('')
     const [imageURL, setImageURL] = useState('')
     const [description, setDescription] = useState('')
-    const [genre, setGenre] = useState('null')
-    const [country, setCountry] = useState('null')
+    const [genre, setGenre] = useState(null)
+    const [country, setCountry] = useState(null)
 
     const [nameError, setNameError] = useState('')
     const [yearError, setYearError] = useState('')
     const [timeError, setTimeError] = useState('')
     const [priceError, setPriceError] = useState('')
+    const [imageURLError, setImageURLError] = useState('')
+    const [descriptionError, setDescriptionError] = useState('')
+    const [genreError, setGenreError] = useState('')
+    const [countryError, setCountryError] = useState('')
 
     /**
      * Method that set username value
@@ -56,6 +60,26 @@ function CreateUpdateFilmDialog(props) {
         setPriceError('')
     }
 
+    const changeImageURLHandler = (event) => {
+        setImageURL(event.target.value)
+        setImageURLError('')
+    }
+
+    const changeDescriptionHandler = (event) => {
+        setDescription(event.target.value)
+        setDescriptionError('')
+    }
+
+    const changeCountryHandler = (event) => {
+        setCountry(JSON.parse(event.target.value))
+        setCountryError('')
+    }
+
+    const changeGenreHandler = (event) => {
+        setGenre(JSON.parse(event.target.value))
+        setGenreError('')
+    }
+
     useEffect(() => {
             if (props.method === "update") {
                 setId(film.id)
@@ -68,9 +92,9 @@ function CreateUpdateFilmDialog(props) {
                 setCountry(film.country)
                 setGenre(film.genre)
             }
-            CountryService.findAll()
+            CountryService.getAll()
                 .then(response => {
-                    setCountryList(response.data)
+                    setCountryList(response.data.content)
                 }).catch(error => {
                     console.log(error)
                 }
@@ -160,6 +184,34 @@ function CreateUpdateFilmDialog(props) {
             isErrors = true
             setPriceError('price cannot be <= 0!')
         }
+
+        // description errors
+        if (!description || description === '') {
+            isErrors = true
+            setDescriptionError('description cannot be empty!')
+        } else if (description.length < 20) {
+            isErrors = true
+            setDescriptionError('description is too short!')
+        }
+
+        // imageURL errors
+        if (!imageURL || imageURL === '') {
+            isErrors = true
+            setImageURLError('image-URL cannot be empty!')
+        }
+
+        if (country === null || country === undefined) {
+            isErrors = true
+            setCountryError("select country!")
+        }
+
+        if (genre === null || genre === undefined) {
+            isErrors = true
+            setGenreError("select genre!")
+        }
+
+
+
         return isErrors
     }
 
@@ -239,7 +291,8 @@ function CreateUpdateFilmDialog(props) {
                                     <Form.Label style={{marginBottom: "0px"}}><b>COUNTRY</b></Form.Label>
                                     <Form.Control className="my-input"
                                                   as="select" aria-label="Default select example"
-                                                  onChange={event => setCountry(JSON.parse(event.target.value))}>
+                                                  isInvalid={countryError}
+                                                  onChange={changeCountryHandler}>
                                         <option key={0} value={"null"}>Select...</option>
                                         {countryList.map((item, index) =>
                                             <option
@@ -250,11 +303,13 @@ function CreateUpdateFilmDialog(props) {
                                             </option>
                                         )}
                                     </Form.Control>
+                                    <Form.Control.Feedback type='invalid'>{countryError}</Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col}>
                                     <Form.Label style={{marginBottom: "0px"}}><b>GENRE</b></Form.Label>
                                     <Form.Control className="my-input" as="select" aria-label="Default select example"
-                                                  onChange={event => setGenre(JSON.parse(event.target.value))}>
+                                                  isInvalid={genreError}
+                                                  onChange={changeGenreHandler}>
                                         <option key={0} value={"null"}>Select...</option>
                                         {genreList.map((item, index) =>
                                             <option
@@ -265,6 +320,7 @@ function CreateUpdateFilmDialog(props) {
                                             </option>
                                         )}
                                     </Form.Control>
+                                    <Form.Control.Feedback type='invalid'>{genreError}</Form.Control.Feedback>
                                 </Form.Group>
                             </Form>
                             <Form.Group as={Col} controlId="formGridEmail">
@@ -273,7 +329,9 @@ function CreateUpdateFilmDialog(props) {
                                               style={{minHeight: "75px", maxHeight: "75px", resize: "none"}}
                                               placeholder="Enter description"
                                               value={description}
-                                              onChange={event => setDescription(event.target.value)}/>
+                                              isInvalid={descriptionError}
+                                              onChange={changeDescriptionHandler}/>
+                                <Form.Control.Feedback type='invalid'>{descriptionError}</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col}>
                                 <Form.Label style={{marginBottom: "0px"}}><b>IMAGE-URL</b></Form.Label>
@@ -282,8 +340,10 @@ function CreateUpdateFilmDialog(props) {
                                     className="my-input"
                                     placeholder="Enter url-image"
                                     value={imageURL}
-                                    onChange={event => setImageURL(event.target.value)}
+                                    isInvalid={imageURLError}
+                                    onChange={changeImageURLHandler}
                                 />
+                                <Form.Control.Feedback type='invalid'>{imageURLError}</Form.Control.Feedback>
                                 <img alt="" src={imageURL} height="200px" style={{marginTop: "10px"}}/>
                             </Form.Group>
                         </Col>

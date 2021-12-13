@@ -3,7 +3,7 @@ import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
 import CSSTransition from "react-transition-group/CSSTransition"
 import NavigationBar from "../../common/NavigationBar"
 import Footer from "../../../Footer"
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import GenreService from "../../../../service/GenreService";
 
 function AllGenresPage() {
@@ -37,10 +37,12 @@ function AllGenresPage() {
                     <Jumbotron className="bg-dark text-white">
                         <Row>
                             <div style={{margin: "0 auto"}}>
-                                <Button href="/profile/admin/controllers" variant="outline-danger"
-                                        style={{marginBottom: "20px"}}>
-                                    <b>Back to controllers</b>
-                                </Button>{' '}
+                                <Link to="/profile/admin/controllers">
+                                    <Button variant="outline-danger"
+                                            style={{marginBottom: "20px"}}>
+                                        <b>Back to controllers</b>
+                                    </Button>
+                                </Link>{' '}
                                 <Button variant="outline-success"
                                         style={{marginBottom: "20px"}}>
                                     <b>Add genre</b>

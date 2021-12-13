@@ -1,15 +1,9 @@
 import React from 'react';
 import {Button, Col, Container, Modal, Row} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 function AboutFilmDialog(props) {
-    const dispatch = useDispatch()
     const {film, loading} = useSelector(state => state.dataFilms)
-
-
-    const closeModal = () => {
-        props.onHide()
-    }
 
     const showContent = () => {
         if (loading) {
@@ -39,7 +33,6 @@ function AboutFilmDialog(props) {
                                     <h5><b>Genre:</b> {film.genre.name}</h5>
                                     <h5><b>Rating:</b> {film.rating}</h5>
                                 </div>
-
                             </Col>
                         </Row>
                     </Container>
@@ -61,7 +54,7 @@ function AboutFilmDialog(props) {
                     {showContent()}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="outline-success" onClick={closeModal}>Close</Button>
+                    <Button variant="outline-success" onClick={() => props.onHide()}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </div>

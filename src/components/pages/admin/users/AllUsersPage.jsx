@@ -3,9 +3,8 @@ import {Button, Col, Container, Form, Jumbotron, Row, Table} from "react-bootstr
 import {Link} from "react-router-dom";
 import NavigationBar from "../../common/NavigationBar"
 import Footer from "../../../Footer"
-import {setCurrentPage, setSizePage} from "../../../../redux/film/FilmAction";
+import {getUsers, setCurrentPage, setSizePage} from "../../../../redux/user/UserAction";
 import {useDispatch, useSelector} from "react-redux";
-import {getUsers} from "../../../../redux/user/UserAction";
 import Spinner from "react-bootstrap/Spinner";
 import Pagination from "react-js-pagination";
 

@@ -31,7 +31,7 @@ function RemoveFilmDialog(props) {
                     <b>
                         <h4>
                             <p>Are you really want to remove this film?!</p>
-                            <p style={{textTransform: "uppercase"}}>Name: {film.name}</p>
+                            <p>Name: <span style={{textTransform: "uppercase"}}>{film.name}</span></p>
                             <p><img alt="" src={film.imageURL} height="350px" style={{marginTop: "10px"}}/></p>
                         </h4>
                     </b>
@@ -59,7 +59,6 @@ function RemoveFilmDialog(props) {
                             onClick={handleSubmit}>
                         Remove
                     </Button>
-
                 </Modal.Footer>
             </Modal>
         </div>

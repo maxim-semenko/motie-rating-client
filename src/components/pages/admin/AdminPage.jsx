@@ -1,5 +1,5 @@
 import React from 'react'
-import {Col, Container, Jumbotron, Row} from "react-bootstrap"
+import {Button, Col, Container, Jumbotron, Row} from "react-bootstrap"
 import {ImUsers, MdLocalMovies} from "react-icons/all"
 import {AiOutlineGlobal} from "react-icons/ai"
 import {Link} from "react-router-dom"
@@ -13,6 +13,12 @@ function AdminPage() {
             <Container>
                 <Row>
                     <Col lg={12} style={{marginTop: "20px", padding: "20px 20px 20px 20px", textAlign: "left"}}>
+                        <Link to="/profile/cabinet">
+                            <Button variant="outline-danger"
+                                    style={{marginBottom: "20px"}}>
+                                <b>Back to profile</b>
+                            </Button>
+                        </Link>{' '}
                         <Jumbotron className="bg-dark text-white">
                             <Link to="/profile/admin/all-users" className="my-link">
                                 <h5><span className="menu-icon"><ImUsers size={24}/></span>USERS CONTROL</h5>

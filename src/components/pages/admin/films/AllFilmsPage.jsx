@@ -148,7 +148,7 @@ function AllFilmsPage() {
                         </Link>
                         <Button variant="outline-primary"
                                 style={{marginBottom: "20px"}} onClick={() => createFilm()}>
-                            <b>Create a new film</b>
+                            <b>Add a new film</b>
                         </Button>
                         <Row>
                             <div style={{margin: "0"}}>
