@@ -43,6 +43,20 @@ export const getFilms = (currentPage = 1, sizePage = 15) => {
     }
 }
 
+export const getFilmsByName = (currentPage = 1, sizePage = 15, name) => {
+    return function (dispatch) {
+        dispatch(setLoading(true))
+        FilmService.getAllByName(currentPage, sizePage, name)
+            .then((resp) => {
+                dispatch(getFilmsSuccess(resp.data))
+                dispatch(setLoading(false))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
 export const getFilmById = (id) => {
     return function (dispatch) {
         dispatch(setLoading(true))
@@ -57,8 +71,10 @@ export const getFilmById = (id) => {
     }
 }
 
+
+
 export function createFilm(film) {
-    return (dispatch) => {
+    return () => {
         return new Promise((resolve, reject) => {
             FilmService.create(film)
             .then((response) => {

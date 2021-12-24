@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Form, Jumbotron, Row, Table} from "react-bootstrap"
 import {Link} from "react-router-dom";
 import NavigationBar from "../../common/NavigationBar"
@@ -6,30 +6,48 @@ import Footer from "../../../Footer"
 import {getUsers, setCurrentPage, setSizePage} from "../../../../redux/user/UserAction";
 import {useDispatch, useSelector} from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
+import AdminService from "../../../../service/AdminService";
 import Pagination from "react-js-pagination";
 
 function AllUsersPage() {
     const dispatch = useDispatch()
     const {users, loading, currentPage, sizePage, totalElements} = useSelector(state => state.dataUsers)
+    const [userId, setUserId] = useState(0);
 
     useEffect(() => {
             dispatch(getUsers(currentPage, sizePage))
+            setUserId(JSON.parse(localStorage.getItem("user")).id)
             if (totalElements !== 0 && sizePage > totalElements) {
                 dispatch(setSizePage(totalElements))
             }
         }, [currentPage, dispatch, sizePage, totalElements]
     )
 
+    const updateUserIsNonLocked = (id, isNonLocked) => {
+        AdminService.updateUserIsNonLockedById(id, {value: isNonLocked})
+            .then(resp => {
+                console.log(resp);
+                dispatch(getUsers(currentPage, sizePage))
+            }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const updateUserRoles = (id) => {
+
+    }
+
+
     const showContent = () => {
         return (
             <Table striped bordered hover variant="dark">
                 <thead>
                 <tr>
-                    <th style={{minWidth: "14rem"}}>Username</th>
-                    <th style={{minWidth: "13rem"}}>Firstname</th>
-                    <th style={{minWidth: "13rem"}}>Lastname</th>
-                    <th style={{minWidth: "16rem"}}>Email</th>
-                    <th style={{minWidth: "16rem"}}>Role</th>
+                    <th style={{minWidth: "12rem"}}>Username</th>
+                    <th style={{minWidth: "12rem"}}>Firstname</th>
+                    <th style={{minWidth: "12rem"}}>Lastname</th>
+                    <th style={{minWidth: "14rem"}}>Email</th>
+                    <th style={{minWidth: "8rem"}}>Role</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -53,12 +71,25 @@ function AllUsersPage() {
                                         {user.roles.map(role => <b>{role.name}, </b>)}
                                     </td>
                                     <td>
-                                        <Button variant="outline-success">
-                                            <b>Give admin</b>
-                                        </Button>{' '}
-                                        <Button variant="outline-danger">
-                                            <b>Ban</b>
-                                        </Button>
+                                        <div>
+                                            <Button variant="outline-success" disabled={user.id === userId}>
+                                                <b>Set admin</b>
+                                            </Button>{' '}
+                                            {
+                                                user.isAccountNonLocked ?
+                                                    <Button variant="outline-danger"
+                                                            disabled={user.id === userId}
+                                                            onClick={() => updateUserIsNonLocked(user.id, false)}>
+                                                        <b>Ban</b>
+                                                    </Button>
+                                                    :
+                                                    <Button variant="outline-warning"
+                                                            disabled={user.id === userId}
+                                                            onClick={() => updateUserIsNonLocked(user.id, true)}>
+                                                        <b>No Ban</b>
+                                                    </Button>
+                                            }
+                                        </div>
                                     </td>
                                 </tr>
                             )

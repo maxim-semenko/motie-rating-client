@@ -5,7 +5,7 @@ function AddRemoveFilmBasket(props) {
     return (
         <div>
             <div className="d-grid gap-2" style={{marginTop: "20px"}}>
-                <Button variant="outline-success">
+                <Button variant="outline-success" disabled={!localStorage.getItem("user")}>
                     <b>Buy ({props.film.price}$)</b>
                 </Button>{' '}
                 {

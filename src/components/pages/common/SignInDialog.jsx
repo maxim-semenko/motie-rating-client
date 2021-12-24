@@ -11,7 +11,7 @@ function SignInDialog(props) {
     const cookies = new Cookies()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [showError, setShowError] = useState(false)
+    const [showError, setShowError] = useState('')
     const [usernameError, setUsernameError] = useState('')
     const [passwordError, setPasswordError] = useState('')
 
@@ -72,7 +72,11 @@ function SignInDialog(props) {
                 props.setIsLoginMethod()
                 closeModal()
             }).catch(error => {
-                setShowError(true)
+                if (error.response.status === 400) {
+                    setShowError("Profile was locked!")
+                } else if (error.response.status === 404 || error.response.status === 403) {
+                    setShowError("Profile was not founded! Please, check your input username and password")
+                }
                 console.log(error)
             }
         )
@@ -94,7 +98,7 @@ function SignInDialog(props) {
                 <CSSTransition in={showError} classNames="my-node" timeout={100} unmountOnExit>
                     <Alert variant="danger" onClose={() => setShowError(false)} dismissible>
                         <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                        <p>Profile was not founded! Please, check your input username and password</p>
+                        <p>{showError}</p>
                     </Alert>
                 </CSSTransition>
                 <Form>

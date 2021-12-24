@@ -1,32 +1,33 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Col, Form, Modal, Row} from "react-bootstrap"
+import {toast} from 'react-toastify'
+import {useDispatch, useSelector} from "react-redux"
+import {createFilm, getFilms, updateFilm} from "../../../../redux/film/FilmAction"
+import GenreService from "../../../../service/GenreService"
+import CountryService from "../../../../service/CountryService"
+import 'react-toastify/dist/ReactToastify.css'
 import '../../../../styles/Animation.css'
 import '../../../../styles/FormControl.css'
-import GenreService from "../../../../service/GenreService";
-import CountryService from "../../../../service/CountryService";
-import {useDispatch, useSelector} from "react-redux";
-import {createFilm, getFilms, updateFilm} from "../../../../redux/film/FilmAction";
-import {toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function CreateUpdateFilmDialog(props) {
-    const [genreList, setGenreList] = useState([])
-    const [countryList, setCountryList] = useState([])
-
     const dispatch = useDispatch()
     const {film, loading, currentPage, sizePage} = useSelector(state => state.dataFilms)
     const [loadingAll, setLoadingAll] = useState(true)
+
+    const [genreList, setGenreList] = useState([])
+    const [countryList, setCountryList] = useState([])
 
     const [id, setId] = useState()
     const [name, setName] = useState('')
     const [year, setYear] = useState('')
     const [time, setTime] = useState('')
     const [price, setPrice] = useState('')
-    const [imageURL, setImageURL] = useState('')
+    const [imageURL, setImageURL] = useState("")
     const [description, setDescription] = useState('')
     const [genre, setGenre] = useState(null)
     const [country, setCountry] = useState(null)
 
+    // Errors
     const [nameError, setNameError] = useState('')
     const [yearError, setYearError] = useState('')
     const [timeError, setTimeError] = useState('')
@@ -37,33 +38,62 @@ function CreateUpdateFilmDialog(props) {
     const [countryError, setCountryError] = useState('')
 
     /**
-     * Method that set username value
-     * @param event
+     * Method that set film's name value.
+     * @param event event
      */
     const changeNameHandler = (event) => {
         setName(event.target.value)
         setNameError('')
     }
 
+    /**
+     * Method that set film's year value.
+     * @param event event
+     */
     const changeYearHandler = (event) => {
         setYear(event.target.value)
         setYearError('')
     }
 
+    /**
+     * Method that set film's time value.
+     * @param event event
+     */
     const changeTimeHandler = (event) => {
         setTime(event.target.value)
         setTimeError('')
     }
 
+    /**
+     * Method that set film's price value.
+     * @param event event
+     */
     const changePriceHandler = (event) => {
         setPrice(event.target.value)
         setPriceError('')
     }
 
-    const changeImageURLHandler = (event) => {
-        setImageURL(event.target.value)
+    /**
+     * Method that set film's imageURL value.
+     * @param event event
+     */
+    const changeImageURLHandler = async (event) => {
+        setImageURL(await convertBase64(event.target.files[0]))
         setImageURLError('')
-    }
+    };
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader()
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result)
+            };
+            fileReader.onerror = (error) => {
+                reject(error)
+            };
+        });
+    };
 
     const changeDescriptionHandler = (event) => {
         setDescription(event.target.value)
@@ -83,14 +113,14 @@ function CreateUpdateFilmDialog(props) {
     useEffect(() => {
             if (props.method === "update") {
                 setId(film.id)
+                setGenre(film.genre)
+                setCountry(film.country)
                 setName(film.name)
                 setYear(film.year)
                 setTime(film.timeInMinutes)
                 setPrice(film.price)
                 setImageURL(film.imageURL)
                 setDescription(film.description)
-                setCountry(film.country)
-                setGenre(film.genre)
             }
             CountryService.getAll()
                 .then(response => {
@@ -101,14 +131,15 @@ function CreateUpdateFilmDialog(props) {
             )
             GenreService.findAll()
                 .then(response => {
+                    console.log(response)
                     setGenreList(response.data)
                     setLoadingAll(false)
                 }).catch(error => {
                     console.log(error)
                 }
             )
-
-        }, [film.name, props.method]
+        }, [film.country, film.description, film.genre, film.id, film.imageURL,
+            film.name, film.price, film.timeInMinutes, film.year, props.method]
     )
 
     const handleSubmit = (event) => {
@@ -121,9 +152,9 @@ function CreateUpdateFilmDialog(props) {
                 year: year,
                 timeInMinutes: time,
                 price: price,
-                imageURL: imageURL,
                 description: description,
-                genre: genre
+                genre: genre,
+                imageURL: imageURL
             }
             if (props.method === "create") {
                 console.log(request)
@@ -148,10 +179,8 @@ function CreateUpdateFilmDialog(props) {
         }
     }
 
-
     const findFormErrors = () => {
         let isErrors = false
-
         // name errors
         if (!name || name === '') {
             isErrors = true
@@ -163,19 +192,16 @@ function CreateUpdateFilmDialog(props) {
             isErrors = true
             setNameError('name is too long!')
         }
-
         // year errors
         if (!year || year === '') {
             isErrors = true
             setYearError('year cannot be empty!')
         }
-
         // time errors
         if (!time || time === '') {
             isErrors = true
             setTimeError('time cannot be empty!')
         }
-
         // price errors
         if (!price || price === '') {
             isErrors = true
@@ -184,7 +210,6 @@ function CreateUpdateFilmDialog(props) {
             isErrors = true
             setPriceError('price cannot be <= 0!')
         }
-
         // description errors
         if (!description || description === '') {
             isErrors = true
@@ -193,7 +218,6 @@ function CreateUpdateFilmDialog(props) {
             isErrors = true
             setDescriptionError('description is too short!')
         }
-
         // imageURL errors
         if (!imageURL || imageURL === '') {
             isErrors = true
@@ -209,9 +233,6 @@ function CreateUpdateFilmDialog(props) {
             isErrors = true
             setGenreError("select genre!")
         }
-
-
-
         return isErrors
     }
 
@@ -224,14 +245,13 @@ function CreateUpdateFilmDialog(props) {
         position: "top-right",
     });
 
-
     const showContent = () => {
-        if (!loadingAll) {
+        if (!loadingAll && genre !== undefined && country !== undefined) {
             return (
                 <div>
                     <Row>
                         <Col lg={12} style={{marginTop: "20px"}}>
-                            <Form>
+                            <Form enctype="multipart/form-data">
                                 <Form.Group as={Col} controlId="formGridEmail">
                                     <Form.Label style={{marginBottom: "0px"}}><b>NAME</b></Form.Label>
                                     <Form.Control
@@ -336,15 +356,16 @@ function CreateUpdateFilmDialog(props) {
                             <Form.Group as={Col}>
                                 <Form.Label style={{marginBottom: "0px"}}><b>IMAGE-URL</b></Form.Label>
                                 <Form.Control
-                                    type="text"
+                                    type="file"
                                     className="my-input"
                                     placeholder="Enter url-image"
-                                    value={imageURL}
                                     isInvalid={imageURLError}
                                     onChange={changeImageURLHandler}
                                 />
                                 <Form.Control.Feedback type='invalid'>{imageURLError}</Form.Control.Feedback>
-                                <img alt="" src={imageURL} height="200px" style={{marginTop: "10px"}}/>
+                                <br/>
+                                <br/>
+                                <img alt="" src={imageURL} height="200px"/>
                             </Form.Group>
                         </Col>
                     </Row>

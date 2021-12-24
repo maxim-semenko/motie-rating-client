@@ -35,6 +35,7 @@ export const getUsers = (currentPage = 1, sizePage = 9) => {
             .then((resp) => {
                 dispatch(getFilmsSuccess(resp.data))
                 dispatch(setLoading(false))
+                console.log(resp)
             })
             .catch(error => {
                 console.log(error)
