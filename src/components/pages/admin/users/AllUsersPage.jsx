@@ -72,7 +72,8 @@ function AllUsersPage() {
                                     </td>
                                     <td>
                                         <div>
-                                            <Button variant="outline-success" disabled={user.id === userId}>
+                                            <Button variant="outline-success"
+                                                    disabled={user.id === userId}>
                                                 <b>Set admin</b>
                                             </Button>{' '}
                                             {

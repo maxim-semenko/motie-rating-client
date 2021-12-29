@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Button, Container, Nav, Navbar} from "react-bootstrap"
 import {FaShoppingCart} from "react-icons/all"
 import SignInDialog from "./SignInDialog"
-import SignUpModal from "./SignUpModal"
+import SignUpDialog from "./SignUpDialog"
 import {Cookies} from "react-cookie"
 import imgLogo from "../../../img/logo.svg"
 import AuthService from "../../../service/AuthService"
@@ -58,7 +58,7 @@ function NavigationBar(props) {
     const showModals = () => {
         if (showSignUpModal) {
             return (
-                <SignUpModal
+                <SignUpDialog
                     show={showSignUpModal}
                     onHide={() => setShowSignUpModal(false)}
                 />

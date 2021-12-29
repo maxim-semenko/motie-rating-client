@@ -1,24 +1,47 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from "react-bootstrap/Button";
+import {useDispatch, useSelector} from "react-redux";
+import {addToBasket, removeFromBasket} from "../redux/basket/BasketAction";
 
 function AddRemoveFilmBasket(props) {
+    const dispatch = useDispatch()
+    const {basketFilmList} = useSelector(state => state.dataBaskets)
+    const [isLogin, setIsLogin] = useState(false)
+
+    useEffect(() => {
+        setIsLogin(localStorage.getItem("user") !== null)
+    }, [dispatch])
+
+
+    const checkContain = (filmId) => {
+        for (let key in basketFilmList) {
+            if (basketFilmList[key].id === filmId) {
+                return true
+            }
+        }
+        return false
+    }
+
+    const displayActionWithBasket = () => {
+        const isContainInBasket = checkContain(props.film.id);
+        return (
+            <Button variant={isContainInBasket ? 'outline-danger' : 'outline-primary'}
+                    onClick={isContainInBasket ?
+                        () => dispatch(removeFromBasket(props.film.id)) :
+                        () => dispatch(addToBasket(props.film))}
+                    disabled={!isLogin}>
+                <b>{isContainInBasket ? 'From basket' : 'To basket'}</b>
+            </Button>
+        )
+    }
+
     return (
         <div>
             <div className="d-grid gap-2" style={{marginTop: "20px"}}>
-                <Button variant="outline-success" disabled={!localStorage.getItem("user")}>
-                    <b>Buy ({props.film.price}$)</b>
+                <Button variant="outline-success" disabled={!isLogin}>
+                    <b>Buy now({props.film.price}$)</b>
                 </Button>{' '}
-                {
-                    props.isContain === true ?
-                        <Button variant="outline-danger" onClick={() => props.methodRemove(props.film.id)}>
-                            <b>From basket</b>
-                        </Button>
-                        :
-                        <Button variant="outline-primary" disabled={!localStorage.getItem("user")}
-                                onClick={() => props.methodAdd(props.film)}>
-                            <b>To basket</b>
-                        </Button>
-                }
+                {displayActionWithBasket()}
             </div>
         </div>
     )

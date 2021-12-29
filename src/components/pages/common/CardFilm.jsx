@@ -23,12 +23,7 @@ function CardFilm(props) {
                     }}>
                         <b>Rating: {props.film.rating}</b>
                     </div>
-                    <AddRemoveFilmBasket
-                        isContain={props.isContain}
-                        film={props.film}
-                        methodAdd={props.methodAdd}
-                        methodRemove={props.methodRemove}
-                    />
+                    <AddRemoveFilmBasket film={props.film}/>
                 </Card.Body>
             </Card>
         </div>

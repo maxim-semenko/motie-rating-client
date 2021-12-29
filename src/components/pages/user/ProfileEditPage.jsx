@@ -5,19 +5,32 @@ import NavigationBar from "../common/NavigationBar";
 import Footer from "../../Footer";
 import UserService from "../../../service/UserService";
 import {Link} from "react-router-dom";
+import DeleteProfileDialog from "./DeleteProfileDialog";
 
-function ProfileEditPage(props) {
+function ProfileEditPage() {
 
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showError, setShowError] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
+    const [userId, setUserId] = useState(0)
+    const [firstname, setFirstname] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
+    const [oldPassword, setOldPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [showError, setShowError] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
+    const [showDeleteProfileDialog, setShowDeleteProfileDialog] = useState(false)
+
+    // Errors
+    const [firstnameError, setFirstnameError] = useState('')
+    const [lastnameError, setLastnameError] = useState('')
+    const [usernameError, setUsernameError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [oldPasswordError, setOldPasswordError] = useState('')
+    const [newPasswordError, setNewPasswordError] = useState('')
 
     useEffect(() => {
         let user = JSON.parse(localStorage.getItem("user"))
+        setUserId(user.id)
         setFirstname(user.firstname)
         setLastname(user.lastname)
         setUsername(user.username)
@@ -26,50 +39,178 @@ function ProfileEditPage(props) {
 
     const changeUsernameHandler = (event) => {
         setUsername(event.target.value)
+        setUsernameError("")
     }
 
-    const changePasswordHandler = (event) => {
-        setPassword(event.target.value)
+    const changeOldPasswordHandler = (event) => {
+        setOldPassword(event.target.value)
+        setOldPasswordError("")
+    }
+
+    const changeNewPasswordHandler = (event) => {
+        setNewPassword(event.target.value)
+        setNewPasswordError("")
     }
 
     const changeFirstnameHandler = (event) => {
         setFirstname(event.target.value)
+        setFirstnameError("")
     }
 
     const changeLastnameHandler = (event) => {
         setLastname(event.target.value)
+        setLastnameError("")
     }
 
     const changeEmailHandler = (event) => {
         setEmail(event.target.value)
+        setEmailError("")
     }
 
     const update = (event) => {
         event.preventDefault();
         setShowSuccess(false)
-        let request = {
-            id: JSON.parse(localStorage.getItem("user")).id,
-            firstname: firstname,
-            lastname: lastname,
-            email: email,
-            username: username,
+
+        if (!findFormErrorsForUpdate()) {
+            let request = {
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                username: username,
+            }
+
+            UserService.updateById(request, userId)
+                .then((response) => {
+                    console.log(response.data);
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                    setShowSuccess(true)
+                }).catch(function (error) {
+                    console.log(error.response);
+                    setShowError(error.response.data.message)
+                }
+            );
+        }
+    }
+
+    const findFormErrorsForUpdate = () => {
+        let isErrors = false
+
+        // firstname errors
+        if (!firstname || firstname === '') {
+            isErrors = true
+            setFirstnameError('firstname cannot be empty!')
+        } else if (firstname.length < 2) {
+            isErrors = true
+            setFirstnameError('firstname is too short!')
+        } else if (firstname.length > 25) {
+            isErrors = true
+            setFirstnameError('firstname is too long!')
         }
 
-        UserService.update(request)
-            .then((response) => {
-                console.log(response.data);
-                localStorage.setItem("user", JSON.stringify(response.data));
-                setShowSuccess(true)
-            }).catch(function (error) {
-                console.log(error.response);
-                setShowError(error.response.data.message)
+        // lastname errors
+        if (!lastname || lastname === '') {
+            isErrors = true
+            setLastnameError('lastname cannot be empty!')
+        } else if (lastname.length < 2) {
+            isErrors = true
+            setLastnameError('lastname is too short!')
+        } else if (lastname.length > 25) {
+            isErrors = true
+            setLastnameError('lastname is too long!')
+        }
+
+        // username errors
+        if (!username || username === '') {
+            isErrors = true
+            setUsernameError('username cannot be empty!')
+        } else if (username.length < 2) {
+            isErrors = true
+            setUsernameError('username is too short!')
+        } else if (username.length > 25) {
+            isErrors = true
+            setUsernameError('username is too long!')
+        }
+
+        // Email errors
+        if (!email || email === '') {
+            isErrors = true
+            setEmailError('email cannot be empty!')
+        } else if (email.length < 2) {
+            isErrors = true
+            setEmailError('email is too short!')
+        } else if (email.length > 30) {
+            isErrors = true
+            setEmailError('email is too long!')
+        }
+
+        return isErrors
+    }
+
+    const findFormErrorsForUpdatePassword = () => {
+        let isErrors = false
+
+        // oldPassword errors
+        if (!oldPassword || oldPassword === '') {
+            isErrors = true
+            setOldPasswordError('old password cannot be empty!')
+        } else if (oldPassword.length < 4) {
+            isErrors = true
+            setOldPasswordError('old password is too short!')
+        } else if (oldPassword.length > 255) {
+            isErrors = true
+            setOldPasswordError('old password is too long!')
+        }
+
+        // newPassword errors
+        if (!newPassword || newPassword === '') {
+            isErrors = true
+            setNewPasswordError('new password cannot be empty!')
+        } else if (newPassword.length < 4) {
+            isErrors = true
+            setNewPasswordError('new password is too short!')
+        } else if (newPassword.length > 255) {
+            isErrors = true
+            setNewPasswordError('new password is too long!')
+        }
+
+        return isErrors
+    }
+
+    const updatePassword = (event) => {
+        event.preventDefault();
+        setShowSuccess(false)
+        if (!findFormErrorsForUpdatePassword()) {
+            let request = {
+                oldPassword: oldPassword,
+                newPassword: newPassword
             }
-        );
+            UserService.updatePasswordById(request, userId)
+                .then((response) => {
+                    console.log(response.data);
+                    setShowSuccess(true)
+                }).catch(function (error) {
+                    console.log(error.response);
+                    setShowError(error.response.data.message)
+                }
+            );
+        }
+    }
+
+    const showDialog = () => {
+        if (showDeleteProfileDialog) {
+            return (
+                <DeleteProfileDialog
+                    show={showDeleteProfileDialog}
+                    onHide={() => setShowDeleteProfileDialog(false)}
+                />
+            )
+        }
     }
 
     return (
         <div>
             <NavigationBar/>
+            {showDialog()}
             <Container>
                 <Row>
                     <Col lg={12} style={{marginTop: "20px", textAlign: "left"}}>
@@ -82,7 +223,9 @@ function ProfileEditPage(props) {
                         <Jumbotron className="bg-dark text-white"
                                    style={{textAlign: "left", paddingTop: "20px", paddingBottom: "20px"}}>
                             <Form>
-                                <CSSTransition in={showError} classNames="my-node" timeout={500}
+                                <CSSTransition in={showError}
+                                               classNames="my-node"
+                                               timeout={500}
                                                unmountOnExit>
                                     <Alert variant="danger" onClose={() => setShowError(false)}
                                            dismissible>
@@ -90,9 +233,12 @@ function ProfileEditPage(props) {
                                         <p>{showError}! Try again.</p>
                                     </Alert>
                                 </CSSTransition>
-                                <CSSTransition in={showSuccess} classNames="my-node" timeout={500}
+                                <CSSTransition in={showSuccess}
+                                               classNames="my-node"
+                                               timeout={500}
                                                unmountOnExit>
-                                    <Alert variant="success" onClose={() => setShowSuccess(false)}
+                                    <Alert variant="success"
+                                           onClose={() => setShowSuccess(false)}
                                            dismissible>
                                         <Alert.Heading>It's OK!</Alert.Heading>
                                         <p>Your profile was edited successfully!</p>
@@ -102,41 +248,65 @@ function ProfileEditPage(props) {
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label><b>FIRSTNAME</b></Form.Label>
-                                            <Form.Control type="text" className="my-input"
+                                            <Form.Control type="text"
+                                                          className="my-input"
+                                                          autocomplete="off"
                                                           value={firstname}
                                                           onChange={changeFirstnameHandler}
-                                                          placeholder="Enter firstname"/>
+                                                          isInvalid={firstnameError}
+                                                          placeholder="Enter firstname"
+                                            />
+                                            <Form.Control.Feedback
+                                                type='invalid'>{firstnameError}</Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label><b>LASTNAME</b></Form.Label>
-                                            <Form.Control type="text" className="my-input"
+                                            <Form.Control type="text"
+                                                          className="my-input"
+                                                          autocomplete="off"
                                                           value={lastname}
                                                           onChange={changeLastnameHandler}
-                                                          placeholder="Enter lastname"/>
+                                                          isInvalid={lastnameError}
+                                                          placeholder="Enter lastname"
+                                            />
+                                            <Form.Control.Feedback
+                                                type='invalid'>{lastnameError}</Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
                                 </Row>
                                 <Form.Group as={Col} controlId="formGridEmail">
                                     <Form.Label><b>USERNAME</b></Form.Label>
-                                    <Form.Control type="text" className="my-input"
+                                    <Form.Control type="text"
+                                                  className="my-input"
+                                                  autocomplete="off"
                                                   value={username}
                                                   onChange={changeUsernameHandler}
-                                                  placeholder="Enter username"/>
+                                                  isInvalid={usernameError}
+                                                  placeholder="Enter username"
+                                    />
+                                    <Form.Control.Feedback type='invalid'>{usernameError}</Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formGridEmail">
                                     <Form.Label><b>EMAIL</b></Form.Label>
-                                    <Form.Control type="email" className="my-input"
+                                    <Form.Control type="email"
+                                                  className="my-input"
+                                                  autocomplete="off"
                                                   value={email}
                                                   onChange={changeEmailHandler}
-                                                  placeholder="Enter email"/>
+                                                  isInvalid={emailError}
+                                                  placeholder="Enter email"
+                                    />
+                                    <Form.Control.Feedback type='invalid'>{emailError}</Form.Control.Feedback>
                                 </Form.Group>
                                 <div style={{textAlign: "right", paddingRight: "1.5%"}}>
-                                    <Button variant="outline-danger">
-                                        <b>Delete profile</b>
+                                    <Button variant="outline-danger"
+                                            onClick={() => setShowDeleteProfileDialog(true)}>
+                                        <b>Delete account</b>
                                     </Button>{' '}
-                                    <Button variant="outline-success" onClick={update}>
+                                    <Button variant="outline-success"
+                                            onClick={update}>
                                         <b>Edit profile</b>
                                     </Button>
                                 </div>
@@ -147,20 +317,34 @@ function ProfileEditPage(props) {
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label><b>OLD PASSWORD</b></Form.Label>
-                                            <Form.Control type="text" className="my-input"
-                                                          placeholder="Enter old password"/>
+                                            <Form.Control type="text"
+                                                          className="my-input"
+                                                          isInvalid={oldPasswordError}
+                                                          autocomplete="off"
+                                                          onChange={changeOldPasswordHandler}
+                                                          placeholder="Enter old password"
+                                            />
+                                            <Form.Control.Feedback
+                                                type='invalid'>{oldPasswordError}</Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label><b>NEW PASSWORD</b></Form.Label>
-                                            <Form.Control type="email" className="my-input"
-                                                          placeholder="Enter new password"/>
+                                            <Form.Control type="text"
+                                                          className="my-input"
+                                                          isInvalid={newPasswordError}
+                                                          autocomplete="off"
+                                                          onChange={changeNewPasswordHandler}
+                                                          placeholder="Enter new password"
+                                            />
+                                            <Form.Control.Feedback
+                                                type='invalid'>{newPasswordError}</Form.Control.Feedback>
                                         </Form.Group>
                                     </Col>
                                 </Row>
                                 <div style={{textAlign: "right", paddingRight: "1.5%"}}>
-                                    <Button variant="outline-success" href="/profile/edit">
+                                    <Button variant="outline-success" onClick={updatePassword}>
                                         <b>Edit password</b>
                                     </Button>
                                 </div>

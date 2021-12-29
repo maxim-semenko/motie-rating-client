@@ -12,7 +12,7 @@ const initialState = {
     numberOfElements: 0,
 }
 
-const filmReducers = (state = initialState, action) => {
+const countryReducers = (state = initialState, action) => {
     switch (action.type) {
         case types.GET_COUNTRIES:
             return {
@@ -54,4 +54,4 @@ const filmReducers = (state = initialState, action) => {
     }
 }
 
-export default filmReducers;
+export default countryReducers;

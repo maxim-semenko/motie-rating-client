@@ -3,12 +3,14 @@ import {Button, Container, Form, FormControl, Jumbotron} from "react-bootstrap"
 import {useDispatch, useSelector} from "react-redux";
 import CSSTransition from "react-transition-group/CSSTransition"
 import NavigationBar from "./NavigationBar"
+import HomeFilmList from "./HomeFilmList";
 import Footer from "../../Footer"
-import {getFilms, getFilmsByName} from "../../../redux/film/FilmAction";
 import Pagination from "react-js-pagination";
+import {getBasketById} from "../../../redux/basket/BasketAction";
+import {getFilms, getFilmsByName} from "../../../redux/film/FilmAction";
 import Spinner from "react-bootstrap/Spinner";
 import '../../../styles/FormControl.css'
-import HomeFilmList from "./HomeFilmList";
+
 
 function HomePage() {
     const dispatch = useDispatch()
@@ -17,10 +19,15 @@ function HomePage() {
     const [currentPage, setCurrentPage] = useState(1)
     const [searchByName, setSearchByName] = useState(false)
     const [nameForSearch, setNameForSearch] = useState("")
+    const {basketFilmList} = useSelector(state => state.dataBaskets)
 
     useEffect(() => {
-            localStorage.getItem("user") !== null ? setIsLogin(true) : setIsLogin(false)
+            const isLogin = localStorage.getItem("user") !== null
+            setIsLogin(isLogin)
             dispatch(getFilms(currentPage, 9))
+            if (isLogin) {
+                dispatch(getBasketById(JSON.parse(localStorage.getItem("user")).id))
+            }
         }, [currentPage, dispatch, isLogin]
     )
 
@@ -42,7 +49,9 @@ function HomePage() {
     }
 
     const showContent = () => {
-        if (loading) {
+        console.log(basketFilmList)
+        if (loading || (films.length === 0 && !searchByName)
+            || (basketFilmList === null && isLogin)) {
             return (
                 <div>
                    <span style={{paddingTop: "2%"}}>
@@ -61,7 +70,7 @@ function HomePage() {
                             placeholder="Search film by name"
                             className="me-2"
                             aria-label="Search"
-                            onChange={(event) => setNameForSearch(event.target.value)}
+                            onChange={event => setNameForSearch(event.target.value.replace(/[^a-zA-Z\s0-9]/g, ""))}
                         />
                         <Button variant="outline-success"
                                 onClick={getAllFilmsByName}><b>Search</b></Button>
@@ -84,7 +93,7 @@ function HomePage() {
                                     <h2>The result is empty! Try again.</h2>
                                 </div>
                                 :
-                                <HomeFilmList films={films} isLogin={isLogin}/>
+                                <HomeFilmList/>
                         }
                     </CSSTransition>
                     <br/>
@@ -113,18 +122,9 @@ function HomePage() {
             <Container>
                 <Jumbotron className="bg-dark text-white" style={{marginTop: "20px", paddingTop: "20px"}}>
                     <h1 style={{textAlign: "center", marginLeft: "12px", marginBottom: "15px"}}>
-
-                        {
-                            !searchByName ?
-                                <div>
-                                    LAST ADDED FILMS
-                                </div>
-                                :
-                                <div>
-                                    THE RESULT BY SEARCH
-                                </div>
-
-                        }
+                        <div>
+                            {!searchByName ? <b>LAST ADDED FILMS</b> : <b>THE RESULT BY SEARCH</b>}
+                        </div>
                     </h1>
                     <Container>
                         <div>

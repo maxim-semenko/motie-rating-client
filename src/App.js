@@ -9,7 +9,7 @@ import ClassCabinetPage from "./components/pages/user/CabinetPage";
 import ProtectRoute from "./components/ProtectRoute";
 import BasketPage from "./components/pages/user/BasketPage";
 import PurchasesPage from "./components/pages/user/PurchasesPage";
-import BalancePage from "./components/pages/user/BalancePage";
+import PurchasesHistoryPage from "./components/pages/user/PurchasesHistoryPage";
 import ClassProfileEditPage from "./components/pages/user/ProfileEditPage";
 import ClassAboutFilmPage from "./components/pages/common/AboutFilmPage";
 import AdminPage from "./components/pages/admin/AdminPage";
@@ -32,7 +32,7 @@ function App() {
             <ProtectRoute path="/profile/cabinet" component={ClassCabinetPage}/>
             <ProtectRoute path="/profile/basket" component={BasketPage}/>
             <ProtectRoute path="/profile/purchases" component={PurchasesPage}/>
-            <ProtectRoute path="/profile/balance" component={BalancePage}/>
+            <ProtectRoute path="/profile/balance" component={PurchasesHistoryPage}/>
             <ProtectRoute path="/profile/edit" component={ClassProfileEditPage}/>
             <ProtectRoute path="/profile/admin/controllers" component={AdminPage}/>
             <ProtectRoute path="/profile/admin/all-users" component={AllUsersPage}/>

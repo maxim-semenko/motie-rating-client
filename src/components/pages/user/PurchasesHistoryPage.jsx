@@ -4,7 +4,7 @@ import NavigationBar from "../common/NavigationBar"
 import ProfileMenu from "./ProfileMenu"
 import Footer from "../../Footer"
 
-function BalancePage() {
+function PurchasesHistoryPage() {
     return (
         <div>
             <NavigationBar/>
@@ -15,7 +15,7 @@ function BalancePage() {
                     </Col>
                     <Col lg={9} style={{marginTop: "20px"}}>
                         <Jumbotron className="bg-dark text-white">
-                            Your balance
+                            Your history
                         </Jumbotron>
                     </Col>
                 </Row>
@@ -26,4 +26,4 @@ function BalancePage() {
     );
 }
 
-export default BalancePage
+export default PurchasesHistoryPage

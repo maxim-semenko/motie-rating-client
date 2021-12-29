@@ -9,8 +9,7 @@ import AuthService from "../../../service/AuthService";
 function ProfileMenu() {
     return (
         <div>
-            <Jumbotron className="bg-dark text-white"
-                       style={{padding: "20px 20px 20px 20px", textAlign: "left"}}>
+            <Jumbotron className="bg-dark text-white" style={{padding: "20px 20px 20px 20px", textAlign: "left"}}>
                 <h1 className="text-center">MENU</h1>
                 <hr/>
                 <Link to="/profile/cabinet" className="my-link">
@@ -30,7 +29,9 @@ function ProfileMenu() {
                 </Link>
                 <hr/>
                 <Link to="/" className="my-link" onClick={() => AuthService.logout(new Cookies())}>
-                    <h5><span className="menu-icon"><ImExit size={24}/></span>LOGOUT</h5>
+                    <h5>
+                        <span className="menu-icon"><ImExit size={24}/></span>LOGOUT
+                    </h5>
                 </Link>
             </Jumbotron>
         </div>
