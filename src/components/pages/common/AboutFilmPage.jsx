@@ -26,14 +26,22 @@ function AboutFilmPage(props) {
                     console.log(error)
                 }
             )
-            if (basketFilmList === null) {
+            if (JSON.parse(localStorage.getItem("user")) != null && basketFilmList === null) {
                 dispatch(getBasketById(JSON.parse(localStorage.getItem("user")).id))
             }
-        }, [props.match.params.id]
+        }, [basketFilmList, dispatch, props.match.params.id]
     )
 
     const ratingChanged = (newRating) => {
         setRating(newRating)
+    }
+
+    const getRating = () => {
+        if (rating === 0) {
+            return ('You dont rate this film')
+        } else {
+            return ({rating})
+        }
     }
 
     return (
@@ -42,7 +50,7 @@ function AboutFilmPage(props) {
             <Container>
                 <Jumbotron className="bg-dark text-white" style={{marginTop: "20px", padding: "20px 20px 40px 0px"}}>
                     <Container>
-                        {loading || basketFilmList === null ?
+                        {loading || (basketFilmList === null && JSON.parse(localStorage.getItem("user")) != null) ?
                             <div>
                                 <img alt="" src={spinner} style={{resize: "both", width: "100%", height: "256px"}}/>
                             </div>
@@ -63,7 +71,7 @@ function AboutFilmPage(props) {
                                     <hr/>
                                     <h4>
                                         <b style={{marginRight: "10px"}}>Your mark:</b>
-                                        {rating === 0 ? 'You dont rate this film' : rating}
+                                        {getRating()}
                                     </h4>
                                     <div style={{marginTop: "-20px"}}>
                                         <ReactStars count={10} size={40}

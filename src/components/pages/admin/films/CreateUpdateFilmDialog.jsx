@@ -11,7 +11,7 @@ import '../../../../styles/FormControl.css'
 
 function CreateUpdateFilmDialog(props) {
     const dispatch = useDispatch()
-    const {film, loading, currentPage, sizePage} = useSelector(state => state.dataFilms)
+    const {film, currentPage, sizePage} = useSelector(state => state.dataFilms)
     const [loadingAll, setLoadingAll] = useState(true)
 
     const [genreList, setGenreList] = useState([])

@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Alert, Button, Form, Modal} from "react-bootstrap"
 import AuthService from "../../../service/AuthService"
 import CSSTransition from "react-transition-group/CSSTransition";
-import Validator from "../../../validation/UserValidator";
+import UserValidator from "../../../validation/UserValidator";
 
 function SignUpDialog(props) {
     const [username, setUsername] = useState('')
@@ -79,41 +79,18 @@ function SignUpDialog(props) {
 
     const findFormErrorsForRegister = () => {
         let isErrors = false
-        let error
 
-        // firstname errors
-        error = Validator.validateFirstname(firstname)
-        if (error !== "") {
-            setFirstnameError(error);
-            isErrors = true
-        }
+        let errors = UserValidator.validateAllForSignUp(firstname, lastname, username, email, password)
+        setFirstnameError(errors.firstnameError)
+        setLastnameError(errors.lastnameError)
+        setUsernameError(errors.usernameError)
+        setEmailError(errors.emailError)
+        setPasswordError(errors.passwordError)
 
-        // lastname errors
-        error = Validator.validateLastname(lastname)
-        if (error !== "") {
-            setFirstnameError(error);
-            isErrors = true
-        }
-
-        // username errors
-        error = Validator.validateUsername(username)
-        if (error !== "") {
-            setUsernameError(error);
-            isErrors = true
-        }
-
-        // Email errors
-        error = Validator.validateEmail(email)
-        if (error !== "") {
-            setEmailError(error);
-            isErrors = true
-        }
-
-        // password errors
-        error = Validator.validatePassword(password)
-        if (error !== "") {
-            setPasswordError(error);
-            isErrors = true
+        for (let key in errors) {
+            if (errors[key] !== '') {
+                isErrors = true
+            }
         }
 
         return isErrors

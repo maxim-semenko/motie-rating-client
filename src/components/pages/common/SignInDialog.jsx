@@ -6,7 +6,7 @@ import AuthService from "../../../service/AuthService"
 import '../../../styles/Animation.css'
 import '../../../styles/FormControl.css'
 import {Link} from "react-router-dom";
-import Validator from "../../../validation/UserValidator";
+import UserValidator from "../../../validation/UserValidator";
 
 function SignInDialog(props) {
     const cookies = new Cookies()
@@ -50,14 +50,14 @@ function SignInDialog(props) {
         let error
 
         // username errors
-        error = Validator.validateUsername(username)
+        error = UserValidator.validateUsername(username)
         if (error !== "") {
             setUsernameError(error);
             isErrors = true
         }
 
         // password errors
-        error = Validator.validatePassword(password)
+        error = UserValidator.validatePassword(password)
         if (error !== "") {
             setPasswordError(error);
             isErrors = true

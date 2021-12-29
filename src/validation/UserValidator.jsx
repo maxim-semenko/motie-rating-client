@@ -65,6 +65,37 @@ class UserValidator {
         }
         return error
     }
+
+    validateAllWithoutPassword(firstname, lastname, username, email) {
+        let firstnameError = this.validateFirstname(firstname)
+        let lastnameError = this.validateLastname(lastname)
+        let usernameError = this.validateUsername(username)
+        let emailError = this.validateEmail(email)
+
+        return {
+            firstnameError,
+            lastnameError,
+            usernameError,
+            emailError
+        }
+    }
+
+    validateAllForSignUp(firstname, lastname, username, email, password) {
+        let firstnameError = this.validateFirstname(firstname)
+        let lastnameError = this.validateLastname(lastname)
+        let usernameError = this.validateUsername(username)
+        let emailError = this.validateEmail(email)
+        let passwordError = this.validatePassword(password)
+
+        return {
+            firstnameError,
+            lastnameError,
+            usernameError,
+            emailError,
+            passwordError
+        }
+    }
+
 }
 
 export default new UserValidator()

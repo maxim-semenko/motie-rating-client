@@ -6,7 +6,7 @@ import Footer from "../../Footer";
 import UserService from "../../../service/UserService";
 import {Link} from "react-router-dom";
 import DeleteProfileDialog from "./DeleteProfileDialog";
-import Validator from "../../../validation/UserValidator";
+import UserValidator from "../../../validation/UserValidator";
 
 function ProfileEditPage() {
 
@@ -95,34 +95,17 @@ function ProfileEditPage() {
 
     const findFormErrorsForUpdate = () => {
         let isErrors = false
-        let error
 
-        // firstname errors
-        error = Validator.validateFirstname(firstname)
-        if (error !== "") {
-            setFirstnameError(error);
-            isErrors = true
-        }
+        let errors = UserValidator.validateAllWithoutPassword(firstname, lastname, username, email)
+        setFirstnameError(errors.firstnameError)
+        setLastnameError(errors.lastnameError)
+        setUsernameError(errors.usernameError)
+        setEmailError(errors.emailError)
 
-        // lastname errors
-        error = Validator.validateLastname(lastname)
-        if (error !== "") {
-            setFirstnameError(error);
-            isErrors = true
-        }
-
-        // username errors
-        error = Validator.validateUsername(username)
-        if (error !== "") {
-            setUsernameError(error);
-            isErrors = true
-        }
-
-        // Email errors
-        error = Validator.validateEmail(email)
-        if (error !== "") {
-            setEmailError(error);
-            isErrors = true
+        for (let key in errors) {
+            if (errors[key] !== '') {
+                isErrors = true
+            }
         }
 
         return isErrors
@@ -132,14 +115,14 @@ function ProfileEditPage() {
         let isErrors = false
 
         // oldPassword errors
-        let error = Validator.validatePassword(oldPassword)
+        let error = UserValidator.validatePassword(oldPassword)
         if (error !== "") {
             setOldPasswordError(error);
             isErrors = true
         }
 
         // newPassword errors
-        error = Validator.validatePassword(newPassword)
+        error = UserValidator.validatePassword(newPassword)
         if (error !== "") {
             setNewPasswordError(error);
             isErrors = true

@@ -33,11 +33,6 @@ function AllUsersPage() {
         })
     }
 
-    const updateUserRoles = (id) => {
-
-    }
-
-
     const showContent = () => {
         return (
             <Table striped bordered hover variant="dark">
