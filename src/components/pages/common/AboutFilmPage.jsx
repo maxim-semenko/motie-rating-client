@@ -42,7 +42,7 @@ function AboutFilmPage(props) {
             <Container>
                 <Jumbotron className="bg-dark text-white" style={{marginTop: "20px", padding: "20px 20px 40px 0px"}}>
                     <Container>
-                        {loading || basketFilmList === null?
+                        {loading || basketFilmList === null ?
                             <div>
                                 <img alt="" src={spinner} style={{resize: "both", width: "100%", height: "256px"}}/>
                             </div>

@@ -1,5 +1,4 @@
 import * as types from "./CountryActionType"
-import {SET_SIZE_PAGE_COUNTRY} from "./CountryActionType";
 
 const initialState = {
     countries: [],

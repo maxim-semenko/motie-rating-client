@@ -3,14 +3,10 @@ import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
 import CSSTransition from "react-transition-group/CSSTransition"
 import NavigationBar from "../../common/NavigationBar"
 import Footer from "../../../Footer"
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import GenreService from "../../../../service/GenreService";
 
 function AllGenresPage() {
-    const history = useHistory('');
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-
     const [loading, setLoading] = useState(false)
     const [genreList, setGenreList] = useState([])
 

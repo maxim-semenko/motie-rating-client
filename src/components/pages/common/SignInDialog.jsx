@@ -6,6 +6,7 @@ import AuthService from "../../../service/AuthService"
 import '../../../styles/Animation.css'
 import '../../../styles/FormControl.css'
 import {Link} from "react-router-dom";
+import Validator from "../../../validation/UserValidator";
 
 function SignInDialog(props) {
     const cookies = new Cookies()
@@ -46,15 +47,20 @@ function SignInDialog(props) {
      */
     const findFormErrors = () => {
         let isErrors = false
-        // name errors
-        if (username.length < 3) {
+        let error
+
+        // username errors
+        error = Validator.validateUsername(username)
+        if (error !== "") {
+            setUsernameError(error);
             isErrors = true
-            setUsernameError('username is short (min: 3)')
         }
+
         // password errors
-        if (password.length < 4) {
+        error = Validator.validatePassword(password)
+        if (error !== "") {
+            setPasswordError(error);
             isErrors = true
-            setPasswordError('password is short (min: 4)')
         }
         return isErrors
     }

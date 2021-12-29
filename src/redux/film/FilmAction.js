@@ -72,19 +72,18 @@ export const getFilmById = (id) => {
 }
 
 
-
 export function createFilm(film) {
     return () => {
         return new Promise((resolve, reject) => {
             FilmService.create(film)
-            .then((response) => {
-                console.log(response)
-                return resolve(response);
-            })
-            .catch(error => {
-                console.log(error)
-                return reject(error);
-            })
+                .then((response) => {
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
         })
     };
 }

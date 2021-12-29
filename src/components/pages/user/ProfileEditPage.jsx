@@ -6,6 +6,7 @@ import Footer from "../../Footer";
 import UserService from "../../../service/UserService";
 import {Link} from "react-router-dom";
 import DeleteProfileDialog from "./DeleteProfileDialog";
+import Validator from "../../../validation/UserValidator";
 
 function ProfileEditPage() {
 
@@ -94,53 +95,34 @@ function ProfileEditPage() {
 
     const findFormErrorsForUpdate = () => {
         let isErrors = false
+        let error
 
         // firstname errors
-        if (!firstname || firstname === '') {
+        error = Validator.validateFirstname(firstname)
+        if (error !== "") {
+            setFirstnameError(error);
             isErrors = true
-            setFirstnameError('firstname cannot be empty!')
-        } else if (firstname.length < 2) {
-            isErrors = true
-            setFirstnameError('firstname is too short!')
-        } else if (firstname.length > 25) {
-            isErrors = true
-            setFirstnameError('firstname is too long!')
         }
 
         // lastname errors
-        if (!lastname || lastname === '') {
+        error = Validator.validateLastname(lastname)
+        if (error !== "") {
+            setFirstnameError(error);
             isErrors = true
-            setLastnameError('lastname cannot be empty!')
-        } else if (lastname.length < 2) {
-            isErrors = true
-            setLastnameError('lastname is too short!')
-        } else if (lastname.length > 25) {
-            isErrors = true
-            setLastnameError('lastname is too long!')
         }
 
         // username errors
-        if (!username || username === '') {
+        error = Validator.validateUsername(username)
+        if (error !== "") {
+            setUsernameError(error);
             isErrors = true
-            setUsernameError('username cannot be empty!')
-        } else if (username.length < 2) {
-            isErrors = true
-            setUsernameError('username is too short!')
-        } else if (username.length > 25) {
-            isErrors = true
-            setUsernameError('username is too long!')
         }
 
         // Email errors
-        if (!email || email === '') {
+        error = Validator.validateEmail(email)
+        if (error !== "") {
+            setEmailError(error);
             isErrors = true
-            setEmailError('email cannot be empty!')
-        } else if (email.length < 2) {
-            isErrors = true
-            setEmailError('email is too short!')
-        } else if (email.length > 30) {
-            isErrors = true
-            setEmailError('email is too long!')
         }
 
         return isErrors
@@ -150,27 +132,17 @@ function ProfileEditPage() {
         let isErrors = false
 
         // oldPassword errors
-        if (!oldPassword || oldPassword === '') {
+        let error = Validator.validatePassword(oldPassword)
+        if (error !== "") {
+            setOldPasswordError(error);
             isErrors = true
-            setOldPasswordError('old password cannot be empty!')
-        } else if (oldPassword.length < 4) {
-            isErrors = true
-            setOldPasswordError('old password is too short!')
-        } else if (oldPassword.length > 255) {
-            isErrors = true
-            setOldPasswordError('old password is too long!')
         }
 
         // newPassword errors
-        if (!newPassword || newPassword === '') {
+        error = Validator.validatePassword(newPassword)
+        if (error !== "") {
+            setNewPasswordError(error);
             isErrors = true
-            setNewPasswordError('new password cannot be empty!')
-        } else if (newPassword.length < 4) {
-            isErrors = true
-            setNewPasswordError('new password is too short!')
-        } else if (newPassword.length > 255) {
-            isErrors = true
-            setNewPasswordError('new password is too long!')
         }
 
         return isErrors

@@ -66,7 +66,7 @@ function AllFilmsPage() {
                 </tr>
                 </thead>
                 {
-                    loading && films.length === 0 ?
+                    loading || films.length === 0 ?
                         <div>
                             <span style={{paddingTop: "2%", paddingLeft: "30%", position: "absolute"}}>
                                 <Spinner animation="border"/>

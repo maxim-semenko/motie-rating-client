@@ -1,5 +1,4 @@
 import * as types from "./FilmActionType"
-import {SET_SIZE_PAGE_FILM} from "./FilmActionType";
 
 const initialState = {
     films: [],

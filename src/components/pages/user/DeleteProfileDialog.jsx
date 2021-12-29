@@ -5,6 +5,7 @@ import AuthService from "../../../service/AuthService";
 import {Cookies} from "react-cookie"
 import {useHistory} from "react-router-dom";
 import CSSTransition from "react-transition-group/CSSTransition";
+import Validator from "../../../validation/UserValidator";
 
 function DeleteProfileDialog(props) {
     const history = useHistory('');
@@ -49,16 +50,10 @@ function DeleteProfileDialog(props) {
     const findErrors = () => {
         let isErrors = false
 
-        // Password errors
-        if (!password || password === '') {
+        let error = Validator.validatePassword(password)
+        if (error !== "") {
+            setPasswordError(error);
             isErrors = true
-            setPasswordError('password cannot be empty!')
-        } else if (password.length < 4) {
-            isErrors = true
-            setPasswordError('password is too short!')
-        } else if (password.length > 255) {
-            isErrors = true
-            setPasswordError('password is too long!')
         }
 
         return isErrors;

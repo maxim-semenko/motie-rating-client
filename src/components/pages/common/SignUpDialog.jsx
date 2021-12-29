@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Alert, Button, Form, Modal} from "react-bootstrap"
 import AuthService from "../../../service/AuthService"
 import CSSTransition from "react-transition-group/CSSTransition";
+import Validator from "../../../validation/UserValidator";
 
 function SignUpDialog(props) {
     const [username, setUsername] = useState('')
@@ -78,65 +79,41 @@ function SignUpDialog(props) {
 
     const findFormErrorsForRegister = () => {
         let isErrors = false
+        let error
 
         // firstname errors
-        if (!firstname || firstname === '') {
+        error = Validator.validateFirstname(firstname)
+        if (error !== "") {
+            setFirstnameError(error);
             isErrors = true
-            setFirstnameError('firstname cannot be empty!')
-        } else if (firstname.length < 2) {
-            isErrors = true
-            setFirstnameError('firstname is too short!')
-        } else if (firstname.length > 25) {
-            isErrors = true
-            setFirstnameError('firstname is too long!')
         }
 
         // lastname errors
-        if (!lastname || lastname === '') {
+        error = Validator.validateLastname(lastname)
+        if (error !== "") {
+            setFirstnameError(error);
             isErrors = true
-            setLastnameError('lastname cannot be empty!')
-        } else if (lastname.length < 2) {
-            isErrors = true
-            setLastnameError('lastname is too short!')
-        } else if (lastname.length > 25) {
-            isErrors = true
-            setLastnameError('lastname is too long!')
         }
 
         // username errors
-        if (!username || username === '') {
+        error = Validator.validateUsername(username)
+        if (error !== "") {
+            setUsernameError(error);
             isErrors = true
-            setUsernameError('username cannot be empty!')
-        } else if (username.length < 2) {
-            isErrors = true
-            setUsernameError('username is too short!')
-        } else if (username.length > 25) {
-            isErrors = true
-            setUsernameError('username is too long!')
         }
 
         // Email errors
-        if (!email || email === '') {
+        error = Validator.validateEmail(email)
+        if (error !== "") {
+            setEmailError(error);
             isErrors = true
-            setEmailError('email cannot be empty!')
-        } else if (email.length < 2) {
-            isErrors = true
-            setEmailError('email is too short!')
-        } else if (email.length > 30) {
-            isErrors = true
-            setEmailError('email is too long!')
         }
 
-        // Password errors
-        if (!password || password === '') {
+        // password errors
+        error = Validator.validatePassword(password)
+        if (error !== "") {
+            setPasswordError(error);
             isErrors = true
-            setPasswordError('password cannot be empty!')
-        } else if (password.length < 4) {
-            isErrors = true
-            setPasswordError('password is too short!')
-        } else if (password.length > 255) {
-            isErrors = true
-            setPasswordError('password is too long!')
         }
 
         return isErrors

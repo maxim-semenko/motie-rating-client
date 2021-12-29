@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Container, Form, FormControl, Jumbotron} from "react-bootstrap"
 import {useDispatch, useSelector} from "react-redux";
-import CSSTransition from "react-transition-group/CSSTransition"
 import NavigationBar from "./NavigationBar"
 import HomeFilmList from "./HomeFilmList";
 import Footer from "../../Footer"
@@ -10,7 +9,6 @@ import {getBasketById} from "../../../redux/basket/BasketAction";
 import {getFilms, getFilmsByName} from "../../../redux/film/FilmAction";
 import Spinner from "react-bootstrap/Spinner";
 import '../../../styles/FormControl.css'
-
 
 function HomePage() {
     const dispatch = useDispatch()
@@ -24,11 +22,13 @@ function HomePage() {
     useEffect(() => {
             const isLogin = localStorage.getItem("user") !== null
             setIsLogin(isLogin)
-            dispatch(getFilms(currentPage, 9))
-            if (isLogin) {
+            if (films.length === 0) {
+                dispatch(getFilms(currentPage, 9))
+            }
+            if (isLogin && basketFilmList === null) {
                 dispatch(getBasketById(JSON.parse(localStorage.getItem("user")).id))
             }
-        }, [currentPage, dispatch, isLogin]
+        }, [basketFilmList, currentPage, dispatch, films.length, isLogin]
     )
 
     const getAllFilmsByName = () => {
@@ -86,16 +86,14 @@ function HomePage() {
                     </Form>
                     <br/>
                     {displayPagination()}
-                    <CSSTransition in={!loading} classNames="my-node" timeout={1000} unmountOnExit>
-                        {
-                            films.length === 0 ?
-                                <div>
-                                    <h2>The result is empty! Try again.</h2>
-                                </div>
-                                :
-                                <HomeFilmList/>
-                        }
-                    </CSSTransition>
+                    {
+                        films.length === 0 ?
+                            <div>
+                                <h2>The result is empty! Try again.</h2>
+                            </div>
+                            :
+                            <HomeFilmList/>
+                    }
                     <br/>
                     {displayPagination()}
                 </div>
