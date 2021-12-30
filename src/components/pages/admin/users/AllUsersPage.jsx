@@ -96,6 +96,10 @@ function AllUsersPage() {
         )
     }
 
+    /**
+     *
+     * @param event
+     */
     const changeSizePage = (event) => {
         dispatch(setSizePage(event.target.value));
         dispatch(setCurrentPage(1))
