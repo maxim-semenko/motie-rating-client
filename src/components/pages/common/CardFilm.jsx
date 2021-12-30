@@ -7,11 +7,11 @@ function CardFilm(props) {
     return (
         <div>
             <Card className="customCard">
-                <Link to={{pathname: `film/${props.film.id}`}}>
+                <Link to={{pathname: `/film/${props.film.id}`}}>
                     <Card.Img variant="top" height="450rem" src={props.film.imageURL}/>
                 </Link>
                 <Card.Title style={{paddingTop: "5px"}}>
-                    <Link to={{pathname: `film/${props.film.id}`}} className="my-link">
+                    <Link to={{pathname: `/film/${props.film.id}`}} className="my-link">
                         <h5 style={{textTransform: "uppercase"}}><b>{props.film.name}</b></h5>
                     </Link>
                 </Card.Title>

@@ -18,7 +18,7 @@ function AboutFilmDialog(props) {
                     <Container>
                         <Row>
                             <Col lg={5} style={{marginTop: "20px"}}>
-                                <img src={film.imageURL} alt={film.imageURL} width="300rem"
+                                <img src={film.imageURL} alt={film.imageURL} height="450rem" width="300rem"
                                      style={{border: "2px solid black"}}/>
                             </Col>
                             <Col lg={7} style={{marginTop: "20px", textAlign: "left"}}>

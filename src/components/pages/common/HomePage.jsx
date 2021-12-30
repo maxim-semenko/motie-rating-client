@@ -20,15 +20,15 @@ function HomePage() {
     const {basketFilmList} = useSelector(state => state.dataBaskets)
 
     useEffect(() => {
-            const isLogin = localStorage.getItem("user") !== null
-            setIsLogin(isLogin)
-            if (films.length === 0) {
+            const isContainUser = localStorage.getItem("user") !== null
+            setIsLogin(isContainUser)
+            if (films.length === 0 && !searchByName) {
                 dispatch(getFilms(currentPage, 9))
             }
-            if (isLogin && basketFilmList === null) {
+            if (isContainUser && basketFilmList === null) {
                 dispatch(getBasketById(JSON.parse(localStorage.getItem("user")).id))
             }
-        }, [basketFilmList, currentPage, dispatch, films.length, isLogin]
+        }, [basketFilmList, currentPage, dispatch, films.length, searchByName]
     )
 
     const getAllFilmsByName = () => {
@@ -50,8 +50,7 @@ function HomePage() {
 
     const showContent = () => {
         console.log(basketFilmList)
-        if (loading || (films.length === 0 && !searchByName)
-            || (basketFilmList === null && isLogin)) {
+        if (loading || (films.length === 0 && !searchByName) || (basketFilmList === null && isLogin)) {
             return (
                 <div>
                    <span style={{paddingTop: "2%"}}>

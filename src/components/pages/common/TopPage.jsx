@@ -9,21 +9,6 @@ import "react-multi-carousel/lib/styles.css";
 
 function TopPage() {
 
-    const slideImages = [
-        {
-            url: 'https://kinodrive.cc/uploads/posts/2015-12/1451013412_1.jpg',
-            caption: 'Slide 1'
-        },
-        {
-            url: 'https://i.pinimg.com/originals/e2/f2/5a/e2f25a10830bc3880a313f376399a8f0.jpg',
-            caption: 'Slide 2'
-        },
-        {
-            url: 'https://upload.wikimedia.org/wikipedia/ru/f/fc/Thor_poster.jpg',
-            caption: 'Slide 3'
-        },
-    ];
-
     const responsive = {
         desktop: {
             breakpoint: {max: 3000, min: 1024},

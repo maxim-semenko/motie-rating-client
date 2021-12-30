@@ -16,7 +16,6 @@ function AboutFilmPage(props) {
     const [rating, setRating] = useState(0)
     const {basketFilmList} = useSelector(state => state.dataBaskets)
 
-
     useEffect(() => {
             FilmService.getById(props.match.params.id)
                 .then(response => {
@@ -38,9 +37,13 @@ function AboutFilmPage(props) {
 
     const getRating = () => {
         if (rating === 0) {
-            return ('You dont rate this film')
+            return (
+                <span>You dont rate this film</span>
+            )
         } else {
-            return ({rating})
+            return (
+                <span>{rating}</span>
+            )
         }
     }
 
@@ -78,8 +81,6 @@ function AboutFilmPage(props) {
                                                     onChange={ratingChanged}
                                                     activeColor="#ffd700"/>
                                     </div>
-
-
                                 </Col>
                             </Row>
                         }

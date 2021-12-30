@@ -8,6 +8,7 @@ import CountryService from "../../../../service/CountryService"
 import 'react-toastify/dist/ReactToastify.css'
 import '../../../../styles/Animation.css'
 import '../../../../styles/FormControl.css'
+import FilmValidator from "../../../../validation/FilmValidator";
 
 function CreateUpdateFilmDialog(props) {
     const dispatch = useDispatch()
@@ -181,61 +182,26 @@ function CreateUpdateFilmDialog(props) {
 
     const findFormErrors = () => {
         let isErrors = false
-        // name errors
-        if (!name || name === '') {
-            isErrors = true
-            setNameError('name cannot be empty!')
-        } else if (name.length < 1) {
-            isErrors = true
-            setNameError('name is too short!')
-        } else if (name.length > 50) {
-            isErrors = true
-            setNameError('name is too long!')
-        }
-        // year errors
-        if (!year || year === '') {
-            isErrors = true
-            setYearError('year cannot be empty!')
-        }
-        // time errors
-        if (!time || time === '') {
-            isErrors = true
-            setTimeError('time cannot be empty!')
-        }
-        // price errors
-        if (!price || price === '') {
-            isErrors = true
-            setPriceError('price cannot be empty!')
-        } else if (price <= 0) {
-            isErrors = true
-            setPriceError('price cannot be <= 0!')
-        }
-        // description errors
-        if (!description || description === '') {
-            isErrors = true
-            setDescriptionError('description cannot be empty!')
-        } else if (description.length < 20) {
-            isErrors = true
-            setDescriptionError('description is too short!')
-        }
-        // imageURL errors
-        if (!imageURL || imageURL === '') {
-            isErrors = true
-            setImageURLError('image-URL cannot be empty!')
+
+        let errors = FilmValidator.validateAllForCreateUpdate(name, year, time, price, description, imageURL, country, genre)
+        setNameError(errors.nameError)
+        setYearError(errors.yearError)
+        setTimeError(errors.timeError)
+        setPriceError(errors.priceError)
+        setDescriptionError(errors.descriptionError)
+        setImageURLError(errors.imageURLError)
+        setCountryError(errors.countryError)
+        setGenreError(errors.genreError)
+
+        for (let key in errors) {
+            if (errors[key] !== '') {
+                isErrors = true
+            }
         }
 
-        if (country === null || country === undefined) {
-            isErrors = true
-            setCountryError("select country!")
-        }
-
-        if (genre === null || genre === undefined) {
-            isErrors = true
-            setGenreError("select genre!")
-        }
         return isErrors
-    }
 
+    }
 
     const notifyError = () => toast.error('Error to create a new film, please check your input data!', {
         position: "top-right",

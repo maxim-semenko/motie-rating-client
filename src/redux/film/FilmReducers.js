@@ -11,7 +11,7 @@ const initialState = {
     numberOfElements: 0,
 }
 
-const filmReducers = (state = initialState, action) => {
+const filmReducers = (state = initialState, action = {}) => {
     switch (action.type) {
         case types.GET_FILMS:
             return {

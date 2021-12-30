@@ -1,6 +1,5 @@
 class UserValidator {
 
-
     // Firstname errors
     validateFirstname(firstname) {
         let error = "";
