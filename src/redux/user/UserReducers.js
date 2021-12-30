@@ -11,7 +11,7 @@ const initialState = {
     numberOfElements: 0,
 }
 
-const userReducers = (state = initialState, action) => {
+const userReducers = (state = initialState, action = {}) => {
     switch (action.type) {
         case types.GET_USERS:
             return {

@@ -35,9 +35,9 @@ function HomePage() {
         if (!searchByName) {
             setSearchByName(true)
             setCurrentPage(1)
-            dispatch(getFilmsByName(1, 9, nameForSearch))
+            dispatch(getFilmsByName(nameForSearch))
         } else {
-            dispatch(getFilmsByName(currentPage, 9, nameForSearch))
+            dispatch(getFilmsByName(nameForSearch, currentPage, 9))
         }
     }
 

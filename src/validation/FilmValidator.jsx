@@ -79,15 +79,15 @@ class FilmValidator {
 
     }
 
-    validateAllForCreateUpdate(name, year, time, price, description, imageURL, country, genre) {
-        let nameError = this.validateName(name)
-        let yearError = this.validateYear(year)
-        let timeError = this.validateTime(time)
-        let priceError = this.validatePrice(price)
-        let descriptionError = this.validateDescription(description)
-        let imageURLError = this.validateImageURL(imageURL)
-        let countryError = this.validateCountry(country)
-        let genreError = this.validateGenre(genre)
+    validateAllForCreateUpdate(film) {
+        let nameError = this.validateName(film.name)
+        let yearError = this.validateYear(film.year)
+        let timeError = this.validateTime(film.time)
+        let priceError = this.validatePrice(film.price)
+        let descriptionError = this.validateDescription(film.description)
+        let imageURLError = this.validateImageURL(film.imageURL)
+        let countryError = this.validateCountry(film.country)
+        let genreError = this.validateGenre(film.genre)
 
         return {
             nameError,

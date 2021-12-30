@@ -6,7 +6,7 @@ const initialState = {
     loadingBasket: true,
 }
 
-const basketReducers = (state = initialState, action) => {
+const basketReducers = (state = initialState, action = {}) => {
     switch (action.type) {
         case types.GET_BASKET:
             return {

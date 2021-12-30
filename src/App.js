@@ -10,7 +10,7 @@ import ProtectRoute from "./components/ProtectRoute";
 import BasketPage from "./components/pages/user/BasketPage";
 import PurchasesPage from "./components/pages/user/PurchasesPage";
 import PurchasesHistoryPage from "./components/pages/user/PurchasesHistoryPage";
-import ClassProfileEditPage from "./components/pages/user/ProfileEditPage";
+import ClassProfileEditPage from "./components/pages/user/EditProfilePage";
 import ClassAboutFilmPage from "./components/pages/common/AboutFilmPage";
 import AdminPage from "./components/pages/admin/AdminPage";
 import AllUsersPage from "./components/pages/admin/users/AllUsersPage";

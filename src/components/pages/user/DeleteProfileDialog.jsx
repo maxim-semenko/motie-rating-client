@@ -4,8 +4,8 @@ import UserService from "../../../service/UserService";
 import AuthService from "../../../service/AuthService";
 import {Cookies} from "react-cookie"
 import {useHistory} from "react-router-dom";
-import CSSTransition from "react-transition-group/CSSTransition";
 import Validator from "../../../validation/UserValidator";
+import AlertCSSTransition from "../common/AlertCSSTransition";
 
 function DeleteProfileDialog(props) {
     const history = useHistory('');
@@ -34,9 +34,9 @@ function DeleteProfileDialog(props) {
                 .catch(error => {
                     console.log(error.response.data)
                     if (error.response.status === 400) {
-                        setShowError("Passwords not equals!")
+                        setShowError("Passwords not equals! Try again.")
                     } else if (error.response.status === 404) {
-                        setShowError("Current user not found!")
+                        setShowError("Current user not found! Try again.")
                     }
                 })
         }
@@ -70,27 +70,16 @@ function DeleteProfileDialog(props) {
                     <Alert variant="warning">
                         WARNING! If you delete your account, it will be forever and you will not be able to restore it!
                     </Alert>
-                    <CSSTransition in={showError}
-                                   classNames="my-node"
-                                   timeout={500}
-                                   unmountOnExit>
-                        <Alert variant="danger" onClose={() => setShowError(false)}
-                               dismissible>
-                            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                            <p>{showError}! Try again.</p>
-                        </Alert>
-                    </CSSTransition>
-                    <CSSTransition in={showSuccess}
-                                   classNames="my-node"
-                                   timeout={500}
-                                   unmountOnExit>
-                        <Alert variant="success"
-                               onClose={() => setShowSuccess(false)}
-                               dismissible>
-                            <Alert.Heading>It's OK!</Alert.Heading>
-                            <p>{showSuccess}</p>
-                        </Alert>
-                    </CSSTransition>
+                    <AlertCSSTransition in={showError}
+                                        variant="danger"
+                                        textHeader="Oh snap! You got an error!"
+                                        text={showError}
+                                        close={() => setShowError(false)}/>
+                    <AlertCSSTransition in={showSuccess}
+                                        variant="success"
+                                        textHeader="It's OK!"
+                                        text={showSuccess}
+                                        close={() => setShowSuccess(false)}/>
                     <h5>
                         <p>For security, you should to input your password of account:</p>
                         <Form>

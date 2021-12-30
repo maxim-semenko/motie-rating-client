@@ -38,6 +38,43 @@ function BasketPage() {
         )
     }
 
+    const showBasket = () => {
+        if (loading) {
+            return (
+                <div>
+                    <img alt="" src={spinner}
+                         style={{resize: "both", width: "100%", height: "256px"}}/>
+                </div>
+            )
+        } else if (basketList.length === 0) {
+            return (
+                <div>
+                    <h3>The basket is empty :(</h3>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h3>Total price: {Number(totalPrice).toFixed(2)}$</h3>
+                    <Container>
+                        <Row>
+                            {
+                                basketList.slice(0).reverse().map(film =>
+                                    <div>
+                                        <BasketItem
+                                            film={film}
+                                            removeFromBasket={removeFromBasket}/>
+                                        <br/>
+                                    </div>
+                                )
+                            }
+                        </Row>
+                    </Container>
+                </div>
+            )
+        }
+    }
+
     return (
         <div>
             <NavigationBar/>
@@ -49,39 +86,7 @@ function BasketPage() {
                     <Col lg={9} style={{marginTop: "20px"}}>
                         <CSSTransition in={!loading} classNames="my-node" timeout={1000} unmountOnExit>
                             <Jumbotron className="bg-dark text-white">
-                                {loading ?
-                                    <div>
-                                        <img alt="" src={spinner}
-                                             style={{resize: "both", width: "100%", height: "256px"}}/>
-                                    </div>
-                                    :
-                                    <div>
-                                        {
-                                            basketList.length === 0 ?
-                                                <div>
-                                                    <h3>The basket is empty :(</h3>
-                                                </div>
-                                                :
-                                                <div>
-                                                    <h3>Total price: {Number(totalPrice).toFixed(2)}$</h3>
-                                                    <Container>
-                                                        <Row>
-                                                            {
-                                                                basketList.slice(0).reverse().map(film =>
-                                                                    <div>
-                                                                        <BasketItem
-                                                                            film={film}
-                                                                            removeFromBasket={removeFromBasket}/>
-                                                                        <br/>
-                                                                    </div>
-                                                                )
-                                                            }
-                                                        </Row>
-                                                    </Container>
-                                                </div>
-                                        }
-                                    </div>
-                                }
+                                {showBasket()}
                             </Jumbotron>
                         </CSSTransition>
                     </Col>

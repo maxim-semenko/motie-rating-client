@@ -29,7 +29,7 @@ export const setLoading = (loading) => ({
 
 //============================================ Axios requests ==========================================================
 
-export const getFilms = (currentPage = 1, sizePage = 15) => {
+export const getFilms = (currentPage = 1, sizePage = 9) => {
     return function (dispatch) {
         dispatch(setLoading(true))
         FilmService.getAll(currentPage, sizePage)
@@ -43,7 +43,7 @@ export const getFilms = (currentPage = 1, sizePage = 15) => {
     }
 }
 
-export const getFilmsByName = (currentPage = 1, sizePage = 15, name) => {
+export const getFilmsByName = (name, currentPage = 1, sizePage = 9) => {
     return function (dispatch) {
         dispatch(setLoading(true))
         FilmService.getAllByName(currentPage, sizePage, name)

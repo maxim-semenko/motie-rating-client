@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Button, Col, Container, Form, Jumbotron, Row} from "react-bootstrap";
-import CSSTransition from "react-transition-group/CSSTransition";
+import {Button, Col, Container, Form, Jumbotron, Row} from "react-bootstrap";
 import NavigationBar from "../common/NavigationBar";
 import Footer from "../../Footer";
 import UserService from "../../../service/UserService";
 import {Link} from "react-router-dom";
 import DeleteProfileDialog from "./DeleteProfileDialog";
 import UserValidator from "../../../validation/UserValidator";
+import AlertCSSTransition from "../common/AlertCSSTransition";
 
-function ProfileEditPage() {
+function EditProfilePage() {
 
     const [userId, setUserId] = useState(0)
     const [firstname, setFirstname] = useState('')
@@ -142,7 +142,7 @@ function ProfileEditPage() {
             UserService.updatePasswordById(request, userId)
                 .then((response) => {
                     console.log(response.data);
-                    setShowSuccess(true)
+                    setShowSuccess("Your profile was edited successfully!")
                 }).catch(function (error) {
                     console.log(error.response);
                     setShowError(error.response.data.message)
@@ -178,27 +178,16 @@ function ProfileEditPage() {
                         <Jumbotron className="bg-dark text-white"
                                    style={{textAlign: "left", paddingTop: "20px", paddingBottom: "20px"}}>
                             <Form>
-                                <CSSTransition in={showError}
-                                               classNames="my-node"
-                                               timeout={500}
-                                               unmountOnExit>
-                                    <Alert variant="danger" onClose={() => setShowError(false)}
-                                           dismissible>
-                                        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                                        <p>{showError}! Try again.</p>
-                                    </Alert>
-                                </CSSTransition>
-                                <CSSTransition in={showSuccess}
-                                               classNames="my-node"
-                                               timeout={500}
-                                               unmountOnExit>
-                                    <Alert variant="success"
-                                           onClose={() => setShowSuccess(false)}
-                                           dismissible>
-                                        <Alert.Heading>It's OK!</Alert.Heading>
-                                        <p>Your profile was edited successfully!</p>
-                                    </Alert>
-                                </CSSTransition>
+                                <AlertCSSTransition in={showError}
+                                                    variant="danger"
+                                                    textHeader="Oh snap! You got an error!"
+                                                    text={showError}
+                                                    close={() => setShowError(false)}/>
+                                <AlertCSSTransition in={showSuccess}
+                                                    variant="success"
+                                                    textHeader="It's OK!"
+                                                    text={showSuccess}
+                                                    close={() => setShowSuccess(false)}/>
                                 <Row>
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
@@ -313,4 +302,4 @@ function ProfileEditPage() {
     );
 }
 
-export default ProfileEditPage;
+export default EditProfilePage;

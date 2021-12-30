@@ -145,18 +145,19 @@ function CreateUpdateFilmDialog(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+        let request = {
+            name: name,
+            country: country,
+            year: year,
+            timeInMinutes: time,
+            price: price,
+            description: description,
+            genre: genre,
+            imageURL: imageURL
+        }
 
-        if (!findFormErrors()) {
-            let request = {
-                name: name,
-                country: country,
-                year: year,
-                timeInMinutes: time,
-                price: price,
-                description: description,
-                genre: genre,
-                imageURL: imageURL
-            }
+        if (!findFormErrors(request)) {
+
             if (props.method === "create") {
                 console.log(request)
                 if ((country === null || country === undefined) ||
@@ -180,10 +181,10 @@ function CreateUpdateFilmDialog(props) {
         }
     }
 
-    const findFormErrors = () => {
+    const findFormErrors = (request) => {
         let isErrors = false
 
-        let errors = FilmValidator.validateAllForCreateUpdate(name, year, time, price, description, imageURL, country, genre)
+        let errors = FilmValidator.validateAllForCreateUpdate(request)
         setNameError(errors.nameError)
         setYearError(errors.yearError)
         setTimeError(errors.timeError)
