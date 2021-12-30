@@ -7,6 +7,7 @@ import {createCountry, getCountries, setCurrentPage, setSizePage} from "../../..
 import {useDispatch, useSelector} from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
 import Pagination from "react-js-pagination";
+import PaginationComponent from "../PaginationComponent";
 
 function AllCountriesPage() {
     const dispatch = useDispatch()
@@ -62,6 +63,10 @@ function AllCountriesPage() {
         )
     }
 
+    const changeSizePage = (event) => {
+        dispatch(setSizePage(event.target.value));
+        dispatch(setCurrentPage(1))
+    }
 
     return (
         <div>
@@ -82,33 +87,13 @@ function AllCountriesPage() {
                             </Button>
                         </div>
                         <Row>
-                            <div style={{margin: "0"}}>
-                                <Form style={{textAlign: "left"}}>
-                                    <Form.Group className="mb-4">
-                                        <Form.Label> Size of elements:</Form.Label>
-                                        <Form.Control as={"input"} type={"number"}
-                                                      placeholder={"Count of elements of page"}
-                                                      value={sizePage}
-                                                      onChange={event => {
-                                                          dispatch(setSizePage(event.target.value));
-                                                          dispatch(setCurrentPage(1))
-                                                      }}
-                                                      min={"1"}
-                                                      max={totalElements} style={{width: "120px"}}>
-                                        </Form.Control>
-                                    </Form.Group>
-                                    <Form.Group className="mb-4">
-                                        <Pagination itemClass="page-item"
-                                                    linkClass="page-link"
-                                                    activePage={currentPage}
-                                                    itemsCountPerPage={sizePage}
-                                                    totalItemsCount={totalElements}
-                                                    pageRangeDisplayed={10}
-                                                    onChange={(pageNumber) => dispatch(setCurrentPage(pageNumber))}
-                                        />
-                                    </Form.Group>
-                                </Form>
-                            </div>
+                            <PaginationComponent
+                                sizePage={sizePage}
+                                totalElements={totalElements}
+                                currentPage={currentPage}
+                                changeSizePage={changeSizePage}
+                                changeCurrentPage={(pageNumber) => dispatch(setCurrentPage(pageNumber))}
+                            />
                             {showContent()}
                         </Row>
                     </Jumbotron>
