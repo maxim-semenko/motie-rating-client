@@ -3,8 +3,8 @@ import {AiFillHome, AiFillShopping, AiOutlineHistory, FaShoppingCart, ImExit} fr
 import {Jumbotron} from "react-bootstrap"
 import {Link} from "react-router-dom"
 import {Cookies} from "react-cookie"
-import '../../../styles/ProfileMenu.css'
-import AuthService from "../../../service/AuthService";
+import '../../styles/ProfileMenu.css'
+import AuthService from "../../service/AuthService";
 
 function ProfileMenu() {
     return (

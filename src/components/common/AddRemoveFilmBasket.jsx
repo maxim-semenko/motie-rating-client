@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Button from "react-bootstrap/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {addToBasket, removeFromBasket} from "../redux/basket/BasketAction";
+import {addToBasket, removeFromBasket} from "../../redux/basket/BasketAction";
 
 function AddRemoveFilmBasket(props) {
     const dispatch = useDispatch()
@@ -39,7 +39,7 @@ function AddRemoveFilmBasket(props) {
         <div>
             <div className="d-grid gap-2" style={{marginTop: "20px"}}>
                 <Button variant="outline-success" disabled={!isLogin}>
-                    <b>Buy now({props.film.price}$)</b>
+                    <b>Buy film({props.film.price}$)</b>
                 </Button>{' '}
                 {displayActionWithBasket()}
             </div>

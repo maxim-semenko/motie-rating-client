@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import {Alert, Button, Form, Modal} from "react-bootstrap"
 import CSSTransition from "react-transition-group/CSSTransition"
 import {Cookies} from "react-cookie"
-import AuthService from "../../../service/AuthService"
-import '../../../styles/Animation.css'
-import '../../../styles/FormControl.css'
 import {Link} from "react-router-dom";
-import UserValidator from "../../../validation/UserValidator";
+import UserValidator from "../../../../validation/UserValidator";
+import AuthService from "../../../../service/AuthService"
+import '../../../../styles/Animation.css'
+import '../../../../styles/FormControl.css'
 
 function SignInDialog(props) {
     const cookies = new Cookies()
@@ -17,8 +17,8 @@ function SignInDialog(props) {
     const [passwordError, setPasswordError] = useState('')
 
     /**
-     * Method that set username value
-     * @param event
+     * Method that set username value.
+     * @param event input event
      */
     const changeUsernameHandler = (event) => {
         setUsernameError('')
@@ -26,18 +26,40 @@ function SignInDialog(props) {
     }
 
     /**
-     * Method that set password value
-     * @param event
+     * Method that set password value.
+     * @param event input event
      */
     const changePasswordHandler = (event) => {
         setPasswordError('')
         setPassword(event.target.value)
     }
 
+    /**
+     * Method that handle user's login.
+     * @param event button event
+     */
     const handleSubmit = (event) => {
         event.preventDefault()
         if (!findFormErrors()) {
-            login(event)
+            AuthService.login({username: username, password: password})
+                .then(response => {
+                    localStorage.setItem("user", JSON.stringify(response.data.user))
+                    cookies.set("jwt", response.data.token, {
+                        path: "/",
+                        sameSite: "strict",
+                        maxAge: 3600 * 24 * 60
+                    })
+                    props.setIsLoginMethod()
+                    closeModal()
+                }).catch(error => {
+                    if (error.response.status === 400) {
+                        setShowError("Profile was locked!")
+                    } else if (error.response.status === 404 || error.response.status === 403) {
+                        setShowError("Profile was not founded! Please, check your input username and password")
+                    }
+                    console.log(error)
+                }
+            )
         }
     }
 
@@ -63,29 +85,6 @@ function SignInDialog(props) {
             isErrors = true
         }
         return isErrors
-    }
-
-    /**
-     * Method that perform authentication
-     * @param event
-     */
-    const login = (event) => {
-        event.preventDefault()
-        AuthService.login({username: username, password: password})
-            .then(response => {
-                localStorage.setItem("user", JSON.stringify(response.data.user))
-                cookies.set("jwt", response.data.token, {path: "/", sameSite: "strict", maxAge: 3600 * 24 * 60})
-                props.setIsLoginMethod()
-                closeModal()
-            }).catch(error => {
-                if (error.response.status === 400) {
-                    setShowError("Profile was locked!")
-                } else if (error.response.status === 404 || error.response.status === 403) {
-                    setShowError("Profile was not founded! Please, check your input username and password")
-                }
-                console.log(error)
-            }
-        )
     }
 
     const closeModal = () => {

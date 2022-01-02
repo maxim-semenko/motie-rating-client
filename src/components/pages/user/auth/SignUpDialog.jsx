@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import {Alert, Button, Form, Modal} from "react-bootstrap"
-import AuthService from "../../../service/AuthService"
+import AuthService from "../../../../service/AuthService"
 import CSSTransition from "react-transition-group/CSSTransition";
-import UserValidator from "../../../validation/UserValidator";
+import UserValidator from "../../../../validation/UserValidator";
 
 function SignUpDialog(props) {
     const [username, setUsername] = useState('')

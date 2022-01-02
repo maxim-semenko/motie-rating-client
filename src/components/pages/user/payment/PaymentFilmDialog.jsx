@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Modal} from "react-bootstrap";
 
-function PaymentModal(props) {
+function PaymentFilmDialog(props) {
     return (
         <div>
             <Modal{...props} size="lg"
@@ -27,4 +27,4 @@ function PaymentModal(props) {
     );
 }
 
-export default PaymentModal;
+export default PaymentFilmDialog;

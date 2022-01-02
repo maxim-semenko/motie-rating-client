@@ -1,7 +1,7 @@
 import React from 'react'
 import {Col, Container, Jumbotron, Row} from "react-bootstrap"
-import NavigationBar from "./NavigationBar"
-import Footer from "../../Footer"
+import NavigationBar from "../../common/NavigationBar"
+import Footer from "../../common/Footer"
 
 function AboutPage() {
     return (

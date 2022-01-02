@@ -1,23 +1,23 @@
 import './styles/App.css';
 import React from "react";
 import {Route} from "react-router-dom";
-import HomePage from "./components/pages/common/HomePage";
-import AboutPage from "./components/pages/common/AboutPage";
-import FeedbackPage from "./components/pages/common/FeedbackPage";
-import TopPage from "./components/pages/common/TopPage";
-import ClassCabinetPage from "./components/pages/user/CabinetPage";
-import ProtectRoute from "./components/ProtectRoute";
-import BasketPage from "./components/pages/user/BasketPage";
-import PurchasesPage from "./components/pages/user/PurchasesPage";
-import PurchasesHistoryPage from "./components/pages/user/PurchasesHistoryPage";
-import ClassProfileEditPage from "./components/pages/user/EditProfilePage";
-import ClassAboutFilmPage from "./components/pages/common/AboutFilmPage";
+import HomePage from "./components/pages/guest/HomePage";
+import AboutPage from "./components/pages/guest/AboutPage";
+import FeedbackPage from "./components/pages/guest/FeedbackPage";
+import TopPage from "./components/pages/guest/TopPage";
+import ClassCabinetPage from "./components/pages/user/cabinet/CabinetPage";
+import ProtectRoute from "./components/common/ProtectRoute";
+import BasketPage from "./components/pages/user/cabinet/BasketPage";
+import PurchasesPage from "./components/pages/user/cabinet/PurchasesPage";
+import PurchasesHistoryPage from "./components/pages/user/cabinet/PurchasesHistoryPage";
+import ClassProfileEditPage from "./components/pages/user/cabinet/EditProfilePage";
+import ClassAboutFilmPage from "./components/pages/guest/AboutFilmPage";
 import AdminPage from "./components/pages/admin/AdminPage";
 import AllUsersPage from "./components/pages/admin/users/AllUsersPage";
 import AllFilmsPage from "./components/pages/admin/films/AllFilmsPage";
 import AllGenresPage from "./components/pages/admin/genres/AllGenresPage";
 import AllCountriesPage from "./components/pages/admin/countries/AllCountriesPage";
-import RestorePasswordPage from "./components/pages/common/RestorePasswordPage";
+import RestorePasswordPage from "./components/pages/user/auth/RestorePasswordPage";
 
 
 function App() {

@@ -1,6 +1,6 @@
 import React from 'react'
-import NavigationBar from "./NavigationBar"
-import Footer from "../../Footer"
+import NavigationBar from "../../common/NavigationBar"
+import Footer from "../../common/Footer"
 import {Card, Col, Container, Jumbotron, Row} from "react-bootstrap";
 import 'react-slideshow-image/dist/styles.css'
 

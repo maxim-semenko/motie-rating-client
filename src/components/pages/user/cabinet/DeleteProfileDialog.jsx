@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Alert, Button, Form, Modal} from "react-bootstrap";
-import UserService from "../../../service/UserService";
-import AuthService from "../../../service/AuthService";
+import UserService from "../../../../service/UserService";
+import AuthService from "../../../../service/AuthService";
 import {Cookies} from "react-cookie"
 import {useHistory} from "react-router-dom";
-import Validator from "../../../validation/UserValidator";
-import AlertCSSTransition from "../common/AlertCSSTransition";
+import Validator from "../../../../validation/UserValidator";
+import AlertCSSTransition from "../../../common/AlertCSSTransition";
 
 function DeleteProfileDialog(props) {
     const history = useHistory('');

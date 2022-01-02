@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import {Col, Container, Jumbotron, Row} from "react-bootstrap"
 import CSSTransition from "react-transition-group/CSSTransition"
-import NavigationBar from "../common/NavigationBar"
-import ProfileMenu from "./ProfileMenu"
-import BasketItem from "../../BasketItem"
-import Footer from "../../Footer"
-import BasketService from "../../../service/BasketService"
-import spinner from "../../../img/spinner.svg"
+import NavigationBar from "../../../common/NavigationBar"
+import ProfileMenu from "../../../common/ProfileMenu"
+import BasketItem from "../../../common/BasketItem"
+import Footer from "../../../common/Footer"
+import BasketService from "../../../../service/BasketService"
+import spinner from "../../../../img/spinner.svg"
 
 function BasketPage() {
     const user = JSON.parse(localStorage.getItem("user"))

@@ -82,7 +82,7 @@ class FilmValidator {
     validateAllForCreateUpdate(film) {
         let nameError = this.validateName(film.name)
         let yearError = this.validateYear(film.year)
-        let timeError = this.validateTime(film.time)
+        let timeError = this.validateTime(film.timeInMinutes)
         let priceError = this.validatePrice(film.price)
         let descriptionError = this.validateDescription(film.description)
         let imageURLError = this.validateImageURL(film.imageURL)

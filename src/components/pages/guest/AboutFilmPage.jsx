@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {Col, Container, Jumbotron, Row} from "react-bootstrap"
-import NavigationBar from "./NavigationBar"
-import Footer from "../../Footer"
+import NavigationBar from "../../common/NavigationBar"
+import Footer from "../../common/Footer"
 import ReactStars from "react-rating-stars-component"
 import FilmService from "../../../service/FilmService"
 import spinner from "../../../img/spinner.svg"
-import CardFilm from "./CardFilm";
+import CardFilm from "../../common/CardFilm";
 import {useDispatch, useSelector} from "react-redux";
 import {getBasketById} from "../../../redux/basket/BasketAction";
 

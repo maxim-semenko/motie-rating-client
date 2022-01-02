@@ -1,28 +1,13 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {Button, Col, Container, Jumbotron, Row} from "react-bootstrap"
-import NavigationBar from "../common/NavigationBar"
-import ProfileMenu from "./ProfileMenu"
-import Footer from "../../Footer"
-import imgUser from "../../../img/user.svg"
+import NavigationBar from "../../../common/NavigationBar"
+import ProfileMenu from "../../../common/ProfileMenu"
+import Footer from "../../../common/Footer"
+import imgUser from "../../../../img/user.svg"
 import {Link} from "react-router-dom";
 
 function CabinetPage() {
     const user = JSON.parse(localStorage.getItem("user"))
-    const [userRoles, setUserRoles] = useState([])
-
-    useEffect(() => {
-            if (userRoles.length === 0) {
-                let array = user.roles
-                let temp = []
-                for (let key in array) {
-                    if (array.hasOwnProperty(key)) {
-                        temp.push(array[key].name)
-                    }
-                }
-                setUserRoles(temp)
-            }
-        }, [userRoles.length, user.roles]
-    )
 
     return (
         <div>
@@ -62,7 +47,7 @@ function CabinetPage() {
                     </Col>
                     <Col lg={12}>
                         {
-                            userRoles.includes("ROLE_ADMIN") ?
+                            user.isAdmin ?
                                 <div>
                                     <Jumbotron className="bg-dark text-white"
                                                style={{paddingTop: "15px", paddingBottom: "25px"}}>

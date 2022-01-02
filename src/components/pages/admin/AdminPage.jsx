@@ -3,8 +3,8 @@ import {Button, Col, Container, Jumbotron, Row} from "react-bootstrap"
 import {ImUsers, MdLocalMovies} from "react-icons/all"
 import {AiOutlineGlobal} from "react-icons/ai"
 import {Link} from "react-router-dom"
-import NavigationBar from "../common/NavigationBar"
-import Footer from "../../Footer"
+import NavigationBar from "../../common/NavigationBar"
+import Footer from "../../common/Footer"
 
 function AdminPage() {
     return (

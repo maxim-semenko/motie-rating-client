@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Jumbotron, Row} from "react-bootstrap";
-import NavigationBar from "../common/NavigationBar";
-import Footer from "../../Footer";
-import UserService from "../../../service/UserService";
+import NavigationBar from "../../../common/NavigationBar";
+import Footer from "../../../common/Footer";
+import UserService from "../../../../service/UserService";
 import {Link} from "react-router-dom";
 import DeleteProfileDialog from "./DeleteProfileDialog";
-import UserValidator from "../../../validation/UserValidator";
-import AlertCSSTransition from "../common/AlertCSSTransition";
+import UserValidator from "../../../../validation/UserValidator";
+import AlertCSSTransition from "../../../common/AlertCSSTransition";
+import {Cookies} from "react-cookie";
+import AuthService from "../../../../service/AuthService";
 
 function EditProfilePage() {
-
+    const cookies = new Cookies()
     const [userId, setUserId] = useState(0)
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
@@ -17,6 +19,7 @@ function EditProfilePage() {
     const [email, setEmail] = useState('')
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
+
     const [showError, setShowError] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
     const [showDeleteProfileDialog, setShowDeleteProfileDialog] = useState(false)
@@ -83,13 +86,20 @@ function EditProfilePage() {
             UserService.updateById(request, userId)
                 .then((response) => {
                     console.log(response.data);
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    setShowSuccess(true)
-                }).catch(function (error) {
-                    console.log(error.response);
-                    setShowError(error.response.data.message)
-                }
-            );
+                    localStorage.setItem("user", JSON.stringify(response.data.user));
+                    cookies.set("jwt", response.data.token, {
+                                        path: "/",
+                                        sameSite: "strict",
+                                        maxAge: 3600 * 24 * 60
+                                    })
+                    setShowSuccess("Your profile was edited successfully!")
+                })
+                .catch(function (error) {
+                        console.log(error.response);
+                        setShowError(error.response.data.message)
+                    }
+                );
+
         }
     }
 
@@ -142,6 +152,7 @@ function EditProfilePage() {
             UserService.updatePasswordById(request, userId)
                 .then((response) => {
                     console.log(response.data);
+                    cookies.set("jwt", response.data.token, {path: "/", sameSite: "strict", maxAge: 3600 * 24 * 60})
                     setShowSuccess("Your profile was edited successfully!")
                 }).catch(function (error) {
                     console.log(error.response);

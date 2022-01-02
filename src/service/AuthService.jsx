@@ -14,6 +14,12 @@ class AuthService {
         return axios.post(AUTH_API_BASE_URL + '/register', request)
     }
 
+    // Get new token
+    async getToken(userId) {
+        console.log(AUTH_API_BASE_URL + `/token/${userId}`)
+        return axios.get(AUTH_API_BASE_URL + `/token/${userId}`)
+    }
+
     // Logout user
     async logout(cookies) {
         cookies.remove("jwt", {path: "/"})

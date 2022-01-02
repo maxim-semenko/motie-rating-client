@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Container, Form, FormControl, Jumbotron} from "react-bootstrap"
 import {useDispatch, useSelector} from "react-redux";
-import NavigationBar from "./NavigationBar"
-import HomeFilmList from "./HomeFilmList";
-import Footer from "../../Footer"
+import NavigationBar from "../../common/NavigationBar"
+import HomeFilmList from "../../common/HomeFilmList";
+import Footer from "../../common/Footer"
 import Pagination from "react-js-pagination";
 import {getBasketById} from "../../../redux/basket/BasketAction";
 import {getFilms, getFilmsByName} from "../../../redux/film/FilmAction";
@@ -23,15 +23,20 @@ function HomePage() {
             const isContainUser = localStorage.getItem("user") !== null
             setIsLogin(isContainUser)
             if (films.length === 0 && !searchByName) {
+                localStorage.removeItem("searchByName")
                 dispatch(getFilms(currentPage, 9))
+            } else if (localStorage.getItem("searchByName") !== null) {
+                setSearchByName(true)
+                setNameForSearch(localStorage.getItem("searchByName"))
             }
             if (isContainUser && basketFilmList === null) {
                 dispatch(getBasketById(JSON.parse(localStorage.getItem("user")).id))
             }
-        }, [basketFilmList, currentPage, dispatch, films.length, searchByName]
+        }, [basketFilmList, currentPage, dispatch, films.length, searchByName, isLogin]
     )
 
     const getAllFilmsByName = () => {
+        localStorage.setItem("searchByName", nameForSearch)
         if (!searchByName) {
             setSearchByName(true)
             setCurrentPage(1)
@@ -42,6 +47,7 @@ function HomePage() {
     }
 
     const getAllFilms = () => {
+        localStorage.removeItem("searchByName")
         setSearchByName(false)
         setCurrentPage(1)
         setNameForSearch("")
@@ -49,7 +55,6 @@ function HomePage() {
     }
 
     const showContent = () => {
-        console.log(basketFilmList)
         if (loading || (films.length === 0 && !searchByName) || (basketFilmList === null && isLogin)) {
             return (
                 <div>

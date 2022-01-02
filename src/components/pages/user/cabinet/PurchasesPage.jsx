@@ -1,8 +1,8 @@
 import React from 'react';
 import {Col, Container, Jumbotron, Row} from "react-bootstrap";
-import NavigationBar from "../common/NavigationBar";
-import ProfileMenu from "./ProfileMenu";
-import Footer from "../../Footer";
+import NavigationBar from "../../../common/NavigationBar";
+import ProfileMenu from "../../../common/ProfileMenu";
+import Footer from "../../../common/Footer";
 
 function PurchasesPage() {
     return (

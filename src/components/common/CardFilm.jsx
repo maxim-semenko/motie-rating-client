@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
-import AddRemoveFilmBasket from "../../AddRemoveFilmBasket";
+import AddRemoveFilmBasket from "./AddRemoveFilmBasket";
 
 function CardFilm(props) {
     return (

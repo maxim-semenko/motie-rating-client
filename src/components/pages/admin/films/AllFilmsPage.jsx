@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Form, Jumbotron, Row, Table} from "react-bootstrap"
-import NavigationBar from "../../common/NavigationBar"
-import Footer from "../../../Footer"
+import NavigationBar from "../../../common/NavigationBar"
+import Footer from "../../../common/Footer"
 import CreateUpdateFilmDialog from "./CreateUpdateFilmDialog";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,7 +13,7 @@ import AboutFilmDialog from "./AboutFilmDialog";
 
 function AllFilmsPage() {
     const dispatch = useDispatch()
-    const {films, loading, currentPage, sizePage, totalElements} = useSelector(state => state.dataFilms)
+    const {films, currentPage, sizePage, totalElements} = useSelector(state => state.dataFilms)
 
     const [showAddEditFilmDialog, setShowAddEditFilmDialog] = useState(false)
     const [showAboutFilmDialog, setShowAboutFilmDialog] = useState(false)
@@ -66,7 +66,7 @@ function AllFilmsPage() {
                 </tr>
                 </thead>
                 {
-                    loading || films.length === 0 ?
+                    films.length === 0 ?
                         <div>
                             <span style={{paddingTop: "2%", paddingLeft: "30%", position: "absolute"}}>
                                 <Spinner animation="border"/>
@@ -103,7 +103,6 @@ function AllFilmsPage() {
             </Table>
         )
     }
-
 
     return (
         <div>

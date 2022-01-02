@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react'
-import {Button, Col, Container, Form, Jumbotron, Row, Table} from "react-bootstrap"
+import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
 import {Link} from "react-router-dom";
-import NavigationBar from "../../common/NavigationBar"
-import Footer from "../../../Footer"
+import NavigationBar from "../../../common/NavigationBar"
+import Footer from "../../../common/Footer"
 import {createCountry, getCountries, setCurrentPage, setSizePage} from "../../../../redux/country/CountryAction";
 import {useDispatch, useSelector} from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
-import Pagination from "react-js-pagination";
-import PaginationComponent from "../PaginationComponent";
+import PaginationComponent from "../../../common/PaginationComponent";
 
 function AllCountriesPage() {
     const dispatch = useDispatch()
@@ -19,7 +18,7 @@ function AllCountriesPage() {
             if (totalElements !== 0 && sizePage > totalElements) {
                 dispatch(setSizePage(totalElements))
             }
-        }, [currentPage, dispatch, sizePage, totalElements]
+        }, [countries, currentPage, dispatch, sizePage, totalElements]
     )
 
     const showContent = () => {
@@ -35,7 +34,7 @@ function AllCountriesPage() {
                 {
                     loading && countries.length === 0 ?
                         <div>
-                            <span style={{paddingTop: "2%", paddingLeft: "40%", position: "absolute"}}>
+                            <span style={{paddingTop: "2%", paddingLeft: "35%", position: "absolute"}}>
                                 <Spinner animation="border"/>
                             </span>
                         </div>
