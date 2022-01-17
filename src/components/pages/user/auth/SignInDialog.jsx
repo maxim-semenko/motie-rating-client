@@ -49,8 +49,7 @@ function SignInDialog(props) {
                         sameSite: "strict",
                         maxAge: 3600 * 24 * 60
                     })
-                    props.setIsLoginMethod()
-                    closeModal()
+                    window.location.reload()
                 }).catch(error => {
                     if (error.response.status === 400) {
                         setShowError("Profile was locked!")

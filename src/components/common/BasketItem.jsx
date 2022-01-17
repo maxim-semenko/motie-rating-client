@@ -1,6 +1,7 @@
 import React from 'react'
-import {Button, Card} from "react-bootstrap"
+import {Card} from "react-bootstrap"
 import {Link} from "react-router-dom"
+import AddRemoveFilmBasket from "./AddRemoveFilmBasket";
 
 function BasketItem(props) {
     return (
@@ -13,24 +14,18 @@ function BasketItem(props) {
                 </Card.Header>
                 <Card.Body>
                     <div>
-                        <img alt="" src={props.film.imageURL} height="200px"
-                             style={{float: "left", paddingRight: "10px", paddingBottom: "10px"}}/>
+                        <Link to={{pathname: `/film/${props.film.id}`}}>
+                            <img alt="" src={props.film.imageURL} height="200px"
+                                 style={{float: "left", paddingRight: "10px", paddingBottom: "10px"}}/>
+                        </Link>
                         <blockquote className="blockquote mb-0">
                             <p style={{textAlign: "justify"}}>
-                                Description: {props.film.description}
+                                <b>Description: </b> {props.film.description}
                             </p>
                         </blockquote>
                     </div>
-
                     <br/>
-                    <div className="d-grid gap-2" style={{clear: "both"}}>
-                        <Button variant="outline-success">
-                            <b>Buy film({props.film.price}$)</b>
-                        </Button>{' '}
-                        <Button variant="outline-danger" onClick={() => props.removeFromBasket(props.film.id)}>
-                            <b>Remove from basket</b>
-                        </Button>
-                    </div>
+                    <AddRemoveFilmBasket film={props.film}/>
                 </Card.Body>
             </Card>
         </div>

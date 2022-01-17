@@ -22,21 +22,14 @@ function HomePage() {
     useEffect(() => {
             const isContainUser = localStorage.getItem("user") !== null
             setIsLogin(isContainUser)
-            if (films.length === 0 && !searchByName) {
-                localStorage.removeItem("searchByName")
-                dispatch(getFilms(currentPage, 9))
-            } else if (localStorage.getItem("searchByName") !== null) {
-                setSearchByName(true)
-                setNameForSearch(localStorage.getItem("searchByName"))
-            }
-            if (isContainUser && basketFilmList === null) {
+            dispatch(getFilms(currentPage, 9))
+            if (isContainUser) {
                 dispatch(getBasketById(JSON.parse(localStorage.getItem("user")).id))
             }
-        }, [basketFilmList, currentPage, dispatch, films.length, searchByName, isLogin]
+        }, [currentPage, dispatch]
     )
 
     const getAllFilmsByName = () => {
-        localStorage.setItem("searchByName", nameForSearch)
         if (!searchByName) {
             setSearchByName(true)
             setCurrentPage(1)
@@ -47,11 +40,15 @@ function HomePage() {
     }
 
     const getAllFilms = () => {
-        localStorage.removeItem("searchByName")
         setSearchByName(false)
         setCurrentPage(1)
         setNameForSearch("")
         dispatch(getFilms(1, 9))
+    }
+
+    const changePage = (page) => {
+        setCurrentPage(page)
+        dispatch(getFilms(page, 9))
     }
 
     const showContent = () => {
@@ -113,14 +110,14 @@ function HomePage() {
                         totalItemsCount={totalElements}
                         itemsCountPerPage={9}
                         pageRangeDisplayed={5}
-                        onChange={(pageNumber) => setCurrentPage(pageNumber)}
+                        onChange={(pageNumber) => changePage(pageNumber)}
             />
         )
     }
 
     return (
         <div>
-            <NavigationBar setIsLoginMethod={setIsLogin}/>
+            <NavigationBar/>
             <Container>
                 <Jumbotron className="bg-dark text-white" style={{marginTop: "20px", paddingTop: "20px"}}>
                     <h1 style={{textAlign: "center", marginLeft: "12px", marginBottom: "15px"}}>

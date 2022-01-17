@@ -1,24 +1,24 @@
 import * as types from "./GenreActionType"
 import store from "../Store"
-import CountryService from "../../service/CountryService";
+import GenreService from "../../service/GenreService";
 
-const getFilmsSuccess = (countries) => ({
-    type: types.GET_COUNTRIES,
-    payload: countries,
+const gotGenresSuccess = (genres) => ({
+    type: types.GET_GENRES,
+    payload: genres,
 })
 
-const gotCountryById = (country) => ({
-    type: types.GET_COUNTRY,
-    payload: country,
+const gotCountrySuccess = (genre) => ({
+    type: types.GET_GENRE,
+    payload: genre,
 })
 
 export const setCurrentPage = (page) => ({
-    type: types.SET_CURRENT_PAGE,
+    type: types.SET_CURRENT_PAGE_GENRE,
     payload: page
 })
 
 export const setSizePage = (size) => ({
-    type: types.SET_SIZE_PAGE_COUNTRY,
+    type: types.SET_SIZE_PAGE_GENRE,
     payload: size
 })
 
@@ -29,13 +29,13 @@ export const setLoading = (loading) => ({
 
 //============================================ Axios requests ==========================================================
 
-export const getCountries = (currentPage = 1, sizePage = 9) => {
+export const getGenres = (currentPage = 1, sizePage = 9) => {
     return function (dispatch) {
         dispatch(setLoading(true))
-        CountryService.getAll(currentPage, sizePage)
+        GenreService.findAll(currentPage, sizePage)
             .then((resp) => {
                 console.log(resp.data)
-                dispatch(getFilmsSuccess(resp.data))
+                dispatch(gotGenresSuccess(resp.data))
                 dispatch(setLoading(false))
             })
             .catch(error => {
@@ -44,12 +44,13 @@ export const getCountries = (currentPage = 1, sizePage = 9) => {
     }
 }
 
-export const getCountryById = (id) => {
+export const getGenreById = (id) => {
     return function (dispatch) {
         dispatch(setLoading(true))
-        CountryService.getById(id)
+        GenreService.getById(id)
             .then((resp) => {
-                dispatch(gotCountryById(resp.data))
+                console.log(resp.data)
+                dispatch(gotCountrySuccess(resp.data))
                 dispatch(setLoading(false))
             })
             .catch(error => {
@@ -58,10 +59,10 @@ export const getCountryById = (id) => {
     }
 }
 
-export function createCountry(film) {
+export function createGenre(genre) {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
-            CountryService.create(film)
+            GenreService.create(genre)
                 .then((response) => {
                     console.log(response)
                     return resolve(response);
@@ -74,24 +75,28 @@ export function createCountry(film) {
     };
 }
 
-export const updateCountry = (film, id) => {
-    return function (dispatch) {
-        CountryService.update(film, id)
-            .then(() => {
-                dispatch(getCountries(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+export function updateGenre(genre, id) {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            GenreService.update(genre, id)
+                .then((response) => {
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
+        })
+    };
 }
 
 // store.getState().dataOfStudents.currentPage
-export const deleteCountryById = (id) => {
+export const deleteGenreById = (id) => {
     return function (dispatch) {
-        CountryService.deleteById(id)
+        GenreService.deleteById(id)
             .then(() => {
-                dispatch(getCountries(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
+                dispatch(getGenres(store.getState().dataGenres.currentPage, store.getState().dataGenres.sizePage))
             })
             .catch(error => {
                 console.log(error)

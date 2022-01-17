@@ -8,7 +8,6 @@ import DeleteProfileDialog from "./DeleteProfileDialog";
 import UserValidator from "../../../../validation/UserValidator";
 import AlertCSSTransition from "../../../common/AlertCSSTransition";
 import {Cookies} from "react-cookie";
-import AuthService from "../../../../service/AuthService";
 
 function EditProfilePage() {
     const cookies = new Cookies()
@@ -88,10 +87,10 @@ function EditProfilePage() {
                     console.log(response.data);
                     localStorage.setItem("user", JSON.stringify(response.data.user));
                     cookies.set("jwt", response.data.token, {
-                                        path: "/",
-                                        sameSite: "strict",
-                                        maxAge: 3600 * 24 * 60
-                                    })
+                        path: "/",
+                        sameSite: "strict",
+                        maxAge: 3600 * 24 * 60
+                    })
                     setShowSuccess("Your profile was edited successfully!")
                 })
                 .catch(function (error) {

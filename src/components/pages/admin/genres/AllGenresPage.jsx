@@ -1,25 +1,50 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
 import {Link} from "react-router-dom";
 import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
-import {createCountry, getCountries, setCurrentPage, setSizePage} from "../../../../redux/country/CountryAction";
+import {getGenreById, getGenres, setCurrentPage, setSizePage} from "../../../../redux/genre/GenreAction";
 import {useDispatch, useSelector} from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
 import PaginationComponent from "../../../common/PaginationComponent";
+import CreateUpdateGenreDialog from "./CreateUpdateGenreDialog";
+import RemoveGenreDialog from "./RemoveGenreDialog";
 
 function AllGenresPage() {
     const dispatch = useDispatch()
-    const {countries, loading, currentPage, sizePage, totalElements} = useSelector(state => state.dataCountries)
+    const {genres, loading, currentPage, sizePage, totalElements} = useSelector(state => state.dataGenres)
+
+    const [showAddEditGenreDialog, setShowAddEditGenreDialog] = useState(false)
+    const [showRemoveGenreDialog, setShowRemoveGenreDialog] = useState(false)
+    const [method, setMethod] = useState("")
 
     useEffect(() => {
-            dispatch(getCountries(currentPage, sizePage))
-            console.log(countries)
+            dispatch(getGenres(currentPage, sizePage))
             if (totalElements !== 0 && sizePage > totalElements) {
                 dispatch(setSizePage(totalElements))
             }
-        }, [countries, currentPage, dispatch, sizePage, totalElements]
+        }, [currentPage, dispatch, sizePage, totalElements]
     )
+
+    const removeGenre = (id) => {
+        dispatch(getGenreById(id))
+        setShowRemoveGenreDialog(true)
+    }
+
+    const createGenre = () => {
+        setShowAddEditGenreDialog(true);
+        setMethod("create")
+    }
+
+    /**
+     * Method that load needed film by id and open CreateUpdateFilmDialog with method update.
+     * @param {number} id  - Film id
+     */
+    const editGenre = (id) => {
+        dispatch(getGenreById(id))
+        setShowAddEditGenreDialog(true);
+        setMethod("update")
+    }
 
     const showContent = () => {
         return (
@@ -32,7 +57,7 @@ function AllGenresPage() {
                 </tr>
                 </thead>
                 {
-                    loading && countries.length === 0 ?
+                    loading && genres.length === 0 ?
                         <div>
                             <span style={{paddingTop: "2%", paddingLeft: "35%", position: "absolute"}}>
                                 <Spinner animation="border"/>
@@ -41,15 +66,17 @@ function AllGenresPage() {
                         :
                         <tbody>
                         {
-                            countries.map(country =>
-                                <tr key={country.id}>
-                                    <td><b>{country.id}</b></td>
-                                    <td><b>{country.name}</b></td>
+                            genres.map(genre =>
+                                <tr key={genre.id}>
+                                    <td><b>{genre.id}</b></td>
+                                    <td><b>{genre.name}</b></td>
                                     <td>
-                                        <Button variant="outline-success">
+                                        <Button variant="outline-success"
+                                                onClick={() => editGenre(genre.id)}>
                                             <b>Edit</b>
                                         </Button>{' '}
-                                        <Button variant="outline-danger">
+                                        <Button variant="outline-danger"
+                                                onClick={() => removeGenre(genre.id)}>
                                             <b>Remove</b>
                                         </Button>
                                     </td>
@@ -67,8 +94,29 @@ function AllGenresPage() {
         dispatch(setCurrentPage(1))
     }
 
+    const showDialogs = () => {
+        if (showAddEditGenreDialog) {
+            return (
+                <CreateUpdateGenreDialog
+                    show={showAddEditGenreDialog}
+                    onHide={() => setShowAddEditGenreDialog(false)}
+                    method={method}
+                />
+            )
+        }
+        if (showRemoveGenreDialog) {
+            return (
+                <RemoveGenreDialog
+                    show={showRemoveGenreDialog}
+                    onHide={() => setShowRemoveGenreDialog(false)}
+                />
+            )
+        }
+    }
+
     return (
         <div>
+            {showDialogs()}
             <NavigationBar/>
             <Container fluid>
                 <Col lg={12} style={{marginTop: "20px"}}>
@@ -81,7 +129,7 @@ function AllGenresPage() {
                                 </Button>{' '}
                             </Link>
                             <Button variant="outline-primary"
-                                    style={{marginBottom: "20px"}} onClick={() => createCountry()}>
+                                    style={{marginBottom: "20px"}} onClick={() => createGenre()}>
                                 <b>Add a new genre</b>
                             </Button>
                         </div>

@@ -3,7 +3,7 @@ import * as types from "./GenreActionType"
 const initialState = {
     genres: [],
     genre: {},
-    loadingGenre: true,
+    loading: true,
     currentPage: 1,
     sizePage: 9,
     totalElements: 0,
@@ -13,32 +13,32 @@ const initialState = {
 
 const genreReducers = (state = initialState, action = {}) => {
     switch (action.type) {
-        case types.GET_COUNTRIES:
+        case types.GET_GENRES:
             return {
                 ...state,
-                countries: action.payload.content,
+                genres: action.payload.content,
                 totalElements: action.payload.totalElements,
                 totalPages: action.payload.totalPages,
                 numberOfElements: action.payload.numberOfElements,
-                loadingGenre: false,
-            }
-        case types.GET_COUNTRY:
-            return {
-                ...state,
-                country: action.payload,
                 loading: false,
             }
-        case types.DELETE_COUNTRY_BY_ID:
+        case types.GET_GENRE:
+            return {
+                ...state,
+                genre: action.payload,
+                loading: false,
+            }
+        case types.DELETE_GENRE_BY_ID:
             return {
                 ...state,
                 loading: false,
             }
-        case types.SET_CURRENT_PAGE:
+        case types.SET_CURRENT_PAGE_GENRE:
             return {
                 ...state,
                 currentPage: action.payload
             }
-        case types.SET_SIZE_PAGE_COUNTRY:
+        case types.SET_SIZE_PAGE_GENRE:
             return {
                 ...state,
                 sizePage: action.payload

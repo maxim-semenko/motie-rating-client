@@ -27,6 +27,11 @@ export const setLoading = (loading) => ({
     payload: loading
 })
 
+export const setLoadingFilm = (loading) => ({
+    type: types.SET_LOADING_FILM,
+    payload: loading
+})
+
 //============================================ Axios requests ==========================================================
 
 export const getFilms = (currentPage = 1, sizePage = 9) => {
@@ -59,11 +64,11 @@ export const getFilmsByName = (name, currentPage = 1, sizePage = 9) => {
 
 export const getFilmById = (id) => {
     return function (dispatch) {
-        dispatch(setLoading(true))
+        dispatch(setLoadingFilm(true))
         FilmService.getById(id)
             .then((resp) => {
                 dispatch(gotFilmById(resp.data))
-                dispatch(setLoading(false))
+                dispatch(setLoadingFilm(false))
             })
             .catch(error => {
                 console.log(error)

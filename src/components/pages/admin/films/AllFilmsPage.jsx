@@ -22,10 +22,7 @@ function AllFilmsPage() {
 
     useEffect(() => {
             dispatch(getFilms(currentPage, sizePage))
-            if (totalElements !== 0 && sizePage > totalElements) {
-                dispatch(setSizePage(totalElements))
-            }
-        }, [currentPage, dispatch, sizePage, totalElements]
+        }, [currentPage, dispatch, sizePage]
     )
 
     const aboutFilm = (id) => {
@@ -172,7 +169,7 @@ function AllFilmsPage() {
                                                     activePage={currentPage}
                                                     itemsCountPerPage={sizePage}
                                                     totalItemsCount={totalElements}
-                                                    pageRangeDisplayed={5}
+                                                    pageRangeDisplayed={10}
                                                     onChange={(pageNumber) => dispatch(setCurrentPage(pageNumber))}
                                         />
                                     </Form.Group>

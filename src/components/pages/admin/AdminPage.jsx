@@ -18,34 +18,34 @@ function AdminPage() {
                                     style={{marginBottom: "20px"}}>
                                 <b>Back to profile</b>
                             </Button>
-                        </Link>{' '}
+                        </Link>
                         <Jumbotron className="bg-dark text-white">
-                            <Link to="/profile/admin/all-users" className="my-link">
+                            <a href={"/profile/admin/all-users"} className="my-link">
                                 <h5>
                                     <span className="menu-icon"><ImUsers size={24}/></span>USERS CONTROL
                                 </h5>
-                            </Link>
+                            </a>
                             <hr/>
                             <br/>
-                            <Link to="/profile/admin/all-films" className="my-link">
+                            <a href={"/profile/admin/all-films"} className="my-link">
                                 <h5>
                                     <span className="menu-icon"><MdLocalMovies size={24}/></span>FILMS CONTROL
                                 </h5>
-                            </Link>
+                            </a>
                             <hr/>
                             <br/>
-                            <Link to="/profile/admin/all-genres" className="my-link">
+                            <a href={"/profile/admin/all-genres"} className="my-link">
                                 <h5>
                                     <span className="menu-icon"><MdLocalMovies size={24}/></span>GENRES CONTROL
                                 </h5>
-                            </Link>
+                            </a>
                             <hr/>
                             <br/>
-                            <Link to="/profile/admin/all-countries" className="my-link">
+                            <a href={"/profile/admin/all-countries"} className="my-link">
                                 <h5>
                                     <span className="menu-icon"><AiOutlineGlobal size={24}/></span>COUNTRIES CONTROL
                                 </h5>
-                            </Link>
+                            </a>
                             <hr/>
                         </Jumbotron>
                     </Col>

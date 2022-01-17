@@ -38,21 +38,17 @@ function NavigationBar(props) {
     }
 
     const isShowBasketImage = () => {
-        return (
-            <div>
-                {
-                    token != null ?
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/profile/basket">
+        if (token != null) {
+            return (
+                <Nav className="me-auto">
+                    <Nav.Link as={Link} to="/profile/basket">
                                 <span style={{color: "white"}}>
                                         <FaShoppingCart size={34}/>
                                 </span>
-                            </Nav.Link>
-                        </Nav>
-                        : null
-                }
-            </div>
-        )
+                    </Nav.Link>
+                </Nav>
+            )
+        }
     }
 
     const showModals = () => {
@@ -69,7 +65,6 @@ function NavigationBar(props) {
                 <SignInDialog
                     show={showSignInModal}
                     onHide={() => setShowSignInModal(false)}
-                    setIsLoginMethod={props.setIsLoginMethod}
                 />
             )
         }

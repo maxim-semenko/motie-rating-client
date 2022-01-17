@@ -12,6 +12,7 @@ const basketReducers = (state = initialState, action = {}) => {
             return {
                 ...state,
                 basketFilmList: action.payload.filmList,
+                price: action.payload.summa,
                 loadingBasket: false,
             }
         case types.ADD_TO_BASKET:
@@ -23,6 +24,11 @@ const basketReducers = (state = initialState, action = {}) => {
             return {
                 ...state,
                 basketFilmList: state.basketFilmList.filter(film => film.id !== action.payload),
+            }
+        case types.SET_PRICE:
+            return {
+                ...state,
+                price: action.payload,
             }
         case types.SET_LOADING:
             return {

@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 function RemoveFilmDialog(props) {
     const dispatch = useDispatch()
-    const {film, loading} = useSelector(state => state.dataFilms)
+    const {film, loadingFilm} = useSelector(state => state.dataFilms)
 
 
     const handleSubmit = () => {
@@ -18,7 +18,7 @@ function RemoveFilmDialog(props) {
     }
 
     const showContent = () => {
-        if (loading) {
+        if (loadingFilm) {
             return (
                 <div>
                     loading...

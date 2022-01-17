@@ -74,17 +74,33 @@ export function createCountry(film) {
     };
 }
 
-export const updateCountry = (film, id) => {
-    return function (dispatch) {
-        CountryService.update(film, id)
-            .then(() => {
-                dispatch(getCountries(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+export function updateCountry(film, id) {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            CountryService.update(film, id)
+                .then((response) => {
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
+        })
+    };
 }
+
+// export const updateCountry = (film, id) => {
+//     return function (dispatch) {
+//         CountryService.update(film, id)
+//             .then(() => {
+//                 dispatch(getCountries(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
+//             })
+//             .catch(error => {
+//                 console.log(error)
+//             })
+//     }
+// }
 
 // store.getState().dataOfStudents.currentPage
 export const deleteCountryById = (id) => {

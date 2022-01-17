@@ -16,6 +16,11 @@ const removedFromBasket = (filmId) => ({
     payload: filmId,
 })
 
+export const setPrice = (price) => ({
+    type: types.SET_PRICE,
+    payload: price
+})
+
 
 export const setLoading = (loading) => ({
     type: types.SET_LOADING,
@@ -43,6 +48,7 @@ export const addToBasket = (film) => {
         BasketService.add(JSON.parse(localStorage.getItem("user")).id, film.id)
             .then(response => {
                 dispatch(addedToBasket(film))
+                dispatch(setPrice(response.data.summa))
                 console.log(response)
             })
             .catch(error => {
@@ -56,6 +62,7 @@ export const removeFromBasket = (filmId) => {
         BasketService.remove(JSON.parse(localStorage.getItem("user")).id, filmId)
             .then(response => {
                 dispatch(removedFromBasket(filmId))
+                dispatch(setPrice(response.data.summa))
                 console.log(response)
             })
             .catch(error => {

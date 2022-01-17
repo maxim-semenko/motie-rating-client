@@ -1,25 +1,50 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
 import {Link} from "react-router-dom";
 import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
-import {createCountry, getCountries, setCurrentPage, setSizePage} from "../../../../redux/country/CountryAction";
+import {getCountries, getCountryById, setCurrentPage, setSizePage} from "../../../../redux/country/CountryAction";
 import {useDispatch, useSelector} from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
 import PaginationComponent from "../../../common/PaginationComponent";
+import RemoveCountryDialog from "./RemoveCountryDialog";
+import CreateUpdateCountryDialog from "./CreateUpdateCountryDialog";
 
 function AllCountriesPage() {
     const dispatch = useDispatch()
     const {countries, loading, currentPage, sizePage, totalElements} = useSelector(state => state.dataCountries)
 
+    const [showCreateUpdateCountryDialog, setShowCreateUpdateCountryDialog] = useState(false)
+    const [showRemoveCountryDialog, setShowRemoveCountryDialog] = useState(false)
+    const [method, setMethod] = useState("")
+
     useEffect(() => {
             dispatch(getCountries(currentPage, sizePage))
-            console.log(countries)
-            if (totalElements !== 0 && sizePage > totalElements) {
-                dispatch(setSizePage(totalElements))
-            }
-        }, [countries, currentPage, dispatch, sizePage, totalElements]
+            // if (totalElements !== 0 && sizePage > totalElements) {
+            //     dispatch(setSizePage(totalElements))
+            // }
+        }, [currentPage, dispatch, sizePage]
     )
+
+    const removeCountry = (id) => {
+        dispatch(getCountryById(id))
+        setShowRemoveCountryDialog(true)
+    }
+
+    const createCountry = () => {
+        setShowCreateUpdateCountryDialog(true);
+        setMethod("create")
+    }
+
+    /**
+     * Method that load needed film by id and open CreateUpdateFilmDialog with method update.
+     * @param {number} id  - Film id
+     */
+    const editCountry = (id) => {
+        dispatch(getCountryById(id))
+        setShowCreateUpdateCountryDialog(true);
+        setMethod("update")
+    }
 
     const showContent = () => {
         return (
@@ -46,10 +71,12 @@ function AllCountriesPage() {
                                     <td><b>{country.id}</b></td>
                                     <td><b>{country.name}</b></td>
                                     <td>
-                                        <Button variant="outline-success">
+                                        <Button variant="outline-success"
+                                                onClick={() => editCountry(country.id)}>
                                             <b>Edit</b>
                                         </Button>{' '}
-                                        <Button variant="outline-danger">
+                                        <Button variant="outline-danger"
+                                                onClick={() => removeCountry(country.id)}>
                                             <b>Remove</b>
                                         </Button>
                                     </td>
@@ -67,8 +94,29 @@ function AllCountriesPage() {
         dispatch(setCurrentPage(1))
     }
 
+    const showDialogs = () => {
+        if (showCreateUpdateCountryDialog) {
+            return (
+                <CreateUpdateCountryDialog
+                    show={showCreateUpdateCountryDialog}
+                    onHide={() => setShowCreateUpdateCountryDialog(false)}
+                    method={method}
+                />
+            )
+        }
+        if (showRemoveCountryDialog) {
+            return (
+                <RemoveCountryDialog
+                    show={showRemoveCountryDialog}
+                    onHide={() => setShowRemoveCountryDialog(false)}
+                />
+            )
+        }
+    }
+
     return (
         <div>
+            {showDialogs()}
             <NavigationBar/>
             <Container fluid>
                 <Col lg={12} style={{marginTop: "20px"}}>

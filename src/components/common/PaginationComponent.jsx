@@ -1,6 +1,5 @@
 import React from 'react';
 import {Form} from "react-bootstrap";
-import {setCurrentPage, setSizePage} from "../../redux/country/CountryAction";
 import Pagination from "react-js-pagination";
 
 function PaginationComponent(props) {

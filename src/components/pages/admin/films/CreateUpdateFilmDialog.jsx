@@ -133,7 +133,7 @@ function CreateUpdateFilmDialog(props) {
             GenreService.findAll()
                 .then(response => {
                     console.log(response)
-                    setGenreList(response.data)
+                    setGenreList(response.data.content)
                     setLoadingAll(false)
                 }).catch(error => {
                     console.log(error)
@@ -157,24 +157,17 @@ function CreateUpdateFilmDialog(props) {
         }
 
         if (!findFormErrors(request)) {
-
             if (props.method === "create") {
-                console.log(request)
-                if ((country === null || country === undefined) ||
-                    (genre === null || genre === undefined)) {
-                    alert("ERROR")
-                } else {
-                    dispatch(createFilm(request))
-                        .then((response) => {
-                            console.log(response)
-                            dispatch(getFilms(currentPage, sizePage))
-                            notifySuccess()
-                        })
-                        .catch((error) => {
-                            console.log(error)
-                            notifyError()
-                        });
-                }
+                dispatch(createFilm(request))
+                    .then((response) => {
+                        console.log(response)
+                        dispatch(getFilms(currentPage, sizePage))
+                        notifySuccess()
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        notifyError()
+                    });
             } else {
                 dispatch(updateFilm(request, id))
             }
@@ -201,7 +194,6 @@ function CreateUpdateFilmDialog(props) {
         }
 
         return isErrors
-
     }
 
     const notifyError = () => toast.error('Error to create a new film, please check your input data!', {

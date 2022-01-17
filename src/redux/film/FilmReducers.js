@@ -2,8 +2,9 @@ import * as types from "./FilmActionType"
 
 const initialState = {
     films: [],
-    film: {},
+    film: null,
     loading: true,
+    loadingFilm: true,
     currentPage: 1,
     sizePage: 9,
     totalElements: 0,
@@ -26,7 +27,7 @@ const filmReducers = (state = initialState, action = {}) => {
             return {
                 ...state,
                 film: action.payload,
-                loading: false,
+                loadingFilm: false,
             }
         case types.DELETE_FILM_BY_ID:
             return {
@@ -47,6 +48,11 @@ const filmReducers = (state = initialState, action = {}) => {
             return {
                 ...state,
                 loading: action.payload
+            }
+        case types.SET_LOADING_FILM:
+            return {
+                ...state,
+                loadingFilm: action.payload
             }
         default:
             return state

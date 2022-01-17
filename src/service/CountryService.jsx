@@ -20,7 +20,9 @@ class CountryService {
     }
 
     async getById(id) {
-        return axios.get(COUNTRY_API_BASE_URL + '/' + id)
+        return axios.get(COUNTRY_API_BASE_URL + '/' + id, {
+            headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
+        })
     }
 
     async create(request) {
