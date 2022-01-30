@@ -24,10 +24,10 @@ function ProfileMenu() {
                     <h5><span className="menu-icon"><FaShoppingCart size={24}/></span>BASKET</h5>
                 </Link>
                 <hr/>
-                <Link to="/profile/balance" className="my-link">
-                    <h5><span className="menu-icon"><AiOutlineHistory size={24}/></span>HISTORY</h5>
-                </Link>
-                <hr/>
+                {/*<Link to="/profile/balance" className="my-link">*/}
+                {/*    <h5><span className="menu-icon"><AiOutlineHistory size={24}/></span>HISTORY</h5>*/}
+                {/*</Link>*/}
+                {/*<hr/>*/}
                 <Link to="/" className="my-link" onClick={() => AuthService.logout(new Cookies())}>
                     <h5>
                         <span className="menu-icon"><ImExit size={24}/></span>LOGOUT

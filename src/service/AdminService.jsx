@@ -8,8 +8,7 @@ class AdminService {
 
     async updateUserIsNonLockedById(id, isNonLocked) {
         console.log(ADMIN_API_BASE_URL + '/locked/user/' + id)
-        console.log(isNonLocked)
-        return axios.put(ADMIN_API_BASE_URL + `/locked/user/${id}?status=${isNonLocked}`, null, {
+        return axios.put(`${ADMIN_API_BASE_URL}/locked/user/${id}?status=${isNonLocked}`, null, {
             headers: {
                 'Authorization': `Bearer_${cookies.get("jwt")}`
             },
@@ -17,7 +16,7 @@ class AdminService {
     }
 
     async updateUserRoleById(id) {
-        return axios.put(ADMIN_API_BASE_URL + `/role/user/${id}`, null, {
+        return axios.put(`${ADMIN_API_BASE_URL}/role/user/${id}`, null, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`},
         })
     }

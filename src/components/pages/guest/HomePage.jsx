@@ -9,6 +9,7 @@ import {getBasketById} from "../../../redux/basket/BasketAction";
 import {getFilms, getFilmsByName} from "../../../redux/film/FilmAction";
 import Spinner from "react-bootstrap/Spinner";
 import '../../../styles/FormControl.css'
+import {getPurchaseStorageById} from "../../../redux/purchase/PurchaseAction";
 
 function HomePage() {
     const dispatch = useDispatch()
@@ -18,13 +19,16 @@ function HomePage() {
     const [searchByName, setSearchByName] = useState(false)
     const [nameForSearch, setNameForSearch] = useState("")
     const {basketFilmList} = useSelector(state => state.dataBaskets)
+    const {purchaseFilmList} = useSelector(state => state.dataPurchases)
 
     useEffect(() => {
             const isContainUser = localStorage.getItem("user") !== null
             setIsLogin(isContainUser)
             dispatch(getFilms(currentPage, 9))
             if (isContainUser) {
-                dispatch(getBasketById(JSON.parse(localStorage.getItem("user")).id))
+                let userId = JSON.parse(localStorage.getItem("user")).id
+                dispatch(getBasketById(userId))
+                dispatch(getPurchaseStorageById(userId))
             }
         }, [currentPage, dispatch]
     )
@@ -52,7 +56,8 @@ function HomePage() {
     }
 
     const showContent = () => {
-        if (loading || (films.length === 0 && !searchByName) || (basketFilmList === null && isLogin)) {
+        if (loading || (films.length === 0 && !searchByName)
+            || (basketFilmList === null && isLogin) || (purchaseFilmList === null && isLogin)) {
             return (
                 <div>
                    <span style={{paddingTop: "2%"}}>

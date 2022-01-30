@@ -139,8 +139,7 @@ function CreateUpdateFilmDialog(props) {
                     console.log(error)
                 }
             )
-        }, [film.country, film.description, film.genre, film.id, film.imageURL,
-            film.name, film.price, film.timeInMinutes, film.year, props.method]
+        }, []
     )
 
     const handleSubmit = (event) => {

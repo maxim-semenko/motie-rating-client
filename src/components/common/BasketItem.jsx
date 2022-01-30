@@ -25,7 +25,9 @@ function BasketItem(props) {
                         </blockquote>
                     </div>
                     <br/>
-                    <AddRemoveFilmBasket film={props.film}/>
+                    {
+                        props.showButtons ? <AddRemoveFilmBasket film={props.film}/> : null
+                    }
                 </Card.Body>
             </Card>
         </div>

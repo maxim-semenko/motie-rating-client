@@ -67,6 +67,7 @@ export const getFilmById = (id) => {
         dispatch(setLoadingFilm(true))
         FilmService.getById(id)
             .then((resp) => {
+                console.log(resp.data)
                 dispatch(gotFilmById(resp.data))
                 dispatch(setLoadingFilm(false))
             })
@@ -75,7 +76,6 @@ export const getFilmById = (id) => {
             })
     }
 }
-
 
 export function createFilm(film) {
     return () => {
@@ -105,15 +105,18 @@ export const updateFilm = (film, id) => {
     }
 }
 
-// store.getState().dataOfStudents.currentPage
 export const deleteFilmById = (id) => {
-    return function (dispatch) {
-        FilmService.deleteById(id)
-            .then(() => {
-                dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
-            })
-            .catch(error => {
-                console.log(error)
-            })
+    return () => {
+        return new Promise((resolve, reject) => {
+            FilmService.deleteById(id)
+                .then((response) => {
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
+        })
     }
 }

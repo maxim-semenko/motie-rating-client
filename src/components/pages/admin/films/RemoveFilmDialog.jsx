@@ -1,17 +1,35 @@
 import React from 'react';
 import {Button, Modal} from "react-bootstrap";
-import {deleteFilmById} from "../../../../redux/film/FilmAction";
+import {deleteFilmById, getFilms} from "../../../../redux/film/FilmAction";
 import {useDispatch, useSelector} from "react-redux";
+import {toast} from "react-toastify";
 
 function RemoveFilmDialog(props) {
     const dispatch = useDispatch()
-    const {film, loadingFilm} = useSelector(state => state.dataFilms)
-
+    const {film, loadingFilm, currentPage, sizePage} = useSelector(state => state.dataFilms)
 
     const handleSubmit = () => {
         dispatch(deleteFilmById(film.id))
-        props.onHide()
+            .then((response) => {
+                console.log(response)
+                dispatch(getFilms(currentPage, sizePage))
+                props.onHide()
+                notifySuccess('The film was deleted successfully!')
+            })
+            .catch((error) => {
+                console.log("AAAAAAAAAAAAAAAaa")
+                // console.log(error)
+                notifyError('Error to delete the film!')
+            });
     }
+
+    const notifySuccess = (text) => toast.success(text, {
+        position: "top-right",
+    });
+
+    const notifyError = (text) => toast.error(text, {
+        position: "top-right",
+    });
 
     const closeModal = () => {
         props.onHide()
@@ -40,6 +58,7 @@ function RemoveFilmDialog(props) {
         }
     }
 
+    toast.configure()
     return (
         <div>
             <Modal{...props} size="lg"
@@ -47,7 +66,7 @@ function RemoveFilmDialog(props) {
                   aria-labelledby="example-custom-modal-styling-title"
                   className="special_modal">
                 <Modal.Header closeButton>
-                    <Modal.Title style={{color: "#9a9da0"}}><b>Remove film "{film.name}"</b></Modal.Title>
+                    <Modal.Title style={{color: "#9a9da0"}}><b>Remove film</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="modal-dark">
                     {showContent()}

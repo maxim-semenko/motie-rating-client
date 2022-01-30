@@ -33,7 +33,7 @@ const basketReducers = (state = initialState, action = {}) => {
         case types.SET_LOADING:
             return {
                 ...state,
-                loading: action.payload
+                loadingBasket: action.payload
             }
         default:
             return state

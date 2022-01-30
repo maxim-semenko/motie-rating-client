@@ -85,7 +85,6 @@ function NavigationBar(props) {
                             <Nav.Link as={Link} to="/"><b>HOME</b></Nav.Link>
                             <Nav.Link as={Link} to="/top"><b>TOP</b></Nav.Link>
                             <Nav.Link as={Link} to="/about"><b>ABOUT</b></Nav.Link>
-                            <Nav.Link as={Link} to="/feedback"><b>FEEDBACK</b></Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                     <Navbar.Collapse className="justify-content-end">

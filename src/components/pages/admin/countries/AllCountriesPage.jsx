@@ -20,9 +20,6 @@ function AllCountriesPage() {
 
     useEffect(() => {
             dispatch(getCountries(currentPage, sizePage))
-            // if (totalElements !== 0 && sizePage > totalElements) {
-            //     dispatch(setSizePage(totalElements))
-            // }
         }, [currentPage, dispatch, sizePage]
     )
 

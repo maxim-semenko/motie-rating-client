@@ -76,7 +76,7 @@ export function createGenre(genre) {
 }
 
 export function updateGenre(genre, id) {
-    return (dispatch) => {
+    return () => {
         return new Promise((resolve, reject) => {
             GenreService.update(genre, id)
                 .then((response) => {

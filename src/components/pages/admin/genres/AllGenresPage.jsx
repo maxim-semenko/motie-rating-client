@@ -20,10 +20,7 @@ function AllGenresPage() {
 
     useEffect(() => {
             dispatch(getGenres(currentPage, sizePage))
-            if (totalElements !== 0 && sizePage > totalElements) {
-                dispatch(setSizePage(totalElements))
-            }
-        }, [currentPage, dispatch, sizePage, totalElements]
+        }, [currentPage, dispatch, sizePage]
     )
 
     const removeGenre = (id) => {

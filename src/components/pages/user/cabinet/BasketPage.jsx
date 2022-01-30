@@ -9,11 +9,12 @@ import spinner from "../../../../img/spinner.svg"
 import {getBasketById} from "../../../../redux/basket/BasketAction";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "react-bootstrap/Button";
+import {Link} from "react-router-dom";
 
 function BasketPage() {
     const user = JSON.parse(localStorage.getItem("user"))
     const dispatch = useDispatch()
-    const {loading, basketFilmList, price} = useSelector(state => state.dataBaskets)
+    const {loadingBasket, basketFilmList, price} = useSelector(state => state.dataBaskets)
 
     useEffect(() => {
             if (JSON.parse(localStorage.getItem("user")) != null && basketFilmList === null) {
@@ -24,7 +25,7 @@ function BasketPage() {
 
 
     const showBasket = () => {
-        if (loading || basketFilmList === null) {
+        if (loadingBasket || basketFilmList === null) {
             return (
                 <div>
                     <img alt="" src={spinner}
@@ -42,21 +43,22 @@ function BasketPage() {
                 <div>
                     <Container>
                         <h2><b>BASKET LIST</b></h2>
+                        <hr/>
                         <Row>
                             <div style={{textAlign: "left"}}>
-                                <Button variant='outline-success'>
-                                    <b>Buy all films ({Number(price).toFixed(2)}$)</b>
-                                </Button>
+                                <Link to="/profile/payment" className="my-link">
+                                    <Button variant='outline-primary' size="lg">
+                                        <b>Make an order ({Number(price).toFixed(2)}$)</b>
+                                    </Button>
+                                </Link>
                                 <br/>
                                 <br/>
                             </div>
                             <hr/>
                             {
                                 basketFilmList.slice(0).reverse().map(film =>
-                                    <div>
-                                        <BasketItem
-                                            film={film}
-                                        />
+                                    <div key={film.id}>
+                                        <BasketItem film={film} showButtons={true}/>
                                         <br/>
                                     </div>
                                 )
@@ -77,7 +79,7 @@ function BasketPage() {
                         <ProfileMenu/>
                     </Col>
                     <Col lg={9} style={{marginTop: "20px"}}>
-                        <CSSTransition in={!loading} classNames="my-node" timeout={1000} unmountOnExit>
+                        <CSSTransition in={!loadingBasket} classNames="my-node" timeout={1000} unmountOnExit>
                             <Jumbotron className="bg-dark text-white" style={{paddingTop: "5%", paddingBottom: "5%"}}>
                                 {showBasket()}
                             </Jumbotron>

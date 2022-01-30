@@ -3,10 +3,10 @@ import {Button, Col, Container, Modal, Row} from "react-bootstrap";
 import {useSelector} from "react-redux";
 
 function AboutFilmDialog(props) {
-    const {film, loading} = useSelector(state => state.dataFilms)
+    const {film, loadingFilm} = useSelector(state => state.dataFilms)
 
     const showContent = () => {
-        if (loading) {
+        if (loadingFilm) {
             return (
                 <div>
                     loading...
@@ -48,7 +48,7 @@ function AboutFilmDialog(props) {
                   aria-labelledby="example-custom-modal-styling-title"
                   className="special_modal">
                 <Modal.Header closeButton>
-                    <Modal.Title style={{color: "#9a9da0"}}><b>About film "{film.name}"</b></Modal.Title>
+                    <Modal.Title style={{color: "#9a9da0"}}><b>About film</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="modal-dark">
                     {showContent()}

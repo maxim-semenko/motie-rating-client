@@ -19,6 +19,7 @@ class BasketService {
     }
 
     async getById(id) {
+        console.log(BASKET_API_BASE_URL + '/' + id)
         return axios.get(BASKET_API_BASE_URL + '/' + id, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`},
         })

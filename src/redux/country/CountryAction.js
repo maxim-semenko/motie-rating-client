@@ -59,7 +59,7 @@ export const getCountryById = (id) => {
 }
 
 export function createCountry(film) {
-    return (dispatch) => {
+    return () => {
         return new Promise((resolve, reject) => {
             CountryService.create(film)
                 .then((response) => {
@@ -75,7 +75,7 @@ export function createCountry(film) {
 }
 
 export function updateCountry(film, id) {
-    return (dispatch) => {
+    return () => {
         return new Promise((resolve, reject) => {
             CountryService.update(film, id)
                 .then((response) => {
@@ -90,19 +90,6 @@ export function updateCountry(film, id) {
     };
 }
 
-// export const updateCountry = (film, id) => {
-//     return function (dispatch) {
-//         CountryService.update(film, id)
-//             .then(() => {
-//                 dispatch(getCountries(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
-//             })
-//             .catch(error => {
-//                 console.log(error)
-//             })
-//     }
-// }
-
-// store.getState().dataOfStudents.currentPage
 export const deleteCountryById = (id) => {
     return function (dispatch) {
         CountryService.deleteById(id)

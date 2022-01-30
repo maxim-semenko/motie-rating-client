@@ -43,6 +43,18 @@ function AllUsersPage() {
         })
     }
 
+    const getRole = (isAdmin) => {
+        return isAdmin ? "Admin" : "User"
+    }
+
+    const getVariantButtonRole = (isAdmin) => {
+        return isAdmin ? "outline-danger" : "outline-success"
+    }
+
+    const getTextButtonRole = (isAdmin) => {
+        return isAdmin ? "Set user" : "Set admin"
+    }
+
     const showContent = () => {
         return (
             <Table striped bordered hover variant="dark">
@@ -73,14 +85,14 @@ function AllUsersPage() {
                                     <td><b>{user.lastname}</b></td>
                                     <td><b>{user.email}</b></td>
                                     <td>
-                                        <b>{user.isAdmin ? "Admin" : "User"}</b>
+                                        <b>{getRole(user.isAdmin)}</b>
                                     </td>
                                     <td>
                                         <div>
-                                            <Button variant={user.isAdmin ? "outline-danger" : "outline-success"}
+                                            <Button variant={getVariantButtonRole(user.isAdmin)}
                                                     disabled={user.id === userId}
                                                     onClick={() => addOrRemoveAdminRole(user.id)}>
-                                                <b>{user.isAdmin ? "Set user" : "Set admin"}</b>
+                                                <b>{getTextButtonRole(user.isAdmin)}</b>
                                             </Button>{' '}
                                             <Button
                                                 variant={user.isAccountNonLocked ? "outline-danger" : "outline-warning"}

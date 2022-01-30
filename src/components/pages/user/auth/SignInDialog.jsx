@@ -7,6 +7,7 @@ import UserValidator from "../../../../validation/UserValidator";
 import AuthService from "../../../../service/AuthService"
 import '../../../../styles/Animation.css'
 import '../../../../styles/FormControl.css'
+import '../../../../styles/ForgotPasswordLink.css'
 
 function SignInDialog(props) {
     const cookies = new Cookies()
@@ -127,8 +128,8 @@ function SignInDialog(props) {
                         <Form.Control.Feedback type='invalid'>{passwordError}</Form.Control.Feedback>
                     </Form.Group>
                 </Form>
-                <Link to={"/restore-password"}>
-                    <b style={{color: "white"}}>Forgot password?</b>
+                <Link to={"/restore-password"} className="forgot-password">
+                    <b>Forgot password?</b>
                 </Link>
 
             </Modal.Body>

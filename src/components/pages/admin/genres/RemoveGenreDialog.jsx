@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Modal} from "react-bootstrap";
 import {deleteGenreById} from "../../../../redux/genre/GenreAction";
+import {toast} from "react-toastify";
 
 function RemoveGenreDialog(props) {
     const dispatch = useDispatch()
@@ -37,6 +38,7 @@ function RemoveGenreDialog(props) {
         }
     }
 
+    toast.configure()
     return (
         <div>
             <Modal{...props} size="lg"
@@ -44,7 +46,7 @@ function RemoveGenreDialog(props) {
                   aria-labelledby="example-custom-modal-styling-title"
                   className="special_modal">
                 <Modal.Header closeButton>
-                    <Modal.Title style={{color: "#9a9da0"}}><b>Remove genre "{genre.name}"</b></Modal.Title>
+                    <Modal.Title style={{color: "#9a9da0"}}><b>Remove genre</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="modal-dark">
                     {showContent()}
