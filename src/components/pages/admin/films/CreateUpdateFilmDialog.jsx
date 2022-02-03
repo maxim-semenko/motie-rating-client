@@ -38,6 +38,38 @@ function CreateUpdateFilmDialog(props) {
     const [genreError, setGenreError] = useState('')
     const [countryError, setCountryError] = useState('')
 
+    useEffect(() => {
+            if (props.method === "update") {
+                setId(film.id)
+                setGenre(film.genre)
+                setCountry(film.country)
+                setName(film.name)
+                setYear(film.year)
+                setTime(film.timeInMinutes)
+                setPrice(film.price)
+                setImageURL(film.imageURL)
+                setDescription(film.description)
+            }
+            CountryService.getAll()
+                .then(response => {
+                    setCountryList(response.data.content)
+                }).catch(error => {
+                    console.log(error)
+                }
+            )
+            GenreService.findAll()
+                .then(response => {
+                    console.log(response)
+                    setGenreList(response.data.content)
+                    setLoadingAll(false)
+                }).catch(error => {
+                    console.log(error)
+                }
+            )
+        }, []
+    )
+
+
     /**
      * Method that set film's name value.
      * @param event event
@@ -110,37 +142,6 @@ function CreateUpdateFilmDialog(props) {
         setGenre(JSON.parse(event.target.value))
         setGenreError('')
     }
-
-    useEffect(() => {
-            if (props.method === "update") {
-                setId(film.id)
-                setGenre(film.genre)
-                setCountry(film.country)
-                setName(film.name)
-                setYear(film.year)
-                setTime(film.timeInMinutes)
-                setPrice(film.price)
-                setImageURL(film.imageURL)
-                setDescription(film.description)
-            }
-            CountryService.getAll()
-                .then(response => {
-                    setCountryList(response.data.content)
-                }).catch(error => {
-                    console.log(error)
-                }
-            )
-            GenreService.findAll()
-                .then(response => {
-                    console.log(response)
-                    setGenreList(response.data.content)
-                    setLoadingAll(false)
-                }).catch(error => {
-                    console.log(error)
-                }
-            )
-        }, []
-    )
 
     const handleSubmit = (event) => {
         event.preventDefault()

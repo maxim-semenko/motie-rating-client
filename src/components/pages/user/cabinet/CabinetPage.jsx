@@ -22,7 +22,7 @@ function CabinetPage() {
                             <Row>
                                 <Col lg={4} style={{padding: "10px 0px 0px 10px"}}>
                                     <img alt="" src={imgUser}
-                                         style={{resize: "both", width: "100%", height: "194px"}}
+                                         style={{resize: "both", width: "100%", height: "252px"}}
                                     />
                                     <div className="d-grid gap-2" style={{marginTop: "20px"}}>
                                         <Link to="/profile/edit">

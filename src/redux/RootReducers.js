@@ -5,6 +5,7 @@ import countryReducers from "./country/CountryReducers";
 import basketReducers from "./basket/BasketReducers";
 import genreReducers from "./genre/GenreReducers";
 import purchaseReducers from "./purchase/PurchaseReducers";
+import transactionReducers from "./transaction/TransactionReducers";
 
 // There is store all reducers for work with any entity
 const rootReducers = combineReducers({
@@ -14,6 +15,7 @@ const rootReducers = combineReducers({
     dataGenres: genreReducers,
     dataBaskets: basketReducers,
     dataPurchases: purchaseReducers,
+    dataTransactions: transactionReducers,
 })
 
 export default rootReducers

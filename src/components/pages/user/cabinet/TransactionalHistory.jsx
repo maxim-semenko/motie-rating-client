@@ -4,44 +4,43 @@ import NavigationBar from "../../../common/NavigationBar"
 import ProfileMenu from "../../../common/ProfileMenu"
 import Footer from "../../../common/Footer"
 import {useDispatch, useSelector} from "react-redux";
-import {getPurchaseStorageById} from "../../../../redux/purchase/PurchaseAction";
-import BasketItem from "../../../common/BasketItem";
+import {getAllTransactionsByUserId} from "../../../../redux/transaction/TransactionAction";
+import TransactionItem from "../../../common/TransactionItem";
 import Spinner from "react-bootstrap/Spinner";
 
-function PurchasesPage() {
+function TransactionalHistory() {
 
-    const user = JSON.parse(localStorage.getItem("user"))
     const dispatch = useDispatch()
-    const {loadingPurchaseStorage, purchaseFilmList} = useSelector(state => state.dataPurchases)
+    const {loadingTransactions, transactionsList} = useSelector(state => state.dataTransactions)
 
     useEffect(() => {
-            if (JSON.parse(localStorage.getItem("user")) != null && purchaseFilmList === null) {
-                dispatch(getPurchaseStorageById(JSON.parse(localStorage.getItem("user")).id))
+            let user = JSON.parse(localStorage.getItem("user"));
+            if (user != null) {
+                dispatch(getAllTransactionsByUserId(user.id))
             }
-        }, [purchaseFilmList, dispatch, user.id]
+        }, [dispatch]
     )
 
     const showPurchases = () => {
-        if (loadingPurchaseStorage || purchaseFilmList === null) {
+        if (loadingTransactions || transactionsList === null) {
             return (
                 <div>
                     <span style={{paddingTop: "2%"}}><Spinner animation="border" size={"lg"}/></span>
                 </div>
             )
-        } else if (purchaseFilmList.length === 0) {
+        } else if (transactionsList.length === 0) {
             return (
                 <div>
-                    <h3>The Purchases is empty</h3>
+                    <h3>The Transactions is empty</h3>
                 </div>
             )
         } else {
             return (
                 <div>
                     {
-                        purchaseFilmList.slice(0).reverse().map(film =>
-                            <div key={film.id}>
-                                <BasketItem film={film} showButtons={false}/>
-                                <br/>
+                        transactionsList.slice(0).reverse().map((transaction, index) =>
+                            <div key={transaction.id} style={{textAlign: "left"}}>
+                                <TransactionItem transaction={transaction}/>
                             </div>
                         )
                     }
@@ -61,7 +60,7 @@ function PurchasesPage() {
                     <Col lg={9} style={{marginTop: "20px"}}>
                         <Jumbotron className="bg-dark text-white" style={{paddingTop: "5%", paddingBottom: "5%"}}>
                             <Container>
-                                <h2><b>PURCHASES LIST</b></h2>
+                                <h2><b>TRANSACTIONAL HISTORY</b></h2>
                                 <hr/>
                                 {showPurchases()}
                             </Container>
@@ -74,4 +73,4 @@ function PurchasesPage() {
     );
 }
 
-export default PurchasesPage
+export default TransactionalHistory
