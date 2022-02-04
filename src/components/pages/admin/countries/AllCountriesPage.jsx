@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
-import {Link} from "react-router-dom";
 import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
 import {getCountries, getCountryById, setCurrentPage, setSizePage} from "../../../../redux/country/CountryAction";
@@ -9,6 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 import PaginationComponent from "../../../common/PaginationComponent";
 import RemoveCountryDialog from "./RemoveCountryDialog";
 import CreateUpdateCountryDialog from "./CreateUpdateCountryDialog";
+import BackControllersButtonComponent from "../../../common/BackControllersButtonComponent";
 
 function AllCountriesPage() {
     const dispatch = useDispatch()
@@ -119,12 +119,7 @@ function AllCountriesPage() {
                 <Col lg={12} style={{marginTop: "20px"}}>
                     <Jumbotron className="bg-dark text-white">
                         <div style={{margin: "0 auto"}}>
-                            <Link to="/profile/admin/controllers">
-                                <Button variant="outline-danger"
-                                        style={{marginBottom: "20px"}}>
-                                    <b>Back to controllers</b>
-                                </Button>{' '}
-                            </Link>
+                            <BackControllersButtonComponent/>
                             <Button variant="outline-primary"
                                     style={{marginBottom: "20px"}} onClick={() => createCountry()}>
                                 <b>Add a new country</b>

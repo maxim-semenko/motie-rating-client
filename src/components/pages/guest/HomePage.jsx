@@ -6,13 +6,14 @@ import HomeFilmList from "../../common/HomeFilmList";
 import Footer from "../../common/Footer"
 import Pagination from "react-js-pagination";
 import {getBasketById} from "../../../redux/basket/BasketAction";
-import {getFilms, getFilmsByName} from "../../../redux/film/FilmAction";
+import {getFilms, getFilmsByName, resetFilms} from "../../../redux/film/FilmAction";
 import Spinner from "react-bootstrap/Spinner";
-import '../../../styles/FormControl.css'
 import {getPurchaseStorageById} from "../../../redux/purchase/PurchaseAction";
+import '../../../styles/FormControl.css'
 
 function HomePage() {
     const dispatch = useDispatch()
+    const [isInitPage, setIsInitPage] = useState(false)
     const {films, loading, totalElements} = useSelector(state => state.dataFilms)
     const [isLogin, setIsLogin] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
@@ -22,15 +23,18 @@ function HomePage() {
     const {purchaseFilmList} = useSelector(state => state.dataPurchases)
 
     useEffect(() => {
-            const isContainUser = localStorage.getItem("user") !== null
-            setIsLogin(isContainUser)
-            dispatch(getFilms(currentPage, 9))
-            if (isContainUser) {
-                let userId = JSON.parse(localStorage.getItem("user")).id
-                dispatch(getBasketById(userId))
-                dispatch(getPurchaseStorageById(userId))
+            if (!isInitPage) {
+                dispatch(resetFilms())
+                dispatch(getFilms(currentPage, 9))
+                const user = JSON.parse(localStorage.getItem("user"));
+                setIsLogin(user !== null)
+                if (user !== null) {
+                    dispatch(getBasketById(user.id))
+                    dispatch(getPurchaseStorageById(user.id))
+                }
+                setIsInitPage(true)
             }
-        }, [currentPage, dispatch]
+        }, [currentPage, dispatch, isInitPage]
     )
 
     const getAllFilmsByName = () => {
@@ -56,13 +60,10 @@ function HomePage() {
     }
 
     const showContent = () => {
-        if (loading || (films.length === 0 && !searchByName)
-            || (basketFilmList === null && isLogin) || (purchaseFilmList === null && isLogin)) {
+        if (!isInitPage || loading || (films.length === 0 && !searchByName)) {
             return (
                 <div>
-                   <span style={{paddingTop: "2%"}}>
-                       <Spinner animation="border" size={"lg"}/>
-                   </span>
+                    <span style={{paddingTop: "2%"}}><Spinner animation="border" size={"lg"}/></span>
                 </div>
             )
         } else {

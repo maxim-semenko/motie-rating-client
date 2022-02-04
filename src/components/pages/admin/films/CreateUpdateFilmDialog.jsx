@@ -39,34 +39,36 @@ function CreateUpdateFilmDialog(props) {
     const [countryError, setCountryError] = useState('')
 
     useEffect(() => {
-            if (props.method === "update") {
-                setId(film.id)
-                setGenre(film.genre)
-                setCountry(film.country)
-                setName(film.name)
-                setYear(film.year)
-                setTime(film.timeInMinutes)
-                setPrice(film.price)
-                setImageURL(film.imageURL)
-                setDescription(film.description)
+            if (film !== null) {
+                if (props.method === "update") {
+                    setId(film.id)
+                    setGenre(film.genre)
+                    setCountry(film.country)
+                    setName(film.name)
+                    setYear(film.year)
+                    setTime(film.timeInMinutes)
+                    setPrice(film.price)
+                    setImageURL(film.imageURL)
+                    setDescription(film.description)
+                }
+                CountryService.getAll()
+                    .then(response => {
+                        setCountryList(response.data.content)
+                    }).catch(error => {
+                        console.log(error)
+                    }
+                )
+                GenreService.findAll()
+                    .then(response => {
+                        console.log(response)
+                        setGenreList(response.data.content)
+                        setLoadingAll(false)
+                    }).catch(error => {
+                        console.log(error)
+                    }
+                )
             }
-            CountryService.getAll()
-                .then(response => {
-                    setCountryList(response.data.content)
-                }).catch(error => {
-                    console.log(error)
-                }
-            )
-            GenreService.findAll()
-                .then(response => {
-                    console.log(response)
-                    setGenreList(response.data.content)
-                    setLoadingAll(false)
-                }).catch(error => {
-                    console.log(error)
-                }
-            )
-        }, []
+        }, [film] // eslint-disable-line react-hooks/exhaustive-deps
     )
 
 

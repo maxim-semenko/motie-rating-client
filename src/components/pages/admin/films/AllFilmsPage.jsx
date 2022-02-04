@@ -3,13 +3,13 @@ import {Button, Col, Container, Form, Jumbotron, Row, Table} from "react-bootstr
 import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
 import CreateUpdateFilmDialog from "./CreateUpdateFilmDialog";
-import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getFilmById, getFilms, setCurrentPage, setSizePage} from "../../../../redux/film/FilmAction";
 import Pagination from "react-js-pagination";
 import Spinner from 'react-bootstrap/Spinner'
 import RemoveFilmDialog from "./RemoveFilmDialog";
 import AboutFilmDialog from "./AboutFilmDialog";
+import BackControllersButtonComponent from "../../../common/BackControllersButtonComponent";
 
 function AllFilmsPage() {
     const dispatch = useDispatch()
@@ -101,47 +101,43 @@ function AllFilmsPage() {
         )
     }
 
+    const showDialogs = () => {
+        if (showAddEditFilmDialog) {
+            return (
+                <CreateUpdateFilmDialog
+                    show={showAddEditFilmDialog}
+                    onHide={() => setShowAddEditFilmDialog(false)}
+                    method={method}
+                    updateList={getFilms}
+                />
+            )
+        }
+        if (showRemoveFilmDialog) {
+            return (
+                <RemoveFilmDialog
+                    show={showRemoveFilmDialog}
+                    onHide={() => setShowRemoveFilmDialog(false)}
+                />
+            )
+        }
+        if (showAboutFilmDialog) {
+            return (
+                <AboutFilmDialog
+                    show={showAboutFilmDialog}
+                    onHide={() => setShowAboutFilmDialog(false)}
+                />
+            )
+        }
+    }
+
     return (
         <div>
-            {
-                showAddEditFilmDialog ?
-                    <CreateUpdateFilmDialog
-                        show={showAddEditFilmDialog}
-                        onHide={() => setShowAddEditFilmDialog(false)}
-                        method={method}
-                        updateList={getFilms}
-                    />
-                    :
-                    null
-            }
-            {
-                showRemoveFilmDialog ?
-                    <RemoveFilmDialog
-                        show={showRemoveFilmDialog}
-                        onHide={() => setShowRemoveFilmDialog(false)}
-                    />
-                    :
-                    null
-            }
-            {
-                showAboutFilmDialog ?
-                    <AboutFilmDialog
-                        show={showAboutFilmDialog}
-                        onHide={() => setShowAboutFilmDialog(false)}
-                    />
-                    :
-                    null
-            }
+            {showDialogs()}
             <NavigationBar/>
             <Container fluid>
                 <Col lg={12} style={{marginTop: "20px"}}>
                     <Jumbotron className="bg-dark text-white">
-                        <Link to="/profile/admin/controllers">
-                            <Button variant="outline-danger"
-                                    style={{marginBottom: "20px"}}>
-                                <b>Back to controllers</b>
-                            </Button>{' '}
-                        </Link>
+                        <BackControllersButtonComponent/>
                         <Button variant="outline-primary"
                                 style={{marginBottom: "20px"}} onClick={() => createFilm()}>
                             <b>Add a new film</b>

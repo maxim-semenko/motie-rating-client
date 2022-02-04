@@ -22,6 +22,10 @@ export const setSizePage = (size) => ({
     payload: size
 })
 
+export const resetFilms = () => ({
+    type: types.RESET_FILMS,
+})
+
 export const setLoading = (loading) => ({
     type: types.SET_LOADING,
     payload: loading
@@ -40,7 +44,7 @@ export const getFilms = (currentPage = 1, sizePage = 9) => {
         FilmService.getAll(currentPage, sizePage)
             .then((resp) => {
                 dispatch(getFilmsSuccess(resp.data))
-                dispatch(setLoading(false))
+                // dispatch(setLoading(false))
             })
             .catch(error => {
                 console.log(error)

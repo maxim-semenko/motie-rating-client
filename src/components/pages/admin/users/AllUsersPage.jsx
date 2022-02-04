@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
-import {Link} from "react-router-dom";
 import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
 import {getUsers, setCurrentPage, setSizePage} from "../../../../redux/user/UserAction";
@@ -8,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
 import AdminService from "../../../../service/AdminService";
 import PaginationComponent from "../../../common/PaginationComponent";
+import BackControllersButtonComponent from "../../../common/BackControllersButtonComponent";
 
 function AllUsersPage() {
     const dispatch = useDispatch()
@@ -126,14 +126,7 @@ function AllUsersPage() {
             <Container fluid>
                 <Col lg={12} style={{marginTop: "20px"}}>
                     <Jumbotron className="bg-dark text-white">
-                        <div style={{margin: "0 auto"}}>
-                            <Link to="/profile/admin/controllers">
-                                <Button variant="outline-danger"
-                                        style={{marginBottom: "20px"}}>
-                                    <b>Back to controllers</b>
-                                </Button>
-                            </Link>
-                        </div>
+                        <BackControllersButtonComponent/>
                         <Row>
                             <PaginationComponent
                                 sizePage={sizePage}

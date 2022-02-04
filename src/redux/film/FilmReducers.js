@@ -54,6 +54,11 @@ const filmReducers = (state = initialState, action = {}) => {
                 ...state,
                 loadingFilm: action.payload
             }
+        case types.RESET_FILMS:
+            return {
+                ...state,
+                films: []
+            }
         default:
             return state
     }
