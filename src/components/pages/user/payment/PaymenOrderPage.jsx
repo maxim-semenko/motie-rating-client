@@ -113,7 +113,7 @@ function PaymentOrderPage() {
                                     {/*                    textHeader="It's OK!"*/}
                                     {/*                    text={showSuccess}*/}
                                     {/*                    close={() => setShowSuccess(false)}/>*/}
-                                    <Form.Group as={Col} controlId="formGridEmail">
+                                    <Form.Group as={Col}>
                                         <Form.Label><b>CARD HOLDER NAME</b></Form.Label>
                                         <Form.Control type="text"
                                                       className="my-input"
@@ -125,7 +125,7 @@ function PaymentOrderPage() {
                                         />
                                         <Form.Control.Feedback type='invalid'>{cardNameError}</Form.Control.Feedback>
                                     </Form.Group>
-                                    <Form.Group as={Col} controlId="formGridEmail">
+                                    <Form.Group as={Col}>
                                         <Form.Label><b>CARD NUMBER</b></Form.Label>
                                         <Form.Control type="email"
                                                       className="my-input"
@@ -139,7 +139,7 @@ function PaymentOrderPage() {
                                     </Form.Group>
                                     <Row>
                                         <Col>
-                                            <Form.Group as={Col} controlId="formGridEmail">
+                                            <Form.Group as={Col}>
                                                 <Form.Label><b>EXPIRY DATE</b></Form.Label>
                                                 <Form.Control type="text"
                                                               className="my-input"

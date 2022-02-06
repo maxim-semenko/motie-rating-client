@@ -9,11 +9,13 @@ import 'react-toastify/dist/ReactToastify.css'
 import '../../../../styles/Animation.css'
 import '../../../../styles/FormControl.css'
 import FilmValidator from "../../../../validation/FilmValidator";
+import {ImCross} from "react-icons/all";
+import '../../../../styles/Common.css'
+import FileService from "../../../../service/FileService";
 
 function CreateUpdateFilmDialog(props) {
     const dispatch = useDispatch()
     const {film, currentPage, sizePage} = useSelector(state => state.dataFilms)
-    const [loadingAll, setLoadingAll] = useState(true)
 
     const [genreList, setGenreList] = useState([])
     const [countryList, setCountryList] = useState([])
@@ -28,6 +30,9 @@ function CreateUpdateFilmDialog(props) {
     const [genre, setGenre] = useState(null)
     const [country, setCountry] = useState(null)
 
+    const [countries, setCountries] = useState([])
+    const [genres, setGenres] = useState([])
+
     // Errors
     const [nameError, setNameError] = useState('')
     const [yearError, setYearError] = useState('')
@@ -39,30 +44,32 @@ function CreateUpdateFilmDialog(props) {
     const [countryError, setCountryError] = useState('')
 
     useEffect(() => {
-            if (film !== null) {
-                if (props.method === "update") {
-                    setId(film.id)
-                    setGenre(film.genre)
-                    setCountry(film.country)
-                    setName(film.name)
-                    setYear(film.year)
-                    setTime(film.timeInMinutes)
-                    setPrice(film.price)
-                    setImageURL(film.imageURL)
-                    setDescription(film.description)
-                }
+            if (film !== null && props.method === "update") {
+                setId(film.id)
+                setGenres(film.genres)
+                setCountries(film.countries)
+                setName(film.name)
+                setYear(film.year)
+                setTime(film.timeInMinutes)
+                setPrice(film.price)
+                setImageURL(film.imageURL)
+                setDescription(film.description)
+            }
+            if (countryList.length === 0) {
                 CountryService.getAll()
                     .then(response => {
+                        console.log(response)
                         setCountryList(response.data.content)
                     }).catch(error => {
                         console.log(error)
                     }
                 )
+            }
+            if (genreList.length === 0) {
                 GenreService.findAll()
                     .then(response => {
                         console.log(response)
                         setGenreList(response.data.content)
-                        setLoadingAll(false)
                     }).catch(error => {
                         console.log(error)
                     }
@@ -113,21 +120,8 @@ function CreateUpdateFilmDialog(props) {
      * @param event event
      */
     const changeImageURLHandler = async (event) => {
-        setImageURL(await convertBase64(event.target.files[0]))
+        setImageURL(await FileService.convertBase64(event.target.files[0]))
         setImageURLError('')
-    };
-
-    const convertBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader()
-            fileReader.readAsDataURL(file)
-            fileReader.onload = () => {
-                resolve(fileReader.result)
-            };
-            fileReader.onerror = (error) => {
-                reject(error)
-            };
-        });
     };
 
     const changeDescriptionHandler = (event) => {
@@ -145,16 +139,36 @@ function CreateUpdateFilmDialog(props) {
         setGenreError('')
     }
 
+    const addCountry = () => {
+        if (!countries.some(item => item.name === country.name)) {
+            setCountries([...countries, country]);
+        }
+    }
+
+    const removeCountry = (item) => {
+        setCountries(countries.filter(country => country.name !== item.name));
+    }
+
+    const addGenre = () => {
+        if (!genres.some(item => item.name === genres.name)) {
+            setGenres([...genres, genre]);
+        }
+    }
+
+    const removeGenre = (item) => {
+        setGenres(genres.filter(genre => genre.name !== item.name));
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault()
         let request = {
             name: name,
-            country: country,
+            countries: countries,
             year: year,
             timeInMinutes: time,
             price: price,
             description: description,
-            genre: genre,
+            genres: genres,
             imageURL: imageURL
         }
 
@@ -164,14 +178,23 @@ function CreateUpdateFilmDialog(props) {
                     .then((response) => {
                         console.log(response)
                         dispatch(getFilms(currentPage, sizePage))
-                        notifySuccess()
+                        notifySuccess('The new film was created successfully!')
                     })
                     .catch((error) => {
                         console.log(error)
-                        notifyError()
+                        notifyError('Error to create a new film, please check your input data!')
                     });
             } else {
                 dispatch(updateFilm(request, id))
+                    .then((response) => {
+                        console.log(response)
+                        dispatch(getFilms(currentPage, sizePage))
+                        notifySuccess('The new film was updated successfully!')
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        notifyError('Error to update film, please check your input data!')
+                    });
             }
         }
     }
@@ -198,16 +221,22 @@ function CreateUpdateFilmDialog(props) {
         return isErrors
     }
 
-    const notifyError = () => toast.error('Error to create a new film, please check your input data!', {
+    const notifyError = (text) => toast.error(text, {
         position: "top-right",
     });
 
-    const notifySuccess = () => toast.success('The new film was created successfully!', {
+    const notifySuccess = (text) => toast.success(text, {
         position: "top-right",
     });
 
     const showContent = () => {
-        if (!loadingAll && genre !== undefined && country !== undefined) {
+        if (genreList.length === 0 || countryList.length === 0 || film === null) {
+            return (
+                <div>
+                    loading...
+                </div>
+            )
+        } else {
             return (
                 <div>
                     <Row>
@@ -268,41 +297,90 @@ function CreateUpdateFilmDialog(props) {
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{marginBottom: "0px"}}><b>COUNTRY</b></Form.Label>
-                                    <Form.Control className="my-input"
-                                                  as="select" aria-label="Default select example"
-                                                  isInvalid={countryError}
-                                                  onChange={changeCountryHandler}>
-                                        <option key={0} value={"null"}>Select...</option>
-                                        {countryList.map((item, index) =>
-                                            <option
-                                                selected={props.method === "create" ? false : item.name === country.name}
-                                                key={index}
-                                                value={JSON.stringify(item)}>
-                                                {item.name}
-                                            </option>
-                                        )}
-                                    </Form.Control>
-                                    <Form.Control.Feedback type='invalid'>{countryError}</Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{marginBottom: "0px"}}><b>GENRE</b></Form.Label>
-                                    <Form.Control className="my-input" as="select" aria-label="Default select example"
-                                                  isInvalid={genreError}
-                                                  onChange={changeGenreHandler}>
-                                        <option key={0} value={"null"}>Select...</option>
-                                        {genreList.map((item, index) =>
-                                            <option
-                                                selected={props.method === "create" ? false : item.name === genre.name}
-                                                key={index}
-                                                value={JSON.stringify(item)}>
-                                                {item.name}
-                                            </option>
-                                        )}
-                                    </Form.Control>
-                                    <Form.Control.Feedback type='invalid'>{genreError}</Form.Control.Feedback>
-                                </Form.Group>
+                                <Row>
+                                    <Col sm={10}>
+                                        <Form.Group as={Col}>
+                                            <Form.Label style={{marginBottom: "0px"}}><b>COUNTRY</b></Form.Label>
+                                            <Form.Control className="my-input"
+                                                          as="select" aria-label="Default select example"
+                                                          isInvalid={countryError}
+                                                          onChange={changeCountryHandler}>
+                                                <option key={0} value={"null"}>Select...</option>
+                                                {countryList.map((item, index) =>
+                                                    <option
+                                                        key={index}
+                                                        value={JSON.stringify(item)}>
+                                                        {item.name}
+                                                    </option>
+                                                )}
+                                            </Form.Control>
+                                            <Form.Control.Feedback type='invalid'>{countryError}</Form.Control.Feedback>
+                                            <div style={{paddingTop: "1%"}}>
+                                                {
+                                                    countries.map((item, index) =>
+                                                        <span key={index} style={{marginRight: "8px"}}>
+                                                            <b>{item.name}</b>
+                                                            <span className="remove-icon"
+                                                                  onClick={() => removeCountry(item)}>
+                                                                <ImCross size={12}/></span>
+                                                        </span>
+                                                    )
+                                                }
+                                            </div>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group as={Col}>
+                                            <div style={{paddingTop: "30%", textAlign: "left"}}>
+                                                <Button variant={"outline-success"} style={{width: "70px"}}
+                                                        onClick={addCountry}>Add
+                                                </Button>
+                                            </div>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={10}>
+                                        <Form.Group as={Col}>
+                                            <Form.Label style={{marginBottom: "0px"}}><b>GENRE</b></Form.Label>
+                                            <Form.Control className="my-input" as="select"
+                                                          aria-label="Default select example"
+                                                          isInvalid={genreError}
+                                                          onChange={changeGenreHandler}>
+                                                <option key={0} value={"null"}>Select...</option>
+                                                {genreList.map((item, index) =>
+                                                    <option
+                                                        key={index}
+                                                        value={JSON.stringify(item)}>
+                                                        {item.name}
+                                                    </option>
+                                                )}
+                                            </Form.Control>
+                                            <Form.Control.Feedback type='invalid'>{genreError}</Form.Control.Feedback>
+                                            <div style={{paddingTop: "1%"}}>
+                                                {
+                                                    genres.map((item, index) =>
+                                                        <span key={index}>
+                                                            <b>{item.name} </b>
+                                                            <span className="remove-icon"
+                                                                  onClick={() => removeGenre(item)}><ImCross
+                                                                size={12}/></span>
+                                                        </span>
+                                                    )
+                                                }
+                                            </div>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group as={Col}>
+                                            <div style={{paddingTop: "30%", textAlign: "left"}}>
+                                                <Button variant={"outline-success"} onClick={addGenre}
+                                                        style={{width: "70px"}}>Add
+                                                </Button>
+                                            </div>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
                             </Form>
                             <Form.Group as={Col} controlId="formGridEmail">
                                 <Form.Label><b>DESCRIPTION</b></Form.Label>
@@ -332,12 +410,7 @@ function CreateUpdateFilmDialog(props) {
                     </Row>
                 </div>
             )
-        } else {
-            return (
-                <div>
-                    loading...
-                </div>
-            )
+
         }
     }
 

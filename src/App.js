@@ -16,7 +16,7 @@ import AllFilmsPage from "./components/pages/admin/films/AllFilmsPage";
 import AllGenresPage from "./components/pages/admin/genres/AllGenresPage";
 import AllCountriesPage from "./components/pages/admin/countries/AllCountriesPage";
 import RestorePasswordPage from "./components/pages/user/auth/RestorePasswordPage";
-import PaymentOrderPage from "./components/pages/user/payment/PaymenOrdertPage";
+import PaymentOrderPage from "./components/pages/user/payment/PaymenOrderPage";
 import TransactionalHistory from "./components/pages/user/cabinet/TransactionalHistory";
 
 

@@ -29,8 +29,24 @@ function AboutFilmDialog(props) {
                                     <h5><b>Year:</b> {film.year}</h5>
                                     <h5><b>Time:</b> {film.timeInMinutes} minutes</h5>
                                     <h5><b>Price:</b> {film.price}$</h5>
-                                    <h5><b>Country:</b> {film.country.name}</h5>
-                                    <h5><b>Genre:</b> {film.genre.name}</h5>
+                                    <h5><b>Countries: </b>
+                                        {
+                                            film.countries.map((item, index) =>
+                                                <span key={index} style={{marginRight: "8px"}}>
+                                                            <b>{item.name}</b>
+                                                </span>
+                                            )
+                                        }
+                                    </h5>
+                                    <h5><b>Genres: </b>
+                                        {
+                                            film.genres.map((item, index) =>
+                                                <span key={index}>
+                                                            <b>{item.name} </b>
+                                                </span>
+                                            )
+                                        }
+                                    </h5>
                                     <h5><b>Rating:</b> {film.rating}</h5>
                                 </div>
                             </Col>

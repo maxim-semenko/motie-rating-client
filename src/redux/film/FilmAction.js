@@ -26,6 +26,10 @@ export const resetFilms = () => ({
     type: types.RESET_FILMS,
 })
 
+export const resetFilm = () => ({
+    type: types.RESET_FILM,
+})
+
 export const setLoading = (loading) => ({
     type: types.SET_LOADING,
     payload: loading
@@ -98,15 +102,19 @@ export function createFilm(film) {
 }
 
 export const updateFilm = (film, id) => {
-    return function (dispatch) {
-        FilmService.update(film, id)
-            .then(() => {
-                dispatch(getFilms(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+    return () => {
+        return new Promise((resolve, reject) => {
+            FilmService.update(film, id)
+                .then((response) => {
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
+        })
+    };
 }
 
 export const deleteFilmById = (id) => {

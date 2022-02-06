@@ -62,17 +62,17 @@ class FilmValidator {
         return error
     }
 
-    validateCountry(country) {
+    validateCountries(countries) {
         let error = "";
-        if (country === null || country === undefined) {
+        if (countries.length === 0) {
             error = "select country!"
         }
         return error
     }
 
-    validateGenre(genre) {
+    validateGenres(genres) {
         let error = "";
-        if (genre === null || genre === undefined) {
+        if (genres.length === 0) {
             error = "select genre!"
         }
         return error
@@ -86,8 +86,8 @@ class FilmValidator {
         let priceError = this.validatePrice(film.price)
         let descriptionError = this.validateDescription(film.description)
         let imageURLError = this.validateImageURL(film.imageURL)
-        let countryError = this.validateCountry(film.country)
-        let genreError = this.validateGenre(film.genre)
+        let countryError = this.validateCountries(film.countries)
+        let genreError = this.validateGenres(film.genres)
 
         return {
             nameError,

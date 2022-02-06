@@ -149,8 +149,20 @@ function AboutFilmPage(props) {
                                     <h1 style={{textTransform: "uppercase"}}>{film.name}</h1>
                                     <p style={{textAlign: "justify"}}><i>{film.description}</i></p>
                                     <hr/>
-                                    <h4><b>Country:</b> {film.country.name}</h4>
-                                    <h4><b>Genre:</b> {film.genre.name}</h4>
+                                    <h4><b>Country: </b>
+                                        {
+                                            film.countries.map((item, index) =>
+                                                <span key={index}><b>{item.name}, </b></span>
+                                            )
+                                        }
+                                    </h4>
+                                    <h4><b>Genre: </b>
+                                        {
+                                            film.genres.map((item, index) =>
+                                                <span key={index}><b>{item.name}, </b></span>
+                                            )
+                                        }
+                                    </h4>
                                     <h4><b>Year:</b> {film.year}</h4>
                                     <h4><b>Time:</b> {film.timeInMinutes} minutes</h4>
                                     <h4><b>Rating:</b> {film.rating}</h4>

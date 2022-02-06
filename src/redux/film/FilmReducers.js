@@ -59,6 +59,11 @@ const filmReducers = (state = initialState, action = {}) => {
                 ...state,
                 films: []
             }
+        case types.RESET_FILM:
+            return {
+                ...state,
+                film: null
+            }
         default:
             return state
     }

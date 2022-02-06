@@ -15,19 +15,15 @@ function HomePage() {
     const dispatch = useDispatch()
     const [isInitPage, setIsInitPage] = useState(false)
     const {films, loading, totalElements} = useSelector(state => state.dataFilms)
-    const [isLogin, setIsLogin] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [searchByName, setSearchByName] = useState(false)
     const [nameForSearch, setNameForSearch] = useState("")
-    const {basketFilmList} = useSelector(state => state.dataBaskets)
-    const {purchaseFilmList} = useSelector(state => state.dataPurchases)
 
     useEffect(() => {
             if (!isInitPage) {
                 dispatch(resetFilms())
                 dispatch(getFilms(currentPage, 9))
                 const user = JSON.parse(localStorage.getItem("user"));
-                setIsLogin(user !== null)
                 if (user !== null) {
                     dispatch(getBasketById(user.id))
                     dispatch(getPurchaseStorageById(user.id))
