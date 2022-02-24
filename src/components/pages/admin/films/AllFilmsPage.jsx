@@ -4,14 +4,7 @@ import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
 import CreateUpdateFilmDialog from "./CreateUpdateFilmDialog";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    getFilmById,
-    getFilms,
-    resetFilm,
-    resetFilms,
-    setCurrentPage,
-    setSizePage
-} from "../../../../redux/film/FilmAction";
+import {getFilmById, getFilms, resetFilm, setCurrentPage, setSizePage} from "../../../../redux/film/FilmAction";
 import Pagination from "react-js-pagination";
 import Spinner from 'react-bootstrap/Spinner'
 import RemoveFilmDialog from "./RemoveFilmDialog";
@@ -87,7 +80,7 @@ function AllFilmsPage() {
                                     <td><b>{film.name}</b></td>
                                     <td><b>{film.year}</b></td>
                                     <td><b>{film.timeInMinutes}</b></td>
-                                    <td><b>{film.rating}</b></td>
+                                    <td><b>{film.rating.toFixed(2)}</b></td>
                                     <td><b>{film.price}$</b></td>
                                     <td>
                                         <Button variant="outline-success"

@@ -15,10 +15,11 @@ function PurchasesPage() {
     const {loadingPurchaseStorage, purchaseFilmList} = useSelector(state => state.dataPurchases)
 
     useEffect(() => {
-            if (JSON.parse(localStorage.getItem("user")) != null && purchaseFilmList === null) {
+            window.scrollTo(0, 0);
+            if (JSON.parse(localStorage.getItem("user")) != null) {
                 dispatch(getPurchaseStorageById(JSON.parse(localStorage.getItem("user")).id))
             }
-        }, [purchaseFilmList, dispatch, user.id]
+        }, [dispatch, user.id]
     )
 
     const showPurchases = () => {

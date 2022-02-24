@@ -48,7 +48,7 @@ function AllGenresPage() {
             <Table striped bordered hover variant="dark">
                 <thead>
                 <tr>
-                    <th style={{minWidth: "9rem"}}>Id</th>
+                    <th style={{minWidth: "9rem"}}>№</th>
                     <th style={{minWidth: "15rem"}}>Name</th>
                     <th>Action</th>
                 </tr>
@@ -63,9 +63,9 @@ function AllGenresPage() {
                         :
                         <tbody>
                         {
-                            genres.map(genre =>
-                                <tr key={genre.id}>
-                                    <td><b>{genre.id}</b></td>
+                            genres.map((genre, index) =>
+                                <tr key={index}>
+                                    <td><b>{index + 1}</b></td>
                                     <td><b>{genre.name}</b></td>
                                     <td>
                                         <Button variant="outline-success"

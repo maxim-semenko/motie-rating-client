@@ -1,5 +1,4 @@
 import * as types from "./FilmActionType"
-import store from "../Store"
 import FilmService from "../../service/FilmService";
 
 const getFilmsSuccess = (films) => ({
@@ -48,7 +47,7 @@ export const getFilms = (currentPage = 1, sizePage = 9) => {
         FilmService.getAll(currentPage, sizePage)
             .then((resp) => {
                 dispatch(getFilmsSuccess(resp.data))
-                // dispatch(setLoading(false))
+                dispatch(setLoading(false))
             })
             .catch(error => {
                 console.log(error)

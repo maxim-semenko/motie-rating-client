@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, Col, Container, Jumbotron, Row} from "react-bootstrap"
-import {ImUsers, MdLocalMovies} from "react-icons/all"
+import {AiFillMessage, ImUsers, MdLocalMovies} from "react-icons/all"
 import {AiOutlineGlobal} from "react-icons/ai"
 import {Link} from "react-router-dom"
 import NavigationBar from "../../common/NavigationBar"
@@ -19,34 +19,40 @@ function AdminPage() {
                                 <b>Back to profile</b>
                             </Button>
                         </Link>
-                        <Jumbotron className="bg-dark text-white">
-                            <a href={"/profile/admin/all-users"} className="my-link">
+                        <Jumbotron className="bg-dark text-white" style={{padding: "35px 20px 35px 25px"}}>
+                            <Link to="all-users" className="my-link">
                                 <h5>
                                     <span className="menu-icon"><ImUsers size={24}/></span>USERS CONTROL
                                 </h5>
-                            </a>
+                            </Link>
                             <hr/>
                             <br/>
-                            <a href={"/profile/admin/all-films"} className="my-link">
+                            <Link to="all-films" className="my-link">
                                 <h5>
                                     <span className="menu-icon"><MdLocalMovies size={24}/></span>FILMS CONTROL
                                 </h5>
-                            </a>
+                            </Link>
                             <hr/>
                             <br/>
-                            <a href={"/profile/admin/all-genres"} className="my-link">
+                            <Link to="all-genres" className="my-link">
                                 <h5>
                                     <span className="menu-icon"><MdLocalMovies size={24}/></span>GENRES CONTROL
                                 </h5>
-                            </a>
+                            </Link>
                             <hr/>
                             <br/>
-                            <a href={"/profile/admin/all-countries"} className="my-link">
+                            <Link to="all-countries" className="my-link">
                                 <h5>
                                     <span className="menu-icon"><AiOutlineGlobal size={24}/></span>COUNTRIES CONTROL
                                 </h5>
-                            </a>
+                            </Link>
                             <hr/>
+                            <br/>
+                            <Link to="all-messages" className="my-link">
+                                <h5>
+                                    <span className="menu-icon"><AiFillMessage size={24}/></span>MESSAGES CONTROL
+                                </h5>
+                            </Link>
                         </Jumbotron>
                     </Col>
                 </Row>

@@ -8,7 +8,7 @@ import imgLogo from "../../img/logo.svg"
 import AuthService from "../../service/AuthService"
 import {Link} from "react-router-dom";
 
-function NavigationBar(props) {
+function NavigationBar() {
     const cookies = new Cookies()
     const [showSignInModal, setShowSignInModal] = useState(false)
     const [showSignUpModal, setShowSignUpModal] = useState(false)
@@ -85,6 +85,7 @@ function NavigationBar(props) {
                             <Nav.Link as={Link} to="/"><b>HOME</b></Nav.Link>
                             <Nav.Link as={Link} to="/top"><b>TOP</b></Nav.Link>
                             <Nav.Link as={Link} to="/about"><b>ABOUT</b></Nav.Link>
+                            <Nav.Link as={Link} to="/feedback"><b>FEEDBACK</b></Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                     <Navbar.Collapse className="justify-content-end">

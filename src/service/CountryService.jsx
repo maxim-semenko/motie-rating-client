@@ -6,21 +6,16 @@ const cookies = new Cookies()
 
 class CountryService {
 
-    async findAll() {
+    async getAll(page = 0, size = 0) {
+        console.log("countries getAll() page=" + (page - 1) + ",size=" + size)
+        const params = new URLSearchParams([['page', (page - 1)], ['size', size], ['sort', 'name']]);
         return axios.get(COUNTRY_API_BASE_URL, {
-            headers: {'Authorization': `Bearer_${cookies.get("jwt")}`},
-        })
-    }
-
-    async getAll(page = 1, size = 999) {
-        console.log(`/api/v1/countries?page=${page - 1}&size=${size}`)
-        return axios.get(COUNTRY_API_BASE_URL + `?page=${page - 1}&size=${size}&sort=id`, {
-            headers: {'Authorization': `Bearer_${cookies.get("jwt")}`},
+            params, headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })
     }
 
     async getById(id) {
-        return axios.get(COUNTRY_API_BASE_URL + '/' + id, {
+        return axios.get(`${COUNTRY_API_BASE_URL}/${id}`, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })
     }
@@ -32,13 +27,13 @@ class CountryService {
     }
 
     async update(request, id) {
-        return axios.put(COUNTRY_API_BASE_URL + '/' + id, request, {
+        return axios.put(`${COUNTRY_API_BASE_URL}/${id}`, request, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })
     }
 
     async deleteById(id) {
-        return axios.delete(COUNTRY_API_BASE_URL + '/' + id, {
+        return axios.delete(`${COUNTRY_API_BASE_URL}/${id}`, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })
     }

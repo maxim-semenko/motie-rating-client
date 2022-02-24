@@ -49,6 +49,8 @@ class FilmValidator {
             error = 'description cannot be empty!';
         } else if (description.length < 20) {
             error = 'description is too short!';
+        } else if (description.length > 512) {
+            error = 'description is too long!';
         }
         return error
     }
@@ -100,7 +102,6 @@ class FilmValidator {
             genreError,
         }
     }
-
 
 }
 

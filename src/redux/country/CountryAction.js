@@ -29,7 +29,7 @@ export const setLoading = (loading) => ({
 
 //============================================ Axios requests ==========================================================
 
-export const getCountries = (currentPage = 1, sizePage = 9) => {
+export const getCountries = (currentPage = 0, sizePage = 0) => {
     return function (dispatch) {
         dispatch(setLoading(true))
         CountryService.getAll(currentPage, sizePage)
@@ -93,7 +93,8 @@ export function updateCountry(film, id) {
 export const deleteCountryById = (id) => {
     return function (dispatch) {
         CountryService.deleteById(id)
-            .then(() => {
+            .then((response) => {
+                console.log(response)
                 dispatch(getCountries(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
             })
             .catch(error => {

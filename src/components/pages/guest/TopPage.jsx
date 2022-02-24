@@ -1,91 +1,85 @@
 import React, {useEffect, useState} from 'react'
 import NavigationBar from "../../common/NavigationBar"
 import Footer from "../../common/Footer"
-import {Card, Container, Jumbotron} from "react-bootstrap";
+import {Container, Jumbotron} from "react-bootstrap";
 import 'react-slideshow-image/dist/styles.css'
-
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import Spinner from "react-bootstrap/Spinner";
+import FilmService from "../../../service/FilmService";
+import CarouselComponent from "../../common/CarouselComponent";
 
 function TopPage() {
-    const [isLogin, setIsLogin] = useState(false)
+    const [actionFilmList, setActionFilmList] = useState([]);
+    const [adventureFilmList, setAdventureFilmList] = useState([]);
+    const [cartoonFilmList, setCartoonFilmList] = useState([]);
+    const [comedyFilmList, setComedyFilmList] = useState([]);
+    const [dramaticFilmList, setDramaticFilmList] = useState([]);
+    const [fantasyFilmList, setFantasyFilmList] = useState([]);
+    const [romanticFilmList, setRomanticFilmList] = useState([]);
+    const [scientificFilmList, setScientificFilmList] = useState([]);
 
     useEffect(() => {
-        const isContainUser = localStorage.getItem("user") !== null
-        setIsLogin(isContainUser)
+        FilmService.findTop9ByGenre("Action")
+            .then((response) => {
+                setActionFilmList(response.data)
+            })
+        FilmService.findTop9ByGenre("Adventure")
+            .then((response) => {
+                setAdventureFilmList(response.data)
+            })
+        FilmService.findTop9ByGenre("Cartoon")
+            .then((response) => {
+                setCartoonFilmList(response.data)
+            })
+        FilmService.findTop9ByGenre("Comedy")
+            .then((response) => {
+                setComedyFilmList(response.data)
+            })
+        FilmService.findTop9ByGenre("Dramatic")
+            .then((response) => {
+                setDramaticFilmList(response.data)
+            })
+        FilmService.findTop9ByGenre("Fantasy")
+            .then((response) => {
+                setFantasyFilmList(response.data)
+            })
+        FilmService.findTop9ByGenre("Romantic")
+            .then((response) => {
+                setRomanticFilmList(response.data)
+            })
+        FilmService.findTop9ByGenre("Scientific")
+            .then((response) => {
+                setScientificFilmList(response.data)
+            })
     }, [])
 
-    const responsive = {
-        desktop: {
-            breakpoint: {max: 3000, min: 1024},
-            items: 3,
-            slidesToSlide: 3 // optional, default to 1.
-        },
-        tablet: {
-            breakpoint: {max: 1024, min: 464},
-            items: 2,
-            slidesToSlide: 2 // optional, default to 1.
-        },
-        mobile: {
-            breakpoint: {max: 464, min: 0},
-            items: 1,
-            slidesToSlide: 1 // optional, default to 1.
-        }
-    };
+    const check = () => {
+        return actionFilmList.length === 0 || adventureFilmList.length === 0 || cartoonFilmList.length === 0
+            || comedyFilmList.length === 0 || dramaticFilmList.length === 0 || fantasyFilmList.length === 0
+            || romanticFilmList.length === 0 || scientificFilmList.length === 0;
+    }
 
     const showContent = () => {
         return (
             <div>
-                <br/>
-                <h2><b>TOP 9 ACTION FILMS</b></h2>
-                <Carousel
-                    swipeable={false}
-                    draggable={false}
-                    showDots={true}
-                    responsive={responsive}
-                    infinite={true}
-                    keyBoardControl={true}
-                    containerClass="carousel-container"
-                    dotListClass="custom-dot-list-style"
-                    itemClass="carousel-item-padding-40-px"
-                >
-                    <div style={{marginRight: "5px"}}>
-                        <Card className="customCard">
-                            <Card.Img variant="top" height="450rem"
-                                      src="https://kinodrive.cc/uploads/posts/2015-12/1451013412_1.jpg"/>
-                        </Card>
-                    </div>
-                    <div style={{marginRight: "5px"}}>
-                        <Card className="customCard">
-                            <Card.Img variant="top" height="450rem"
-                                      src="https://i.pinimg.com/originals/e2/f2/5a/e2f25a10830bc3880a313f376399a8f0.jpg"/>
-                        </Card>
-                    </div>
-                    <div style={{marginRight: "5px"}}>
-                        <Card.Img variant="top" height="450rem"
-                                  src="https://upload.wikimedia.org/wikipedia/ru/f/fc/Thor_poster.jpg"/>
-                    </div>
-                    <div style={{marginRight: "5px"}}>
-                        <Card.Img variant="top" height="450rem"
-                                  src="https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014.jpg"/>
-                    </div>
-                    <div style={{marginRight: "5px"}}>
-                        <Card.Img variant="top" height="450rem"
-                                  src="https://www.timeout.ru/wp-content/uploads/films/666.jpg"/>
-                    </div>
-                </Carousel>
-                <br/>
-                <h2>TOP 10 ADVENTURE FILMS</h2>
+                <CarouselComponent text="TOP 9 ACTION FILMS" films={actionFilmList}/>
+                <CarouselComponent text="TOP 9 ADVENTURE FILMS" films={adventureFilmList}/>
+                <CarouselComponent text="TOP 9 CARTOON FILMS" films={cartoonFilmList}/>
+                <CarouselComponent text="TOP 9 COMEDY FILMS" films={comedyFilmList}/>
+                <CarouselComponent text="TOP 9 DRAMATIC FILMS" films={dramaticFilmList}/>
+                <CarouselComponent text="TOP 9 FANTASY FILMS" films={fantasyFilmList}/>
+                <CarouselComponent text="TOP 9 ROMANTIC FILMS" films={romanticFilmList}/>
+                <CarouselComponent text="TOP 9 SCIENTIFIC FILMS" films={scientificFilmList}/>
             </div>
         )
     }
 
     return (
         <div>
-            <NavigationBar setIsLoginMethod={setIsLogin}/>
+            <NavigationBar/>
             <Container>
                 <Jumbotron className="bg-dark text-white"
-                           style={{marginTop: "20px", paddingTop: "20px", textAlign: "left"}}>
+                           style={{marginTop: "20px", paddingTop: "20px"}}>
                     <h1 style={{textAlign: "center", marginLeft: "12px", marginBottom: "15px"}}>
                         <div>
                             <b>THE BEST FILMS IN EVERY GENRE</b>
@@ -93,7 +87,17 @@ function TopPage() {
                     </h1>
                     <Container>
                         <div>
-                            {showContent()}
+                            {
+                                check() ?
+                                    <div>
+                                        <span style={{paddingTop: "2%"}}><Spinner animation="border"
+                                                                                  size={"lg"}/></span>
+                                    </div>
+                                    :
+                                    <div>
+                                        {showContent()}
+                                    </div>
+                            }
                         </div>
                     </Container>
                 </Jumbotron>

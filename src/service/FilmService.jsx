@@ -40,6 +40,12 @@ class FilmService {
         })
     }
 
+    async findTop9ByGenre(action) {
+        return axios.get(FILM_API_BASE_URL + '/genre/' + action, {
+            headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
+        })
+    }
+
 }
 
 export default new FilmService()

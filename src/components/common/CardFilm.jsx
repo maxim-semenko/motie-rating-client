@@ -21,7 +21,7 @@ function CardFilm(props) {
                         borderRadius: "10px",
                         margin: "5px 20% 20px 20%"
                     }}>
-                        <b>Rating: {props.film.rating}</b>
+                        <b>Rating: {props.film.rating.toFixed(2)}</b>
                     </div>
                     <AddRemoveFilmBasket film={props.film}/>
                 </Card.Body>

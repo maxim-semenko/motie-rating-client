@@ -1,9 +1,9 @@
 import * as types from "./PurchaseActionType"
 import PurchaseStorageService from "../../service/PurchaseStorageService";
 
-const gotPurchaseStorageById = (basket) => ({
+const gotPurchaseStorageById = (purchase) => ({
     type: types.GET_PURCHASE_STORAGE,
-    payload: basket,
+    payload: purchase,
 })
 
 export const setLoading = (loading) => ({
@@ -18,6 +18,7 @@ export const getPurchaseStorageById = (id) => {
         dispatch(setLoading(true))
         PurchaseStorageService.getById(id)
             .then((resp) => {
+                console.log(resp)
                 dispatch(gotPurchaseStorageById(resp.data))
                 dispatch(setLoading(false))
             })

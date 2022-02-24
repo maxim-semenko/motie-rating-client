@@ -47,7 +47,7 @@ function AboutFilmDialog(props) {
                                             )
                                         }
                                     </h5>
-                                    <h5><b>Rating:</b> {film.rating}</h5>
+                                    <h5><b>Rating:</b> {film.rating.toFixed(2)}</h5>
                                 </div>
                             </Col>
                         </Row>

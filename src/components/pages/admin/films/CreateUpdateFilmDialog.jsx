@@ -3,8 +3,6 @@ import {Button, Col, Form, Modal, Row} from "react-bootstrap"
 import {toast} from 'react-toastify'
 import {useDispatch, useSelector} from "react-redux"
 import {createFilm, getFilms, updateFilm} from "../../../../redux/film/FilmAction"
-import GenreService from "../../../../service/GenreService"
-import CountryService from "../../../../service/CountryService"
 import 'react-toastify/dist/ReactToastify.css'
 import '../../../../styles/Animation.css'
 import '../../../../styles/FormControl.css'
@@ -12,14 +10,22 @@ import FilmValidator from "../../../../validation/FilmValidator";
 import {ImCross} from "react-icons/all";
 import '../../../../styles/Common.css'
 import FileService from "../../../../service/FileService";
+import {getCountries} from "../../../../redux/country/CountryAction";
+import {getGenres} from "../../../../redux/genre/GenreAction";
 
 function CreateUpdateFilmDialog(props) {
     const dispatch = useDispatch()
     const {film, currentPage, sizePage} = useSelector(state => state.dataFilms)
 
-    const [genreList, setGenreList] = useState([])
-    const [countryList, setCountryList] = useState([])
+    const {countries} = useSelector(state => state.dataCountries)
+    const {genres} = useSelector(state => state.dataGenres)
+    const [genre, setGenre] = useState(null)
+    const [country, setCountry] = useState(null)
 
+    // const [genreList, setGenreList] = useState([])
+    // const [countryList, setCountryList] = useState([])
+
+    // Object
     const [id, setId] = useState()
     const [name, setName] = useState('')
     const [year, setYear] = useState('')
@@ -27,11 +33,9 @@ function CreateUpdateFilmDialog(props) {
     const [price, setPrice] = useState('')
     const [imageURL, setImageURL] = useState("")
     const [description, setDescription] = useState('')
-    const [genre, setGenre] = useState(null)
-    const [country, setCountry] = useState(null)
+    const [countriesList, setCountriesList] = useState([])
+    const [genresList, setGenresList] = useState([])
 
-    const [countries, setCountries] = useState([])
-    const [genres, setGenres] = useState([])
 
     // Errors
     const [nameError, setNameError] = useState('')
@@ -46,8 +50,8 @@ function CreateUpdateFilmDialog(props) {
     useEffect(() => {
             if (film !== null && props.method === "update") {
                 setId(film.id)
-                setGenres(film.genres)
-                setCountries(film.countries)
+                setGenresList(film.genres)
+                setCountriesList(film.countries)
                 setName(film.name)
                 setYear(film.year)
                 setTime(film.timeInMinutes)
@@ -55,25 +59,11 @@ function CreateUpdateFilmDialog(props) {
                 setImageURL(film.imageURL)
                 setDescription(film.description)
             }
-            if (countryList.length === 0) {
-                CountryService.getAll()
-                    .then(response => {
-                        console.log(response)
-                        setCountryList(response.data.content)
-                    }).catch(error => {
-                        console.log(error)
-                    }
-                )
+            if (countries.length === 0) {
+                dispatch(getCountries());
             }
-            if (genreList.length === 0) {
-                GenreService.findAll()
-                    .then(response => {
-                        console.log(response)
-                        setGenreList(response.data.content)
-                    }).catch(error => {
-                        console.log(error)
-                    }
-                )
+            if (genres.length === 0) {
+                dispatch(getGenres())
             }
         }, [film] // eslint-disable-line react-hooks/exhaustive-deps
     )
@@ -141,22 +131,22 @@ function CreateUpdateFilmDialog(props) {
 
     const addCountry = () => {
         if (!countries.some(item => item.name === country.name)) {
-            setCountries([...countries, country]);
+            setCountriesList([...countriesList, country]);
         }
     }
 
     const removeCountry = (item) => {
-        setCountries(countries.filter(country => country.name !== item.name));
+        setCountriesList(countriesList.filter(country => country.name !== item.name));
     }
 
     const addGenre = () => {
         if (!genres.some(item => item.name === genres.name)) {
-            setGenres([...genres, genre]);
+            setGenresList([...genres, genre]);
         }
     }
 
     const removeGenre = (item) => {
-        setGenres(genres.filter(genre => genre.name !== item.name));
+        setGenresList(genres.filter(genre => genre.name !== item.name));
     }
 
     const handleSubmit = (event) => {
@@ -189,7 +179,7 @@ function CreateUpdateFilmDialog(props) {
                     .then((response) => {
                         console.log(response)
                         dispatch(getFilms(currentPage, sizePage))
-                        notifySuccess('The new film was updated successfully!')
+                        notifySuccess('The film was updated successfully!')
                     })
                     .catch((error) => {
                         console.log(error)
@@ -230,7 +220,7 @@ function CreateUpdateFilmDialog(props) {
     });
 
     const showContent = () => {
-        if (genreList.length === 0 || countryList.length === 0 || film === null) {
+        if (genres.length === 0 || countries.length === 0 || (film === null && props.method === "updated")) {
             return (
                 <div>
                     loading...
@@ -241,7 +231,7 @@ function CreateUpdateFilmDialog(props) {
                 <div>
                     <Row>
                         <Col lg={12} style={{marginTop: "20px"}}>
-                            <Form enctype="multipart/form-data">
+                            <Form encType="multipart/form-data">
                                 <Form.Group as={Col} controlId="formGridEmail">
                                     <Form.Label style={{marginBottom: "0px"}}><b>NAME</b></Form.Label>
                                     <Form.Control
@@ -306,7 +296,7 @@ function CreateUpdateFilmDialog(props) {
                                                           isInvalid={countryError}
                                                           onChange={changeCountryHandler}>
                                                 <option key={0} value={"null"}>Select...</option>
-                                                {countryList.map((item, index) =>
+                                                {countries.map((item, index) =>
                                                     <option
                                                         key={index}
                                                         value={JSON.stringify(item)}>
@@ -317,7 +307,7 @@ function CreateUpdateFilmDialog(props) {
                                             <Form.Control.Feedback type='invalid'>{countryError}</Form.Control.Feedback>
                                             <div style={{paddingTop: "1%"}}>
                                                 {
-                                                    countries.map((item, index) =>
+                                                    countriesList.map((item, index) =>
                                                         <span key={index} style={{marginRight: "8px"}}>
                                                             <b>{item.name}</b>
                                                             <span className="remove-icon"
@@ -348,7 +338,7 @@ function CreateUpdateFilmDialog(props) {
                                                           isInvalid={genreError}
                                                           onChange={changeGenreHandler}>
                                                 <option key={0} value={"null"}>Select...</option>
-                                                {genreList.map((item, index) =>
+                                                {genres.map((item, index) =>
                                                     <option
                                                         key={index}
                                                         value={JSON.stringify(item)}>
@@ -359,10 +349,10 @@ function CreateUpdateFilmDialog(props) {
                                             <Form.Control.Feedback type='invalid'>{genreError}</Form.Control.Feedback>
                                             <div style={{paddingTop: "1%"}}>
                                                 {
-                                                    genres.map((item, index) =>
+                                                    genresList.map((item, index) =>
                                                         <span key={index}>
                                                             <b>{item.name} </b>
-                                                            <span className="remove-icon"
+                                                            <span className="remove-icon" style={{marginRight: "8px"}}
                                                                   onClick={() => removeGenre(item)}><ImCross
                                                                 size={12}/></span>
                                                         </span>

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Button from "react-bootstrap/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {addToBasket, removeFromBasket} from "../../redux/basket/BasketAction";
+import {Link} from "react-router-dom";
 
 function AddRemoveFilmBasket(props) {
     const dispatch = useDispatch()
@@ -37,12 +38,13 @@ function AddRemoveFilmBasket(props) {
         const isContainInPurchase = checkContainInPurchase(props.film.id)
         if (isContainInPurchase) {
             return (
-                <a href={"/profile/purchases"} className="my-link">
-
+                // <a href={"/profile/purchases"} className="my-link">
+                <Link to={"/profile/purchases"}>
                     <Button variant='outline-warning'>
                         <b>In purchases</b>
                     </Button>
-                </a>
+                </Link>
+                // </a>
             )
         } else {
             const isContainInBasket = checkContainInBasket(props.film.id);

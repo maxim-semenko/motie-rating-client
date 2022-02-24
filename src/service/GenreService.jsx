@@ -6,10 +6,11 @@ const cookies = new Cookies()
 
 class GenreService {
 
-    async findAll(page = 1, size = 999) {
-        console.log(`/api/v1/genres?page=${page - 1}&size=${size}`)
-        return axios.get(GENRE_API_BASE_URL + `?page=${page - 1}&size=${size}&sort=id`, {
-            headers: {'Authorization': `Bearer_${cookies.get("jwt")}`},
+    findAll(page = 0, size = 0) {
+        console.log("genres findAll() page=" + (page - 1) + ",size=" + size)
+        const params = new URLSearchParams([['page', (page - 1)], ['size', size], ['sort', 'name']]);
+        return axios.get(GENRE_API_BASE_URL, {
+            params, headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })
     }
 

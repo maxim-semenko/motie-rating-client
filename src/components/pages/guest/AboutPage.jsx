@@ -1,114 +1,54 @@
-import React, {useEffect, useState} from 'react'
-import {Button, Col, Container, Form, Jumbotron, Row} from "react-bootstrap"
+import React from 'react'
+import {Col, Container, Jumbotron, Row} from "react-bootstrap"
 import NavigationBar from "../../common/NavigationBar"
 import Footer from "../../common/Footer"
-import CountryService from "../../../service/CountryService";
+import springLogo from "../../../img/spring.png"
+import reactLogo from "../../../img/react.png"
 
 function AboutPage() {
-
-    const [countryList, setCountryList] = useState([])
-    const [country, setCountry] = useState(null)
-    const [myList, setMyList] = useState([])
-
-    useEffect(() => {
-        CountryService.getAll()
-            .then(response => {
-                setCountryList(response.data.content)
-            }).catch(error => {
-                console.log(error)
-            }
-        )
-    }, [])
-
-    const changeCountryHandler = (event) => {
-        setCountry(JSON.parse(event.target.value))
-    }
-
-    const add = () => {
-        console.log(country)
-        setMyList([...myList, country]);
-    }
-
-    const send = () => {
-        let request = {
-            countries: myList,
-        }
-        console.log(request)
-    }
-
     return (
         <div>
             <NavigationBar/>
             <Container>
-                <Row>
-                    <Col lg={12} style={{marginTop: "20px"}}>
-                        <Jumbotron className="bg-dark text-white">
-                            ABOUT PAGE
-                            <Row>
-                                <Col sm={8}>
-                                    <Form.Group as={Col}>
-                                        <Form.Label style={{marginBottom: "0px"}}><b>COUNTRY</b></Form.Label>
-                                        <Form.Control className="my-input"
-                                                      as="select" aria-label="Default select example"
-                                                      onChange={changeCountryHandler}>
-                                            <option key={0} value={"null"}>Select...</option>
-                                            {countryList.map((item, index) =>
-                                                <option
-                                                    key={index}
-                                                    value={JSON.stringify(item)}>
-                                                    {item.name}
-                                                </option>
-                                            )}
-                                        </Form.Control>
-                                    </Form.Group>
-                                </Col>
-                                <Col>
-                                    <div >
-                                        <Button variant="outline-primary"
-                                                onClick={add}>
-                                            <b>Add</b>
-                                        </Button>{' '}
-                                    </div>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col lg={10}>
-                                    <Form.Group as={Col}>
-                                        <Form.Label style={{marginBottom: "0px"}}><b>COUNTRY</b></Form.Label>
-                                        <Form.Control className="my-input"
-                                                      as="select" aria-label="Default select example"
-                                                      onChange={changeCountryHandler}>
-                                            <option key={0} value={"null"}>Select...</option>
-                                            {countryList.map((item, index) =>
-                                                <option
-                                                    key={index}
-                                                    value={JSON.stringify(item)}>
-                                                    {item.name}
-                                                </option>
-                                            )}
-                                        </Form.Control>
-                                    </Form.Group>
-                                </Col>
-                                <Col>
-                                    <div style={{paddingTop: "22%" , textAlign: "left"}}>
-                                        <Button onClick={add}>Add</Button>
-                                    </div>
-                                </Col>
-                            </Row>
-
-
-                            <Button onClick={send}>Send</Button>
-                            {
-                                myList.map((item, index) =>
-                                    <div key={index}>
-                                        {item.name}
-                                    </div>
-                                )
-                            }
-                        </Jumbotron>
-                    </Col>
-                </Row>
+                <Jumbotron className="bg-dark text-white"
+                           style={{marginTop: "20px", paddingTop: "20px", textAlign: "left"}}>
+                    <h1 style={{textAlign: "center", marginLeft: "12px", marginBottom: "15px"}}>
+                        <b>ABOUT</b>
+                    </h1>
+                    <Container>
+                        <div style={{marginLeft: "3%", textAlign: "justify"}}>
+                            <h3><b>MovieRating </b> - commercial streaming service that allows our members to watch
+                                movies without advertising on an internet-connected device.</h3>
+                        </div>
+                        <Row style={{marginTop: "3%"}}>
+                            <Col lg="3">
+                                <img alt="" src={springLogo} height="200px"/>
+                            </Col>
+                            <Col style={{textAlign: "justify"}}>
+                                <h4 style={{paddingTop: "15px"}}><span
+                                    style={{color: "#2dd635"}}><b>Spring Boot </b></span>
+                                    is an open source Java-based framework used to create a micro Service. It is
+                                    developed by Pivotal Team and is used to build stand-alone and production ready
+                                    spring applications. This chapter will give you an introduction to Spring Boot and
+                                    familiarizes you with its basic concepts.
+                                </h4>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: "3%"}}>
+                            <Col lg="3">
+                                <img alt="" src={reactLogo} height="200px"/>
+                            </Col>
+                            <Col style={{textAlign: "justify"}}>
+                                <h4 style={{paddingTop: "15px"}}><span
+                                    style={{color: "#01d5fa"}}><b>React JS </b></span>
+                                    is a JavaScript library used in web development to build interactive elements on
+                                    websites. But if you’re not familiar with JavaScript or JavaScript libraries, that’s
+                                    not a helpful definition. So let’s take a step back and deal with those terms first.
+                                </h4>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Jumbotron>
             </Container>
             <Footer/>
         </div>

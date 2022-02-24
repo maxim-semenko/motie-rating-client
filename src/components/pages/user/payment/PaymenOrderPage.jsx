@@ -5,14 +5,15 @@ import Footer from "../../../common/Footer";
 import {Link} from "react-router-dom";
 import MailService from "../../../../service/MailService";
 import PaymentService from "../../../../service/PaymentService";
+import AlertCSSTransition from "../../../common/AlertCSSTransition";
 
 function PaymentOrderPage() {
     const user = JSON.parse(localStorage.getItem("user"))
     const [cardName, setCardName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
-    const [CVV, setCVV] = useState(0);
-    const [emailCode, setEmailCode] = useState(0);
+    const [CVV, setCVV] = useState('');
+    const [emailCode, setEmailCode] = useState('');
 
     // Errors
     const [cardNameError, setCardNameError] = useState('');
@@ -22,6 +23,13 @@ function PaymentOrderPage() {
     const [emailCodeError, setEmailCodeError] = useState();
 
     const [sendingMail, setSendingMail] = useState(false)
+
+    // Global errors
+    const [showError, setShowError] = useState(false);
+    const [textError, setTextError] = useState('')
+
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [textSuccess, setTextSuccess] = useState('')
 
     useEffect(() => {
 
@@ -56,40 +64,44 @@ function PaymentOrderPage() {
     const sendMail = () => {
         setSendingMail(true)
         let request = {
-            userId: user.id,
+            email: user.email,
             typeMessage: "PAYMENT_ORDER",
         }
-
         MailService.send(request)
             .then((resp) => {
                 console.log(resp.data)
                 setSendingMail(false)
+                setTextSuccess("Success to sending email code! Check your mail account.")
+                setShowSuccess(true);
             })
             .catch(error => {
                 console.log(error)
                 setSendingMail(false)
+                setTextError("Failed to sending email code!");
+                setShowError(true);
             })
     }
 
     const payment = (event) => {
         event.preventDefault();
 
-        let request = {
-            userId: user.id,
-            emailCode: Number.parseInt(emailCode)
+        if (emailCode.length === 0) {
+            setEmailCodeError("email code can't be empty")
+        } else {
+            let request = {
+                userId: user.id,
+                emailCode: Number.parseInt(emailCode)
+            }
+            console.log(request)
+            PaymentService.pay(request)
+                .then((response) => {
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    // notifyError('Error to update the genre, please check your input data!')
+                });
         }
-
-        console.log(request)
-
-        PaymentService.pay(request)
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((error) => {
-                console.log(error)
-                // notifyError('Error to update the genre, please check your input data!')
-            });
-
     }
 
     return (
@@ -103,16 +115,16 @@ function PaymentOrderPage() {
                                 <h2><b>PAYMENT ORDER</b></h2>
                                 <hr/>
                                 <Form style={{textAlign: "left"}}>
-                                    {/*<AlertCSSTransition in={showError}*/}
-                                    {/*                    variant="danger"*/}
-                                    {/*                    textHeader="Oh snap! You got an error!"*/}
-                                    {/*                    text={showError}*/}
-                                    {/*                    close={() => setShowError(false)}/>*/}
-                                    {/*<AlertCSSTransition in={showSuccess}*/}
-                                    {/*                    variant="success"*/}
-                                    {/*                    textHeader="It's OK!"*/}
-                                    {/*                    text={showSuccess}*/}
-                                    {/*                    close={() => setShowSuccess(false)}/>*/}
+                                    <AlertCSSTransition in={showError}
+                                                        variant="danger"
+                                                        textHeader="Oh snap! You got an error!"
+                                                        text={textError}
+                                                        close={() => setShowError(false)}/>
+                                    <AlertCSSTransition in={showSuccess}
+                                                        variant="success"
+                                                        textHeader="It's OK!"
+                                                        text={textSuccess}
+                                                        close={() => setShowSuccess(false)}/>
                                     <Form.Group as={Col}>
                                         <Form.Label><b>CARD HOLDER NAME</b></Form.Label>
                                         <Form.Control type="text"

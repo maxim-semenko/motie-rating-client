@@ -18,6 +18,7 @@ import AllCountriesPage from "./components/pages/admin/countries/AllCountriesPag
 import RestorePasswordPage from "./components/pages/user/auth/RestorePasswordPage";
 import PaymentOrderPage from "./components/pages/user/payment/PaymenOrderPage";
 import TransactionalHistory from "./components/pages/user/cabinet/TransactionalHistory";
+import FeedbackPage from "./components/pages/guest/FeedbackPage";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/top" component={TopPage}/>
             <Route exact path="/about" component={AboutPage}/>
+            <Route exact path="/feedback" component={FeedbackPage}/>
             <Route exact path="/restore-password" component={RestorePasswordPage}/>
             <Route exact path="/film/:id" component={ClassAboutFilmPage}/>
             <ProtectRoute path="/profile/cabinet" component={ClassCabinetPage}/>
@@ -39,6 +41,7 @@ function App() {
             <ProtectRoute path="/profile/admin/all-films" component={AllFilmsPage}/>
             <ProtectRoute path="/profile/admin/all-countries" component={AllCountriesPage}/>
             <ProtectRoute path="/profile/admin/all-genres" component={AllGenresPage}/>
+            <ProtectRoute path="/profile/admin/all-messages" component={AllGenresPage}/>
         </div>
     );
 }

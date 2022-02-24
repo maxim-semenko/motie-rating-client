@@ -48,7 +48,7 @@ function AllCountriesPage() {
             <Table striped bordered hover variant="dark">
                 <thead>
                 <tr>
-                    <th style={{minWidth: "9rem"}}>Id</th>
+                    <th style={{minWidth: "9rem"}}>№</th>
                     <th style={{minWidth: "15rem"}}>Name</th>
                     <th>Action</th>
                 </tr>
@@ -63,9 +63,9 @@ function AllCountriesPage() {
                         :
                         <tbody>
                         {
-                            countries.map(country =>
-                                <tr key={country.id}>
-                                    <td><b>{country.id}</b></td>
+                            countries.map((country, index) =>
+                                <tr key={index}>
+                                    <td><b>{index + 1}</b></td>
                                     <td><b>{country.name}</b></td>
                                     <td>
                                         <Button variant="outline-success"

@@ -165,7 +165,7 @@ function AboutFilmPage(props) {
                                     </h4>
                                     <h4><b>Year:</b> {film.year}</h4>
                                     <h4><b>Time:</b> {film.timeInMinutes} minutes</h4>
-                                    <h4><b>Rating:</b> {film.rating}</h4>
+                                    <h4><b>Rating:</b> {film.rating.toFixed(2)}</h4>
                                     <hr/>
                                     {showSetterRating()}
                                 </Col>

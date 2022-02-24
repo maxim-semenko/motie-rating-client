@@ -204,7 +204,7 @@ function EditProfilePage() {
                                             <Form.Label><b>FIRSTNAME</b></Form.Label>
                                             <Form.Control type="text"
                                                           className="my-input"
-                                                          autocomplete="off"
+                                                          autoComplete="off"
                                                           value={firstname}
                                                           onChange={changeFirstnameHandler}
                                                           isInvalid={firstnameError}
@@ -219,7 +219,7 @@ function EditProfilePage() {
                                             <Form.Label><b>LASTNAME</b></Form.Label>
                                             <Form.Control type="text"
                                                           className="my-input"
-                                                          autocomplete="off"
+                                                          autoComplete="off"
                                                           value={lastname}
                                                           onChange={changeLastnameHandler}
                                                           isInvalid={lastnameError}
@@ -234,7 +234,7 @@ function EditProfilePage() {
                                     <Form.Label><b>USERNAME</b></Form.Label>
                                     <Form.Control type="text"
                                                   className="my-input"
-                                                  autocomplete="off"
+                                                  autoComplete="off"
                                                   value={username}
                                                   onChange={changeUsernameHandler}
                                                   isInvalid={usernameError}
@@ -246,7 +246,7 @@ function EditProfilePage() {
                                     <Form.Label><b>EMAIL</b></Form.Label>
                                     <Form.Control type="email"
                                                   className="my-input"
-                                                  autocomplete="off"
+                                                  autoComplete="off"
                                                   value={email}
                                                   onChange={changeEmailHandler}
                                                   isInvalid={emailError}
@@ -274,7 +274,7 @@ function EditProfilePage() {
                                             <Form.Control type="text"
                                                           className="my-input"
                                                           isInvalid={oldPasswordError}
-                                                          autocomplete="off"
+                                                          autoComplete="off"
                                                           onChange={changeOldPasswordHandler}
                                                           placeholder="Enter old password"
                                             />
@@ -288,7 +288,7 @@ function EditProfilePage() {
                                             <Form.Control type="text"
                                                           className="my-input"
                                                           isInvalid={newPasswordError}
-                                                          autocomplete="off"
+                                                          autoComplete="off"
                                                           onChange={changeNewPasswordHandler}
                                                           placeholder="Enter new password"
                                             />

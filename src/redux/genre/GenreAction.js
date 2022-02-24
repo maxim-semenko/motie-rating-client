@@ -29,10 +29,10 @@ export const setLoading = (loading) => ({
 
 //============================================ Axios requests ==========================================================
 
-export const getGenres = (currentPage = 1, sizePage = 9) => {
+export const getGenres = (page = 0, size = 0) => {
     return function (dispatch) {
         dispatch(setLoading(true))
-        GenreService.findAll(currentPage, sizePage)
+        GenreService.findAll(page, size)
             .then((resp) => {
                 console.log(resp.data)
                 dispatch(gotGenresSuccess(resp.data))
@@ -43,6 +43,7 @@ export const getGenres = (currentPage = 1, sizePage = 9) => {
             })
     }
 }
+
 
 export const getGenreById = (id) => {
     return function (dispatch) {
@@ -60,7 +61,7 @@ export const getGenreById = (id) => {
 }
 
 export function createGenre(genre) {
-    return (dispatch) => {
+    return () => {
         return new Promise((resolve, reject) => {
             GenreService.create(genre)
                 .then((response) => {
