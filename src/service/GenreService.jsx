@@ -6,7 +6,7 @@ const cookies = new Cookies()
 
 class GenreService {
 
-    findAll(page = 0, size = 0) {
+    async findAll(page = 0, size = 0) {
         console.log("genres findAll() page=" + (page - 1) + ",size=" + size)
         const params = new URLSearchParams([['page', (page - 1)], ['size', size], ['sort', 'name']]);
         return axios.get(GENRE_API_BASE_URL, {

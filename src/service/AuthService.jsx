@@ -14,6 +14,10 @@ class AuthService {
         return axios.post(AUTH_API_BASE_URL + '/register', request)
     }
 
+    async restorePassword(request) {
+        return axios.put(AUTH_API_BASE_URL + '/restore-password', request)
+    }
+
     // Get new token
     async getToken(userId) {
         console.log(AUTH_API_BASE_URL + `/token/${userId}`)

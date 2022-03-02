@@ -41,7 +41,7 @@ function AddRemoveFilmBasket(props) {
                 // <a href={"/profile/purchases"} className="my-link">
                 <Link to={"/profile/purchases"}>
                     <Button variant='outline-warning'>
-                        <b>In purchases</b>
+                        <b>Purchases</b>
                     </Button>
                 </Link>
                 // </a>

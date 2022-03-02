@@ -4,74 +4,37 @@ import Footer from "../../common/Footer"
 import {Container, Jumbotron} from "react-bootstrap";
 import 'react-slideshow-image/dist/styles.css'
 import "react-multi-carousel/lib/styles.css";
-import Spinner from "react-bootstrap/Spinner";
-import FilmService from "../../../service/FilmService";
 import CarouselComponent from "../../common/CarouselComponent";
+import GenreService from "../../../service/GenreService";
+import FilmService from "../../../service/FilmService";
+import Spinner from "react-bootstrap/Spinner";
 
 function TopPage() {
-    const [actionFilmList, setActionFilmList] = useState([]);
-    const [adventureFilmList, setAdventureFilmList] = useState([]);
-    const [cartoonFilmList, setCartoonFilmList] = useState([]);
-    const [comedyFilmList, setComedyFilmList] = useState([]);
-    const [dramaticFilmList, setDramaticFilmList] = useState([]);
-    const [fantasyFilmList, setFantasyFilmList] = useState([]);
-    const [romanticFilmList, setRomanticFilmList] = useState([]);
-    const [scientificFilmList, setScientificFilmList] = useState([]);
+    const [genres, setGenres] = useState([]);
+    const [filmsList, setFilmsList] = useState([]);
 
     useEffect(() => {
-        FilmService.findTop9ByGenre("Action")
-            .then((response) => {
-                setActionFilmList(response.data)
+        GenreService.findAll()
+            .then(resp => {
+                async function fetchFilmsByGenre() {
+                    let temp = filmsList
+                    for (const genre of resp.data.content) {
+                        await FilmService.findTop9ByGenre(genre.name)
+                            .then((response) => {
+                                temp.push(response.data)
+                            })
+                    }
+                    return temp
+                }
+                fetchFilmsByGenre().then(data => {
+                    setGenres(resp.data.content)
+                    setFilmsList(data);
+                })
             })
-        FilmService.findTop9ByGenre("Adventure")
-            .then((response) => {
-                setAdventureFilmList(response.data)
-            })
-        FilmService.findTop9ByGenre("Cartoon")
-            .then((response) => {
-                setCartoonFilmList(response.data)
-            })
-        FilmService.findTop9ByGenre("Comedy")
-            .then((response) => {
-                setComedyFilmList(response.data)
-            })
-        FilmService.findTop9ByGenre("Dramatic")
-            .then((response) => {
-                setDramaticFilmList(response.data)
-            })
-        FilmService.findTop9ByGenre("Fantasy")
-            .then((response) => {
-                setFantasyFilmList(response.data)
-            })
-        FilmService.findTop9ByGenre("Romantic")
-            .then((response) => {
-                setRomanticFilmList(response.data)
-            })
-        FilmService.findTop9ByGenre("Scientific")
-            .then((response) => {
-                setScientificFilmList(response.data)
-            })
-    }, [])
+    }, [filmsList])
 
-    const check = () => {
-        return actionFilmList.length === 0 || adventureFilmList.length === 0 || cartoonFilmList.length === 0
-            || comedyFilmList.length === 0 || dramaticFilmList.length === 0 || fantasyFilmList.length === 0
-            || romanticFilmList.length === 0 || scientificFilmList.length === 0;
-    }
-
-    const showContent = () => {
-        return (
-            <div>
-                <CarouselComponent text="TOP 9 ACTION FILMS" films={actionFilmList}/>
-                <CarouselComponent text="TOP 9 ADVENTURE FILMS" films={adventureFilmList}/>
-                <CarouselComponent text="TOP 9 CARTOON FILMS" films={cartoonFilmList}/>
-                <CarouselComponent text="TOP 9 COMEDY FILMS" films={comedyFilmList}/>
-                <CarouselComponent text="TOP 9 DRAMATIC FILMS" films={dramaticFilmList}/>
-                <CarouselComponent text="TOP 9 FANTASY FILMS" films={fantasyFilmList}/>
-                <CarouselComponent text="TOP 9 ROMANTIC FILMS" films={romanticFilmList}/>
-                <CarouselComponent text="TOP 9 SCIENTIFIC FILMS" films={scientificFilmList}/>
-            </div>
-        )
+    const getText = (index) => {
+        return "TOP 9 " + genres[index].name.toUpperCase() + " FILMS";
     }
 
     return (
@@ -88,14 +51,20 @@ function TopPage() {
                     <Container>
                         <div>
                             {
-                                check() ?
+                                filmsList.length !== 0 ?
                                     <div>
-                                        <span style={{paddingTop: "2%"}}><Spinner animation="border"
-                                                                                  size={"lg"}/></span>
+                                        {
+                                            filmsList.map((films, index) =>
+                                                <div>
+                                                    <CarouselComponent text={getText(index)} films={films}/>
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                     :
                                     <div>
-                                        {showContent()}
+                                        <span style={{paddingTop: "2%"}}><Spinner animation="border"
+                                                                                  size={"lg"}/></span>
                                     </div>
                             }
                         </div>

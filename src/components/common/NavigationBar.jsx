@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import {Button, Container, Nav, Navbar} from "react-bootstrap"
 import {FaShoppingCart} from "react-icons/all"
-import SignInDialog from "../pages/user/auth/SignInDialog"
-import SignUpDialog from "../pages/user/auth/SignUpDialog"
+import SignInDialog from "../pages/guest/auth/SignInDialog"
+import SignUpDialog from "../pages/guest/auth/SignUpDialog"
 import {Cookies} from "react-cookie"
 import imgLogo from "../../img/logo.svg"
 import AuthService from "../../service/AuthService"
