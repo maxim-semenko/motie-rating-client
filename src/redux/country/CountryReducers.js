@@ -28,10 +28,23 @@ const countryReducers = (state = initialState, action = {}) => {
                 country: action.payload,
                 loading: false,
             }
-        case types.DELETE_COUNTRY_BY_ID:
+        case types.CREATE_COUNTRY:
             return {
                 ...state,
-                loading: false,
+                countries: [...state.countries, action.payload]
+            }
+        case types.UPDATE_COUNTRY:
+            const objIndex = state.countries.findIndex((item => item.id === action.payload.id));
+            let updatedCountries = state.countries;
+            updatedCountries[objIndex] = action.payload
+            return {
+                ...state,
+                countries: updatedCountries,
+            }
+        case types.DELETE_COUNTRY:
+            return {
+                ...state,
+                countries: state.countries.filter(item => item.id !== action.payload),
             }
         case types.SET_CURRENT_PAGE:
             return {

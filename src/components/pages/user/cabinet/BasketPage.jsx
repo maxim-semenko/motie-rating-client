@@ -32,11 +32,7 @@ function BasketPage() {
                 </div>
             )
         } else if (basketFilmList.length === 0) {
-            return (
-                <div>
-                    <h3>The basket is empty</h3>
-                </div>
-            )
+            return (<div><h3>The basket is empty</h3></div>)
         } else {
             return (
                 <div>
@@ -70,9 +66,7 @@ function BasketPage() {
             <NavigationBar/>
             <Container>
                 <Row>
-                    <Col lg={3} style={{marginTop: "20px"}}>
-                        <ProfileMenu/>
-                    </Col>
+                    <Col lg={3} style={{marginTop: "20px"}}><ProfileMenu/></Col>
                     <Col lg={9} style={{marginTop: "20px"}}>
                         <Jumbotron className="bg-dark text-white" style={{paddingTop: "5%", paddingBottom: "5%"}}>
                             <Container>

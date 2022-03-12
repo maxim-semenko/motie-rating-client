@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Col, Form, Modal, Row} from "react-bootstrap";
-import {createCountry, getCountries, updateCountry} from "../../../../redux/country/CountryAction";
+import {createCountry, updateCountry} from "../../../../redux/country/CountryAction";
 import {toast} from "react-toastify";
 import CountryValidator from "../../../../validation/CountryValidator";
+import 'react-toastify/dist/ReactToastify.css'
 
 function CreateUpdateCountryDialog(props) {
     const dispatch = useDispatch()
-    const {country, loading, currentPage, sizePage} = useSelector(state => state.dataCountries)
+    const {country, loading} = useSelector(state => state.dataCountries)
     const [id, setId] = useState(0);
     const [name, setName] = useState('');
 
@@ -26,24 +27,18 @@ function CreateUpdateCountryDialog(props) {
         if (!findFormErrors(request)) {
             if (props.method === "create") {
                 dispatch(createCountry(request))
-                    .then((response) => {
-                        console.log(response)
-                        dispatch(getCountries(currentPage, sizePage))
+                    .then(() => {
                         notifySuccess('The new country was created successfully!')
                     })
-                    .catch((error) => {
-                        console.log(error)
+                    .catch(() => {
                         notifyError('Error to create a new country, please check your input data!')
                     });
             } else {
                 dispatch(updateCountry(request, id))
-                    .then((response) => {
-                        console.log(response)
-                        dispatch(getCountries(currentPage, sizePage))
+                    .then(() => {
                         notifySuccess('The country was updated successfully!')
                     })
-                    .catch((error) => {
-                        console.log(error)
+                    .catch(() => {
                         notifyError('Error to update the country, please check your input data!')
                     });
             }
@@ -51,10 +46,12 @@ function CreateUpdateCountryDialog(props) {
     }
 
     const notifySuccess = (text) => toast.success(text, {
+        autoClose: 2000,
         position: "top-right",
     });
 
     const notifyError = (text) => toast.error(text, {
+        autoClose: 2000,
         position: "top-right",
     });
 
@@ -80,11 +77,7 @@ function CreateUpdateCountryDialog(props) {
 
     const showContent = () => {
         if (loading) {
-            return (
-                <div>
-                    loading...
-                </div>
-            )
+            return <div>loading...</div>
         } else {
             return (
                 <div style={{color: "white"}}>
@@ -97,7 +90,7 @@ function CreateUpdateCountryDialog(props) {
                                         type="text"
                                         className="my-input"
                                         placeholder="Enter name"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         value={name}
                                         onChange={changeNameHandler}
                                         isInvalid={nameError}

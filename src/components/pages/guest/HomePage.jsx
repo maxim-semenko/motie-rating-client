@@ -74,13 +74,6 @@ function HomePage() {
         })
     }
 
-    const showFilmList = () => {
-        if (films.length === 0) {
-            return (<h2>The result is empty! Try again.</h2>)
-        } else {
-            return (<HomeFilmList films={films}/>)
-        }
-    }
 
     const showResetButton = () => {
         if (searchByName) {
@@ -90,33 +83,7 @@ function HomePage() {
         }
     }
 
-    const showContent = () => {
-        if (loadingFilms) {
-            return (<span style={{paddingTop: "2%"}}><Spinner animation="border" size={"lg"}/></span>)
-        } else {
-            return (
-                <div>
-                    <Form className="d-flex">
-                        <FormControl
-                            style={{marginRight: "5px"}}
-                            value={nameForSearch}
-                            placeholder="Search films by name"
-                            onChange={event => setNameForSearch(event.target.value.replace(/[^a-zA-Z\s0-9]/g, ""))}
-                        />
-                        <Button variant="outline-success" onClick={getAllFilmsByName}><b>Search</b></Button>
-                        {showResetButton()}
-                    </Form>
-                    <br/>
-                    {displayPagination()}
-                    {showFilmList()}
-                    <br/>
-                    {displayPagination()}
-                </div>
-            )
-        }
-    }
-
-    const displayPagination = () => {
+    const PaginationComponent = () => {
         return (
             <Pagination itemClass="page-item"
                         linkClass="page-link"
@@ -129,8 +96,46 @@ function HomePage() {
         )
     }
 
+    const showFilmList = () => {
+        if (films.length === 0) {
+            return <h2>The result is empty! Try again.</h2>
+        } else {
+            return <HomeFilmList films={films}/>
+        }
+    }
+
+    const Content = () => {
+        return (
+            <div>
+                <Form className="d-flex">
+                    <FormControl
+                        style={{marginRight: "5px"}}
+                        value={nameForSearch}
+                        placeholder="Search films by name"
+                        onChange={event => setNameForSearch(event.target.value.replace(/[^a-zA-Z\s0-9]/g, ""))}
+                    />
+                    <Button variant="outline-success" onClick={getAllFilmsByName}><b>Search</b></Button>
+                    {showResetButton()}
+                </Form>
+                <br/>
+                <PaginationComponent/>
+                {showFilmList()}
+                <br/>
+                <PaginationComponent/>
+            </div>
+        )
+    }
+
+    const showContent = () => {
+        if (loadingFilms) {
+            return <span style={{paddingTop: "2%"}}><Spinner animation="border" size={"lg"}/></span>
+        } else {
+            return <Content/>
+        }
+    }
+
     return (
-        <div>
+        <maim>
             <NavigationBar/>
             <Container>
                 <Jumbotron className="bg-dark text-white" style={{marginTop: "20px", paddingTop: "20px"}}>
@@ -143,7 +148,7 @@ function HomePage() {
                 </Jumbotron>
             </Container>
             <Footer/>
-        </div>
+        </maim>
     );
 }
 

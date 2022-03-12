@@ -7,11 +7,7 @@ function AboutFilmDialog(props) {
 
     const showContent = () => {
         if (loadingFilm) {
-            return (
-                <div>
-                    loading...
-                </div>
-            )
+            return <div>loading...</div>
         } else {
             return (
                 <div>

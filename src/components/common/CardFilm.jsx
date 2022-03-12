@@ -16,11 +16,7 @@ function CardFilm(props) {
                     </Link>
                 </Card.Title>
                 <Card.Body style={{paddingTop: "0px"}}>
-                    <div style={{
-                        backgroundColor: "orange",
-                        borderRadius: "10px",
-                        margin: "5px 20% 20px 20%"
-                    }}>
+                    <div style={{backgroundColor: "orange", borderRadius: "10px", margin: "5px 20% 20px 20%"}}>
                         <b>Rating: {props.film.rating.toFixed(2)}</b>
                     </div>
                     <AddRemoveFilmBasket film={props.film}/>

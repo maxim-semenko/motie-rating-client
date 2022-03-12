@@ -8,7 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 import PaginationComponent from "../../../common/PaginationComponent";
 import RemoveCountryDialog from "./RemoveCountryDialog";
 import CreateUpdateCountryDialog from "./CreateUpdateCountryDialog";
-import BackControllersButtonComponent from "../../../common/BackControllersButtonComponent";
+import BackControlsButtonComponent from "../../../common/BackControlsButtonComponent";
 
 function AllCountriesPage() {
     const dispatch = useDispatch()
@@ -20,7 +20,7 @@ function AllCountriesPage() {
 
     useEffect(() => {
             dispatch(getCountries(currentPage, sizePage))
-        }, [currentPage, dispatch, sizePage]
+        }, [currentPage, sizePage]
     )
 
     const removeCountry = (id) => {
@@ -55,25 +55,21 @@ function AllCountriesPage() {
                 </thead>
                 {
                     loading && countries.length === 0 ?
-                        <div>
-                            <span style={{paddingTop: "2%", paddingLeft: "35%", position: "absolute"}}>
+                        <span style={{paddingTop: "2%", paddingLeft: "35%", position: "absolute"}}>
                                 <Spinner animation="border"/>
-                            </span>
-                        </div>
+                        </span>
                         :
                         <tbody>
                         {
                             countries.map((country, index) =>
                                 <tr key={index}>
-                                    <td><b>{index + 1}</b></td>
+                                    <td><b>{index + 1 + sizePage * (currentPage - 1)}</b></td>
                                     <td><b>{country.name}</b></td>
                                     <td>
-                                        <Button variant="outline-success"
-                                                onClick={() => editCountry(country.id)}>
+                                        <Button variant="outline-success" onClick={() => editCountry(country.id)}>
                                             <b>Edit</b>
                                         </Button>{' '}
-                                        <Button variant="outline-danger"
-                                                onClick={() => removeCountry(country.id)}>
+                                        <Button variant="outline-danger" onClick={() => removeCountry(country.id)}>
                                             <b>Remove</b>
                                         </Button>
                                     </td>
@@ -119,7 +115,7 @@ function AllCountriesPage() {
                 <Col lg={12} style={{marginTop: "20px"}}>
                     <Jumbotron className="bg-dark text-white">
                         <div style={{margin: "0 auto"}}>
-                            <BackControllersButtonComponent/>
+                            <BackControlsButtonComponent/>
                             <Button variant="outline-primary"
                                     style={{marginBottom: "20px"}} onClick={() => createCountry()}>
                                 <b>Add a new country</b>

@@ -1,14 +1,29 @@
 import * as types from "./FilmActionType"
 import FilmService from "../../service/FilmService";
 
-const getFilmsSuccess = (films) => ({
+const gotFilmsSuccess = (films) => ({
     type: types.GET_FILMS,
     payload: films,
 })
 
-const gotFilmById = (film) => ({
+const gotFilmSuccess = (film) => ({
     type: types.GET_FILM,
     payload: film,
+})
+
+const createdFilmSuccess = (film) => ({
+    type: types.CREATE_FILM,
+    payload: film,
+})
+
+const updatedFilmSuccess = (film) => ({
+    type: types.UPDATE_FILM,
+    payload: film,
+})
+
+const deletedFilmSuccess = (id) => ({
+    type: types.DELETE_FILM,
+    payload: id,
 })
 
 export const setCurrentPage = (page) => ({
@@ -21,16 +36,8 @@ export const setSizePage = (size) => ({
     payload: size
 })
 
-export const resetFilms = () => ({
-    type: types.RESET_FILMS,
-})
-
-export const resetFilm = () => ({
-    type: types.RESET_FILM,
-})
-
-export const setLoading = (loading) => ({
-    type: types.SET_LOADING,
+export const setLoadingFilms = (loading) => ({
+    type: types.SET_LOADING_FILMS,
     payload: loading
 })
 
@@ -41,29 +48,30 @@ export const setLoadingFilm = (loading) => ({
 
 //============================================ Axios requests ==========================================================
 
-export const getFilms = (currentPage = 1, sizePage = 9) => {
+export const getFilms = (currentPage = 0, sizePage = 0) => {
     return function (dispatch) {
-        dispatch(setLoading(true))
+        dispatch(setLoadingFilms(true))
         FilmService.getAll(currentPage, sizePage)
             .then((resp) => {
-                dispatch(getFilmsSuccess(resp.data))
-                dispatch(setLoading(false))
+                dispatch(gotFilmsSuccess(resp.data))
+                console.log(resp.data)
             })
             .catch(error => {
+                dispatch(setLoadingFilms(false))
                 console.log(error)
             })
     }
 }
 
-export const getFilmsByName = (name, currentPage = 1, sizePage = 9) => {
+export const getFilmsByName = (name, currentPage = 0, sizePage = 0) => {
     return function (dispatch) {
-        dispatch(setLoading(true))
+        dispatch(setLoadingFilms(true))
         FilmService.getAllByName(currentPage, sizePage, name)
             .then((resp) => {
-                dispatch(getFilmsSuccess(resp.data))
-                dispatch(setLoading(false))
+                dispatch(gotFilmsSuccess(resp.data))
             })
             .catch(error => {
+                dispatch(setLoadingFilms(false))
                 console.log(error)
             })
     }
@@ -74,21 +82,22 @@ export const getFilmById = (id) => {
         dispatch(setLoadingFilm(true))
         FilmService.getById(id)
             .then((resp) => {
+                dispatch(gotFilmSuccess(resp.data))
                 console.log(resp.data)
-                dispatch(gotFilmById(resp.data))
-                dispatch(setLoadingFilm(false))
             })
             .catch(error => {
+                dispatch(setLoadingFilm(false))
                 console.log(error)
             })
     }
 }
 
 export function createFilm(film) {
-    return () => {
+    return (dispatch) => {
         return new Promise((resolve, reject) => {
             FilmService.create(film)
                 .then((response) => {
+                    dispatch(createdFilmSuccess(response.data))
                     console.log(response)
                     return resolve(response);
                 })
@@ -101,10 +110,11 @@ export function createFilm(film) {
 }
 
 export const updateFilm = (film, id) => {
-    return () => {
+    return (dispatch) => {
         return new Promise((resolve, reject) => {
             FilmService.update(film, id)
                 .then((response) => {
+                    dispatch(updatedFilmSuccess(response.data))
                     console.log(response)
                     return resolve(response);
                 })
@@ -117,10 +127,11 @@ export const updateFilm = (film, id) => {
 }
 
 export const deleteFilmById = (id) => {
-    return () => {
+    return (dispatch) => {
         return new Promise((resolve, reject) => {
             FilmService.deleteById(id)
                 .then((response) => {
+                    dispatch(deletedFilmSuccess(id))
                     console.log(response)
                     return resolve(response);
                 })

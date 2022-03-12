@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {Button, Col, Form, Modal, Row} from "react-bootstrap"
 import {toast} from 'react-toastify'
 import {useDispatch, useSelector} from "react-redux"
-import {createFilm, getFilms, updateFilm} from "../../../../redux/film/FilmAction"
+import {createFilm, updateFilm} from "../../../../redux/film/FilmAction"
 import 'react-toastify/dist/ReactToastify.css'
 import '../../../../styles/Animation.css'
 import '../../../../styles/FormControl.css'
@@ -15,15 +15,12 @@ import {getGenres} from "../../../../redux/genre/GenreAction";
 
 function CreateUpdateFilmDialog(props) {
     const dispatch = useDispatch()
-    const {film, currentPage, sizePage} = useSelector(state => state.dataFilms)
+    const {film, loadingFilm} = useSelector(state => state.dataFilms)
 
     const {countries} = useSelector(state => state.dataCountries)
     const {genres} = useSelector(state => state.dataGenres)
     const [genre, setGenre] = useState(null)
     const [country, setCountry] = useState(null)
-
-    // const [genreList, setGenreList] = useState([])
-    // const [countryList, setCountryList] = useState([])
 
     // Object
     const [id, setId] = useState()
@@ -65,7 +62,7 @@ function CreateUpdateFilmDialog(props) {
             if (genres.length === 0) {
                 dispatch(getGenres())
             }
-        }, [film] // eslint-disable-line react-hooks/exhaustive-deps
+        }, [loadingFilm] // eslint-disable-line react-hooks/exhaustive-deps
     )
 
 
@@ -130,7 +127,7 @@ function CreateUpdateFilmDialog(props) {
     }
 
     const addCountry = () => {
-        if (!countries.some(item => item.name === country.name)) {
+        if (!countriesList.some(item => item.name === country.name)) {
             setCountriesList([...countriesList, country]);
         }
     }
@@ -140,49 +137,43 @@ function CreateUpdateFilmDialog(props) {
     }
 
     const addGenre = () => {
-        if (!genres.some(item => item.name === genres.name)) {
-            setGenresList([...genres, genre]);
+        if (!genresList.some(item => item.name === genres.name)) {
+            setGenresList([...genresList, genre]);
         }
     }
 
     const removeGenre = (item) => {
-        setGenresList(genres.filter(genre => genre.name !== item.name));
+        setGenresList(genresList.filter(genre => genre.name !== item.name));
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
         let request = {
             name: name,
-            countries: countries,
+            countries: countriesList,
             year: year,
             timeInMinutes: time,
             price: price,
             description: description,
-            genres: genres,
+            genres: genresList,
             imageURL: imageURL
         }
 
         if (!findFormErrors(request)) {
             if (props.method === "create") {
                 dispatch(createFilm(request))
-                    .then((response) => {
-                        console.log(response)
-                        dispatch(getFilms(currentPage, sizePage))
+                    .then(() => {
                         notifySuccess('The new film was created successfully!')
                     })
-                    .catch((error) => {
-                        console.log(error)
+                    .catch(() => {
                         notifyError('Error to create a new film, please check your input data!')
                     });
             } else {
                 dispatch(updateFilm(request, id))
-                    .then((response) => {
-                        console.log(response)
-                        dispatch(getFilms(currentPage, sizePage))
+                    .then(() => {
                         notifySuccess('The film was updated successfully!')
                     })
-                    .catch((error) => {
-                        console.log(error)
+                    .catch(() => {
                         notifyError('Error to update film, please check your input data!')
                     });
             }
@@ -212,20 +203,18 @@ function CreateUpdateFilmDialog(props) {
     }
 
     const notifyError = (text) => toast.error(text, {
+        autoClose: 2000,
         position: "top-right",
     });
 
     const notifySuccess = (text) => toast.success(text, {
+        autoClose: 2000,
         position: "top-right",
     });
 
     const showContent = () => {
-        if (genres.length === 0 || countries.length === 0 || (film === null && props.method === "updated")) {
-            return (
-                <div>
-                    loading...
-                </div>
-            )
+        if (genres.length === 0 || countries.length === 0 || (loadingFilm && props.method === "updated")) {
+            return <div>loading...</div>
         } else {
             return (
                 <div>
@@ -248,12 +237,13 @@ function CreateUpdateFilmDialog(props) {
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label style={{marginBottom: "0px"}}><b>YEAR</b></Form.Label>
-                                            <Form.Control type="text"
-                                                          className="my-input"
-                                                          placeholder="Enter year"
-                                                          value={year}
-                                                          onChange={changeYearHandler}
-                                                          isInvalid={yearError}
+                                            <Form.Control
+                                                type="text"
+                                                className="my-input"
+                                                placeholder="Enter year"
+                                                value={year}
+                                                onChange={changeYearHandler}
+                                                isInvalid={yearError}
                                             />
                                             <Form.Control.Feedback type='invalid'>{yearError}</Form.Control.Feedback>
                                         </Form.Group>
@@ -262,12 +252,13 @@ function CreateUpdateFilmDialog(props) {
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label style={{marginBottom: "0px"}}><b>TIME (in
                                                 minutes)</b></Form.Label>
-                                            <Form.Control type="text"
-                                                          className="my-input"
-                                                          placeholder="Enter time"
-                                                          value={time}
-                                                          onChange={changeTimeHandler}
-                                                          isInvalid={timeError}
+                                            <Form.Control
+                                                type="text"
+                                                className="my-input"
+                                                placeholder="Enter time"
+                                                value={time}
+                                                onChange={changeTimeHandler}
+                                                isInvalid={timeError}
                                             />
                                             <Form.Control.Feedback type='invalid'>{timeError}</Form.Control.Feedback>
                                         </Form.Group>

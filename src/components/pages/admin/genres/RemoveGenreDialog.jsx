@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button, Modal} from "react-bootstrap";
 import {deleteGenreById} from "../../../../redux/genre/GenreAction";
 import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 function RemoveGenreDialog(props) {
     const dispatch = useDispatch()
@@ -10,12 +11,24 @@ function RemoveGenreDialog(props) {
 
     const handleSubmit = () => {
         dispatch(deleteGenreById(genre.id))
-        props.onHide()
+            .then(() => {
+                notifySuccess("The genre was deleted successfully!")
+                props.onHide()
+            })
+            .catch((error) => {
+                notifyError(error.response.data.message)
+            })
     }
 
-    const closeModal = () => {
-        props.onHide()
-    }
+    const notifySuccess = (text) => toast.success(text, {
+        autoClose: 2000,
+        position: "top-right",
+    });
+
+    const notifyError = (text) => toast.error(text, {
+        autoClose: 2000,
+        position: "top-right",
+    });
 
     const showContent = () => {
         if (loading) {
@@ -52,7 +65,7 @@ function RemoveGenreDialog(props) {
                     {showContent()}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="outline-success" onClick={closeModal}>Close</Button>
+                    <Button variant="outline-success" onClick={() => props.onHide()}>Close</Button>
                     <Button variant={"outline-danger"}
                             type="submit"
                             onClick={handleSubmit}>

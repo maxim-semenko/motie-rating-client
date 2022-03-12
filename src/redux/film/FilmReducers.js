@@ -3,7 +3,7 @@ import * as types from "./FilmActionType"
 const initialState = {
     films: [],
     film: null,
-    loading: true,
+    loadingFilms: true,
     loadingFilm: true,
     currentPage: 1,
     sizePage: 9,
@@ -21,7 +21,7 @@ const filmReducers = (state = initialState, action = {}) => {
                 totalElements: action.payload.totalElements,
                 totalPages: action.payload.totalPages,
                 numberOfElements: action.payload.numberOfElements,
-                loading: false,
+                loadingFilms: false,
             }
         case types.GET_FILM:
             return {
@@ -29,10 +29,23 @@ const filmReducers = (state = initialState, action = {}) => {
                 film: action.payload,
                 loadingFilm: false,
             }
-        case types.DELETE_FILM_BY_ID:
+        case types.CREATE_FILM:
             return {
                 ...state,
-                loading: false,
+                films: [...state.films, action.payload]
+            }
+        case types.UPDATE_FILM:
+            const objIndex = state.films.findIndex((item => item.id === action.payload.id));
+            let updatedFilms = state.films;
+            updatedFilms[objIndex] = action.payload
+            return {
+                ...state,
+                films: updatedFilms,
+            }
+        case types.DELETE_FILM:
+            return {
+                ...state,
+                films: state.films.filter(item => item.id !== action.payload),
             }
         case types.SET_CURRENT_PAGE:
             return {
@@ -44,7 +57,7 @@ const filmReducers = (state = initialState, action = {}) => {
                 ...state,
                 sizePage: action.payload
             }
-        case types.SET_LOADING:
+        case types.SET_LOADING_FILMS:
             return {
                 ...state,
                 loading: action.payload
@@ -53,16 +66,6 @@ const filmReducers = (state = initialState, action = {}) => {
             return {
                 ...state,
                 loadingFilm: action.payload
-            }
-        case types.RESET_FILMS:
-            return {
-                ...state,
-                films: []
-            }
-        case types.RESET_FILM:
-            return {
-                ...state,
-                film: null
             }
         default:
             return state

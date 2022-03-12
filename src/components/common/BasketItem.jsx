@@ -8,8 +8,7 @@ function BasketItem(props) {
         <div>
             <Card className="customCard" style={{textAlign: "left"}}>
                 <Card.Header style={{textAlign: "left"}}>
-                    <Link to={{pathname: `/film/${props.film.id}`}} className="my-link">
-                        <h2>{props.film.name}</h2>
+                    <Link to={{pathname: `/film/${props.film.id}`}} className="my-link"><h2>{props.film.name}</h2>
                     </Link>
                 </Card.Header>
                 <Card.Body>
@@ -19,15 +18,11 @@ function BasketItem(props) {
                                  style={{float: "left", paddingRight: "10px", paddingBottom: "10px"}}/>
                         </Link>
                         <blockquote className="blockquote mb-0">
-                            <p style={{textAlign: "justify"}}>
-                                <b>Description: </b> {props.film.description}
-                            </p>
+                            <p style={{textAlign: "justify"}}><b>Description: </b> {props.film.description}</p>
                         </blockquote>
                     </div>
                     <br/>
-                    {
-                        props.showButtons ? <AddRemoveFilmBasket film={props.film}/> : null
-                    }
+                    {props.showButtons ? <AddRemoveFilmBasket film={props.film}/> : null}
                 </Card.Body>
             </Card>
         </div>

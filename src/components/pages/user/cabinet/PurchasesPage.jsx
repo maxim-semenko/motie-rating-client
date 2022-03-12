@@ -24,17 +24,9 @@ function PurchasesPage() {
 
     const showPurchases = () => {
         if (loadingPurchaseStorage || purchaseFilmList === null) {
-            return (
-                <div>
-                    <span style={{paddingTop: "2%"}}><Spinner animation="border" size={"lg"}/></span>
-                </div>
-            )
+            return (<span style={{paddingTop: "2%"}}><Spinner animation="border" size={"lg"}/></span>)
         } else if (purchaseFilmList.length === 0) {
-            return (
-                <div>
-                    <h3>The Purchases is empty</h3>
-                </div>
-            )
+            return (<div><h3>The Purchases is empty</h3></div>)
         } else {
             return (
                 <div>

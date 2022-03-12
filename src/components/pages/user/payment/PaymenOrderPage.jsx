@@ -119,12 +119,14 @@ function PaymentOrderPage() {
                                                         variant="danger"
                                                         textHeader="Oh snap! You got an error!"
                                                         text={textError}
-                                                        close={() => setShowError(false)}/>
+                                                        close={() => setShowError(false)}
+                                    />
                                     <AlertCSSTransition in={showSuccess}
                                                         variant="success"
                                                         textHeader="It's OK!"
                                                         text={textSuccess}
-                                                        close={() => setShowSuccess(false)}/>
+                                                        close={() => setShowSuccess(false)}
+                                    />
                                     <Form.Group as={Col}>
                                         <Form.Label><b>CARD HOLDER NAME</b></Form.Label>
                                         <Form.Control type="text"

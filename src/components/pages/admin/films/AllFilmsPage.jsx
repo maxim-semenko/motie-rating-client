@@ -4,12 +4,12 @@ import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
 import CreateUpdateFilmDialog from "./CreateUpdateFilmDialog";
 import {useDispatch, useSelector} from "react-redux";
-import {getFilmById, getFilms, resetFilm, setCurrentPage, setSizePage} from "../../../../redux/film/FilmAction";
+import {getFilmById, getFilms, setCurrentPage, setSizePage} from "../../../../redux/film/FilmAction";
 import Pagination from "react-js-pagination";
 import Spinner from 'react-bootstrap/Spinner'
 import RemoveFilmDialog from "./RemoveFilmDialog";
 import AboutFilmDialog from "./AboutFilmDialog";
-import BackControllersButtonComponent from "../../../common/BackControllersButtonComponent";
+import BackControlsButtonComponent from "../../../common/BackControlsButtonComponent";
 
 function AllFilmsPage() {
     const dispatch = useDispatch()
@@ -26,7 +26,6 @@ function AllFilmsPage() {
     )
 
     const aboutFilm = (id) => {
-        dispatch(resetFilm())
         dispatch(getFilmById(id))
         setShowAboutFilmDialog(true)
     }
@@ -46,7 +45,6 @@ function AllFilmsPage() {
      * @param {number} id  - Film id
      */
     const editFilm = (id) => {
-        dispatch(resetFilm())
         dispatch(getFilmById(id))
         setShowAddEditFilmDialog(true);
         setMethod("update")
@@ -57,12 +55,12 @@ function AllFilmsPage() {
             <Table striped bordered hover variant="dark">
                 <thead>
                 <tr>
-                    <th style={{minWidth: "15rem"}}>Name</th>
-                    <th style={{minWidth: "7rem"}}>Year</th>
-                    <th style={{minWidth: "7rem"}}>Time</th>
-                    <th style={{minWidth: "7rem"}}>Rating</th>
-                    <th style={{minWidth: "7rem"}}>Price($)</th>
-                    <th>Action</th>
+                    <th width={"20%"}>Name</th>
+                    <th width={"15%"}>Year</th>
+                    <th width={"15%"}>Time</th>
+                    <th width={"15%"}>Rating</th>
+                    <th width={"15%"}>Price($)</th>
+                    <th width={"20%"}>Action</th>
                 </tr>
                 </thead>
                 {
@@ -141,7 +139,7 @@ function AllFilmsPage() {
             <Container fluid>
                 <Col lg={12} style={{marginTop: "20px"}}>
                     <Jumbotron className="bg-dark text-white">
-                        <BackControllersButtonComponent/>
+                        <BackControlsButtonComponent/>
                         <Button variant="outline-primary"
                                 style={{marginBottom: "20px"}} onClick={() => createFilm()}>
                             <b>Add a new film</b>

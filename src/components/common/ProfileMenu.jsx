@@ -29,9 +29,7 @@ function ProfileMenu() {
                 </Link>
                 <hr/>
                 <Link to="/" className="my-link" onClick={() => AuthService.logout(new Cookies())}>
-                    <h5>
-                        <span className="menu-icon"><ImExit size={24}/></span>LOGOUT
-                    </h5>
+                    <h5><span className="menu-icon"><ImExit size={24}/></span>LOGOUT</h5>
                 </Link>
             </Jumbotron>
         </div>

@@ -82,6 +82,21 @@ class UserService {
             }
         });
     }
+
+    async updateUserIsNonLockedById(request, id) {
+        return axios.patch(`${USER_API_BASE_URL}/${id}/locked`, request, {
+            headers: {
+                'Authorization': `Bearer_${cookies.get("jwt")}`
+            },
+        })
+    }
+
+    async updateUserRolesById(request, id) {
+        return axios.patch(`${USER_API_BASE_URL}/${id}/roles`, request, {
+            headers: {'Authorization': `Bearer_${cookies.get("jwt")}`},
+        })
+    }
+
 }
 
 export default new UserService()

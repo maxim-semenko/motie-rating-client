@@ -117,12 +117,14 @@ function FeedbackPage() {
                                         variant="success"
                                         textHeader="It's OK!"
                                         text={successText}
-                                        close={() => setShowSuccess(false)}/>
+                                        close={() => setShowSuccess(false)}
+                    />
                     <AlertCSSTransition in={showError}
                                         variant="danger"
                                         textHeader="Oh snap! You got an error!"
                                         text={errorText}
-                                        close={() => setShowError(false)}/>
+                                        close={() => setShowError(false)}
+                    />
                     <Container style={{textAlign: "left"}}>
                         <Form>
                             <Form.Group as={Col} controlId="formGridEmail">

@@ -42,9 +42,7 @@ function NavigationBar() {
             return (
                 <Nav className="me-auto">
                     <Nav.Link as={Link} to="/profile/basket">
-                                <span style={{color: "white"}}>
-                                        <FaShoppingCart size={34}/>
-                                </span>
+                        <span style={{color: "white"}}><FaShoppingCart size={34}/></span>
                     </Nav.Link>
                 </Nav>
             )

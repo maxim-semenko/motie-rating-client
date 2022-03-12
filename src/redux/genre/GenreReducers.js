@@ -28,10 +28,23 @@ const genreReducers = (state = initialState, action = {}) => {
                 genre: action.payload,
                 loading: false,
             }
-        case types.DELETE_GENRE_BY_ID:
+        case types.CREATE_GENRE:
             return {
                 ...state,
-                loading: false,
+                genres: [...state.genres, action.payload]
+            }
+        case types.UPDATE_GENRE:
+            const objIndex = state.genres.findIndex((item => item.id === action.payload.id));
+            let updatedGenres = state.genres;
+            updatedGenres[objIndex] = action.payload
+            return {
+                ...state,
+                genres: updatedGenres,
+            }
+        case types.DELETE_GENRE:
+            return {
+                ...state,
+                genres: state.genres.filter(item => item.id !== action.payload),
             }
         case types.SET_CURRENT_PAGE_GENRE:
             return {

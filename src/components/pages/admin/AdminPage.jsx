@@ -48,7 +48,7 @@ function AdminPage() {
                             </Link>
                             <hr/>
                             <br/>
-                            <Link to="all-messages" className="my-link">
+                            <Link to="messages" className="my-link">
                                 <h5>
                                     <span className="menu-icon"><AiFillMessage size={24}/></span>MESSAGES CONTROL
                                 </h5>

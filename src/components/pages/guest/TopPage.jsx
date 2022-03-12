@@ -26,6 +26,7 @@ function TopPage() {
                     }
                     return temp
                 }
+
                 fetchFilmsByGenre().then(data => {
                     setGenres(resp.data.content)
                     setFilmsList(data);
@@ -44,9 +45,7 @@ function TopPage() {
                 <Jumbotron className="bg-dark text-white"
                            style={{marginTop: "20px", paddingTop: "20px"}}>
                     <h1 style={{textAlign: "center", marginLeft: "12px", marginBottom: "15px"}}>
-                        <div>
-                            <b>THE BEST FILMS IN EVERY GENRE</b>
-                        </div>
+                        <b>THE BEST FILMS IN EVERY GENRE</b>
                     </h1>
                     <Container>
                         <div>
@@ -55,17 +54,12 @@ function TopPage() {
                                     <div>
                                         {
                                             filmsList.map((films, index) =>
-                                                <div>
-                                                    <CarouselComponent text={getText(index)} films={films}/>
-                                                </div>
+                                                <div><CarouselComponent text={getText(index)} films={films}/></div>
                                             )
                                         }
                                     </div>
                                     :
-                                    <div>
-                                        <span style={{paddingTop: "2%"}}><Spinner animation="border"
-                                                                                  size={"lg"}/></span>
-                                    </div>
+                                    <span style={{paddingTop: "2%"}}><Spinner animation="border" size={"lg"}/></span>
                             }
                         </div>
                     </Container>

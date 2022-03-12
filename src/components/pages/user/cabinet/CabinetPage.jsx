@@ -14,9 +14,7 @@ function CabinetPage() {
             <NavigationBar/>
             <Container>
                 <Row>
-                    <Col lg={3} style={{marginTop: "20px"}}>
-                        <ProfileMenu/>
-                    </Col>
+                    <Col lg={3} style={{marginTop: "20px"}}><ProfileMenu/></Col>
                     <Col lg={9} style={{marginTop: "20px"}}>
                         <Jumbotron className="bg-dark text-white" style={{paddingTop: "20px", paddingBottom: "45px"}}>
                             <Row>
@@ -52,7 +50,7 @@ function CabinetPage() {
                                     <Jumbotron className="bg-dark text-white"
                                                style={{paddingTop: "15px", paddingBottom: "25px"}}>
                                         <div className="d-grid gap-2" style={{marginTop: "15px"}}>
-                                            <Link to="/profile/admin/controllers">
+                                            <Link to="/profile/admin/controls">
                                                 <Button variant="outline-warning"
                                                         size="lg">
                                                     <b>Go to admin profile</b>

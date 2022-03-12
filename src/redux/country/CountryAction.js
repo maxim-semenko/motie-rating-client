@@ -1,15 +1,29 @@
 import * as types from "./CountryActionType"
-import store from "../Store"
 import CountryService from "../../service/CountryService";
 
-const getFilmsSuccess = (countries) => ({
+const gotCountriesSuccess = (countries) => ({
     type: types.GET_COUNTRIES,
     payload: countries,
 })
 
-const gotCountryById = (country) => ({
+const gotCountrySuccess = (country) => ({
     type: types.GET_COUNTRY,
     payload: country,
+})
+
+const createdCountrySuccess = (country) => ({
+    type: types.CREATE_COUNTRY,
+    payload: country,
+})
+
+const updatedCountrySuccess = (country) => ({
+    type: types.UPDATE_COUNTRY,
+    payload: country,
+})
+
+const deletedCountrySuccess = (id) => ({
+    type: types.DELETE_COUNTRY,
+    payload: id,
 })
 
 export const setCurrentPage = (page) => ({
@@ -33,12 +47,12 @@ export const getCountries = (currentPage = 0, sizePage = 0) => {
     return function (dispatch) {
         dispatch(setLoading(true))
         CountryService.getAll(currentPage, sizePage)
-            .then((resp) => {
-                console.log(resp.data)
-                dispatch(getFilmsSuccess(resp.data))
-                dispatch(setLoading(false))
+            .then((response) => {
+                console.log(response.data)
+                dispatch(gotCountriesSuccess(response.data))
             })
             .catch(error => {
+                dispatch(setLoading(false))
                 console.log(error)
             })
     }
@@ -48,21 +62,22 @@ export const getCountryById = (id) => {
     return function (dispatch) {
         dispatch(setLoading(true))
         CountryService.getById(id)
-            .then((resp) => {
-                dispatch(gotCountryById(resp.data))
-                dispatch(setLoading(false))
+            .then((response) => {
+                dispatch(gotCountrySuccess(response.data))
             })
             .catch(error => {
+                dispatch(setLoading(false))
                 console.log(error)
             })
     }
 }
 
-export function createCountry(film) {
-    return () => {
+export function createCountry(country) {
+    return (dispatch) => {
         return new Promise((resolve, reject) => {
-            CountryService.create(film)
+            CountryService.create(country)
                 .then((response) => {
+                    dispatch(createdCountrySuccess(response.data))
                     console.log(response)
                     return resolve(response);
                 })
@@ -74,11 +89,12 @@ export function createCountry(film) {
     };
 }
 
-export function updateCountry(film, id) {
-    return () => {
+export function updateCountry(country, id) {
+    return (dispatch) => {
         return new Promise((resolve, reject) => {
-            CountryService.update(film, id)
+            CountryService.update(country, id)
                 .then((response) => {
+                    dispatch(updatedCountrySuccess(response.data))
                     console.log(response)
                     return resolve(response);
                 })
@@ -91,14 +107,19 @@ export function updateCountry(film, id) {
 }
 
 export const deleteCountryById = (id) => {
-    return function (dispatch) {
-        CountryService.deleteById(id)
-            .then((response) => {
-                console.log(response)
-                dispatch(getCountries(store.getState().dataFilms.currentPage, store.getState().dataFilms.sizePage))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            CountryService.deleteById(id)
+                .then((response) => {
+                    dispatch(deletedCountrySuccess(id))
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
+        })
+    };
+
 }

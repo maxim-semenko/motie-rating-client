@@ -36,7 +36,7 @@ function App() {
             <ProtectRoute path="/profile/history" component={TransactionalHistory}/>
             <ProtectRoute path="/profile/edit" component={ClassProfileEditPage}/>
             <ProtectRoute path="/profile/payment" component={PaymentOrderPage}/>
-            <ProtectRoute path="/profile/admin/controllers" component={AdminPage}/>
+            <ProtectRoute path="/profile/admin/controls" component={AdminPage}/>
             <ProtectRoute path="/profile/admin/all-users" component={AllUsersPage}/>
             <ProtectRoute path="/profile/admin/all-films" component={AllFilmsPage}/>
             <ProtectRoute path="/profile/admin/all-countries" component={AllCountriesPage}/>

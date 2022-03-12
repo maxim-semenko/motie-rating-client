@@ -34,17 +34,10 @@ function AddRemoveFilmBasket(props) {
     }
 
     const displayActionWithBasket = () => {
-        // console.log("list = " + purchaseFilmList.length)
         const isContainInPurchase = checkContainInPurchase(props.film.id)
         if (isContainInPurchase) {
             return (
-                // <a href={"/profile/purchases"} className="my-link">
-                <Link to={"/profile/purchases"}>
-                    <Button variant='outline-warning'>
-                        <b>Purchases</b>
-                    </Button>
-                </Link>
-                // </a>
+                <Link to={"/profile/purchases"}><Button variant='outline-warning'><b>Purchases</b></Button></Link>
             )
         } else {
             const isContainInBasket = checkContainInBasket(props.film.id);
@@ -63,9 +56,7 @@ function AddRemoveFilmBasket(props) {
     return (
         <div>
             <div className="d-grid gap-2" style={{marginTop: "20px"}}>
-                <Button variant="outline-success" disabled={!isLogin}>
-                    <b>Price({props.film.price}$)</b>
-                </Button>{' '}
+                <Button variant="outline-success" disabled={!isLogin}><b>Price({props.film.price}$)</b></Button>{' '}
                 {displayActionWithBasket()}
             </div>
         </div>

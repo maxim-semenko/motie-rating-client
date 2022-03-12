@@ -123,7 +123,7 @@ function SignUpDialog(props) {
                         <Form.Control className="my-input"
                                       type="text"
                                       placeholder="Enter firstname"
-                                      autocomplete="off"
+                                      autoComplete="off"
                                       isInvalid={firstnameError}
                                       onChange={changeFirstnameHandler}
                         />
@@ -134,7 +134,7 @@ function SignUpDialog(props) {
                         <Form.Control className="my-input"
                                       type="text"
                                       placeholder="Enter lastname"
-                                      autocomplete="off"
+                                      autoComplete="off"
                                       isInvalid={lastnameError}
                                       onChange={changeLastnameHandler}
                         />
@@ -145,7 +145,7 @@ function SignUpDialog(props) {
                         <Form.Control className="my-input"
                                       type="email"
                                       placeholder="Enter email"
-                                      autocomplete="off"
+                                      autoComplete="off"
                                       isInvalid={emailError}
                                       onChange={changeEmailHandler}
                         />
@@ -156,7 +156,7 @@ function SignUpDialog(props) {
                         <Form.Control className="my-input"
                                       type="text"
                                       placeholder="Enter username"
-                                      autocomplete="off"
+                                      autoComplete="off"
                                       isInvalid={usernameError}
                                       onChange={changeUsernameHandler}
                         />
@@ -167,7 +167,7 @@ function SignUpDialog(props) {
                         <Form.Control className="my-input"
                                       type="password"
                                       placeholder="Enter password"
-                                      autocomplete="off"
+                                      autoComplete="off"
                                       isInvalid={passwordError}
                                       onChange={changePasswordHandler}
                         />

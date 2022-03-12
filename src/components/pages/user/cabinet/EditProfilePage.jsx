@@ -180,8 +180,7 @@ function EditProfilePage() {
                 <Row>
                     <Col lg={12} style={{marginTop: "20px", textAlign: "left"}}>
                         <Link to="/profile/cabinet">
-                            <Button variant="outline-danger"
-                                    style={{marginBottom: "20px"}}>
+                            <Button variant="outline-danger" style={{marginBottom: "20px"}}>
                                 <b>Back to profile</b>
                             </Button>
                         </Link>{' '}
@@ -192,12 +191,14 @@ function EditProfilePage() {
                                                     variant="danger"
                                                     textHeader="Oh snap! You got an error!"
                                                     text={showError}
-                                                    close={() => setShowError(false)}/>
+                                                    close={() => setShowError(false)}
+                                />
                                 <AlertCSSTransition in={showSuccess}
                                                     variant="success"
                                                     textHeader="It's OK!"
                                                     text={showSuccess}
-                                                    close={() => setShowSuccess(false)}/>
+                                                    close={() => setShowSuccess(false)}
+                                />
                                 <Row>
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
@@ -255,14 +256,10 @@ function EditProfilePage() {
                                     <Form.Control.Feedback type='invalid'>{emailError}</Form.Control.Feedback>
                                 </Form.Group>
                                 <div style={{textAlign: "right", paddingRight: "1.5%"}}>
-                                    <Button variant="outline-danger"
-                                            onClick={() => setShowDeleteProfileDialog(true)}>
+                                    <Button variant="outline-danger" onClick={() => setShowDeleteProfileDialog(true)}>
                                         <b>Delete account</b>
                                     </Button>{' '}
-                                    <Button variant="outline-success"
-                                            onClick={update}>
-                                        <b>Edit profile</b>
-                                    </Button>
+                                    <Button variant="outline-success" onClick={update}><b>Edit profile</b></Button>
                                 </div>
                             </Form>
                             <hr/>
@@ -271,7 +268,7 @@ function EditProfilePage() {
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label><b>OLD PASSWORD</b></Form.Label>
-                                            <Form.Control type="text"
+                                            <Form.Control type="password"
                                                           className="my-input"
                                                           isInvalid={oldPasswordError}
                                                           autoComplete="off"
@@ -285,7 +282,7 @@ function EditProfilePage() {
                                     <Col>
                                         <Form.Group as={Col} controlId="formGridEmail">
                                             <Form.Label><b>NEW PASSWORD</b></Form.Label>
-                                            <Form.Control type="text"
+                                            <Form.Control type="password"
                                                           className="my-input"
                                                           isInvalid={newPasswordError}
                                                           autoComplete="off"
@@ -298,6 +295,9 @@ function EditProfilePage() {
                                     </Col>
                                 </Row>
                                 <div style={{textAlign: "right", paddingRight: "1.5%"}}>
+                                    <Link to={"/restore-password"}>
+                                        <Button variant="outline-warning"><b>Forgot old password</b></Button>{' '}
+                                    </Link>
                                     <Button variant="outline-success" onClick={updatePassword}>
                                         <b>Edit password</b>
                                     </Button>

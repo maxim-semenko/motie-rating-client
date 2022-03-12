@@ -5,9 +5,9 @@ import Footer from "../../../common/Footer"
 import {getUsers, setCurrentPage, setSizePage} from "../../../../redux/user/UserAction";
 import {useDispatch, useSelector} from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
-import AdminService from "../../../../service/AdminService";
 import PaginationComponent from "../../../common/PaginationComponent";
-import BackControllersButtonComponent from "../../../common/BackControllersButtonComponent";
+import BackControlsButtonComponent from "../../../common/BackControlsButtonComponent";
+import UserService from "../../../../service/UserService";
 
 function AllUsersPage() {
     const dispatch = useDispatch()
@@ -24,7 +24,10 @@ function AllUsersPage() {
     )
 
     const updateUserIsNonLocked = (id, isNonLocked) => {
-        AdminService.updateUserIsNonLockedById(id, isNonLocked)
+        const request = {
+            isNonLocked: isNonLocked
+        }
+        UserService.updateUserIsNonLockedById(request, id)
             .then(resp => {
                 console.log(resp);
                 dispatch(getUsers(currentPage, sizePage))
@@ -33,8 +36,17 @@ function AllUsersPage() {
         })
     }
 
-    const addOrRemoveAdminRole = (id) => {
-        AdminService.updateUserRoleById(id)
+    const updateUserRoles = (user) => {
+        let roles = []
+        if (!user.isAdmin) {
+            roles.push({id: 1, name: "ROLE_ADMIN"})
+        }
+        roles.push({id: 2, name: "ROLE_USER"})
+
+        const request = {
+            roles: roles
+        }
+        UserService.updateUserRolesById(request, user.id)
             .then(resp => {
                 console.log(resp);
                 dispatch(getUsers(currentPage, sizePage))
@@ -60,12 +72,12 @@ function AllUsersPage() {
             <Table striped bordered hover variant="dark">
                 <thead>
                 <tr>
-                    <th style={{minWidth: "12rem"}}>Username</th>
-                    <th style={{minWidth: "12rem"}}>Firstname</th>
-                    <th style={{minWidth: "12rem"}}>Lastname</th>
-                    <th style={{minWidth: "14rem"}}>Email</th>
-                    <th style={{minWidth: "8rem"}}>Role</th>
-                    <th>Action</th>
+                    <th width={"20%"}>Username</th>
+                    <th width={"20%"}>Firstname</th>
+                    <th width={"20%"}>Lastname</th>
+                    <th width={"20%"}>Email</th>
+                    <th width={"5%"}>Role</th>
+                    <th width={"15%"}>Action</th>
                 </tr>
                 </thead>
                 {
@@ -91,7 +103,7 @@ function AllUsersPage() {
                                         <div>
                                             <Button variant={getVariantButtonRole(user.isAdmin)}
                                                     disabled={user.id === userId}
-                                                    onClick={() => addOrRemoveAdminRole(user.id)}>
+                                                    onClick={() => updateUserRoles(user)}>
                                                 <b>{getTextButtonRole(user.isAdmin)}</b>
                                             </Button>{' '}
                                             <Button
@@ -126,7 +138,7 @@ function AllUsersPage() {
             <Container fluid>
                 <Col lg={12} style={{marginTop: "20px"}}>
                     <Jumbotron className="bg-dark text-white">
-                        <BackControllersButtonComponent/>
+                        <BackControlsButtonComponent/>
                         <Row>
                             <PaginationComponent
                                 sizePage={sizePage}

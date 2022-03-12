@@ -1,17 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import NavigationBar from "../../common/NavigationBar";
 import {Button, Col, Container, Form, Jumbotron} from "react-bootstrap";
 import MailService from "../../../service/MailService";
 import AlertCSSTransition from "../../common/AlertCSSTransition";
 import AuthService from "../../../service/AuthService";
 
-function RestorePasswordPage(props) {
 
-    useEffect(() => {
-        if (localStorage.getItem("user") !== null) {
-            props.history.push('/')
-        }
-    })
+function RestorePasswordPage(props) {
 
     const [sendingMail, setSendingMail] = useState(false);
 
@@ -32,7 +27,6 @@ function RestorePasswordPage(props) {
     // Messages
     const [successText, setSuccessText] = useState(false)
     const [errorText, setErrorText] = useState(false)
-
 
     const changeEmailHandler = (event) => {
         setEmail(event.target.value)
@@ -114,7 +108,6 @@ function RestorePasswordPage(props) {
                 })
         }
     }
-
 
     return (
         <div>

@@ -1,5 +1,4 @@
 import * as types from "./GenreActionType"
-import store from "../Store"
 import GenreService from "../../service/GenreService";
 
 const gotGenresSuccess = (genres) => ({
@@ -7,9 +6,24 @@ const gotGenresSuccess = (genres) => ({
     payload: genres,
 })
 
-const gotCountrySuccess = (genre) => ({
+const gotGenreSuccess = (genre) => ({
     type: types.GET_GENRE,
     payload: genre,
+})
+
+const createdGenreSuccess = (genre) => ({
+    type: types.CREATE_GENRE,
+    payload: genre,
+})
+
+const updatedGenreSuccess = (genre) => ({
+    type: types.UPDATE_GENRE,
+    payload: genre,
+})
+
+const deletedGenreSuccess = (id) => ({
+    type: types.DELETE_GENRE,
+    payload: id,
 })
 
 export const setCurrentPage = (page) => ({
@@ -36,9 +50,9 @@ export const getGenres = (page = 0, size = 0) => {
             .then((resp) => {
                 console.log(resp.data)
                 dispatch(gotGenresSuccess(resp.data))
-                dispatch(setLoading(false))
             })
             .catch(error => {
+                dispatch(setLoading(false))
                 console.log(error)
             })
     }
@@ -51,20 +65,21 @@ export const getGenreById = (id) => {
         GenreService.getById(id)
             .then((resp) => {
                 console.log(resp.data)
-                dispatch(gotCountrySuccess(resp.data))
-                dispatch(setLoading(false))
+                dispatch(gotGenreSuccess(resp.data))
             })
             .catch(error => {
+                dispatch(setLoading(false))
                 console.log(error)
             })
     }
 }
 
 export function createGenre(genre) {
-    return () => {
+    return (dispatch) => {
         return new Promise((resolve, reject) => {
             GenreService.create(genre)
                 .then((response) => {
+                    dispatch(createdGenreSuccess(genre))
                     console.log(response)
                     return resolve(response);
                 })
@@ -77,10 +92,11 @@ export function createGenre(genre) {
 }
 
 export function updateGenre(genre, id) {
-    return () => {
+    return (dispatch) => {
         return new Promise((resolve, reject) => {
             GenreService.update(genre, id)
                 .then((response) => {
+                    dispatch(updatedGenreSuccess(response.data))
                     console.log(response)
                     return resolve(response);
                 })
@@ -92,15 +108,19 @@ export function updateGenre(genre, id) {
     };
 }
 
-// store.getState().dataOfStudents.currentPage
 export const deleteGenreById = (id) => {
-    return function (dispatch) {
-        GenreService.deleteById(id)
-            .then(() => {
-                dispatch(getGenres(store.getState().dataGenres.currentPage, store.getState().dataGenres.sizePage))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            GenreService.deleteById(id)
+                .then((response) => {
+                    dispatch(deletedGenreSuccess(id))
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
+        })
+    };
 }

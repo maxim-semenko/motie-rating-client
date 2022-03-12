@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button, Modal} from "react-bootstrap";
 import {deleteCountryById} from "../../../../redux/country/CountryAction";
 import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+
 
 function RemoveCountryDialog(props) {
     const dispatch = useDispatch()
@@ -10,20 +12,28 @@ function RemoveCountryDialog(props) {
 
     const handleSubmit = () => {
         dispatch(deleteCountryById(country.id))
-        props.onHide()
+            .then(() => {
+                notifySuccess("The country was deleted successfully!")
+                props.onHide()
+            })
+            .catch((error) => {
+                notifyError(error.response.data.message)
+            })
     }
 
-    const closeModal = () => {
-        props.onHide()
-    }
+    const notifySuccess = (text) => toast.success(text, {
+        autoClose: 2000,
+        position: "top-right",
+    });
+
+    const notifyError = (text) => toast.error(text, {
+        autoClose: 2000,
+        position: "top-right",
+    });
 
     const showContent = () => {
         if (loading) {
-            return (
-                <div>
-                    loading...
-                </div>
-            )
+            return <div>loading...</div>
         } else {
             return (
                 <div style={{color: "white"}}>
@@ -52,7 +62,7 @@ function RemoveCountryDialog(props) {
                     {showContent()}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="outline-success" onClick={closeModal}>Close</Button>
+                    <Button variant="outline-success" onClick={() => props.onHide()}>Close</Button>
                     <Button variant={"outline-danger"}
                             type="submit"
                             onClick={handleSubmit}>

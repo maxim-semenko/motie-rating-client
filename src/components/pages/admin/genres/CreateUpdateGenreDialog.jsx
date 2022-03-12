@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Col, Form, Modal, Row} from "react-bootstrap";
 import {toast} from "react-toastify";
-import {createGenre, getGenres, updateGenre} from "../../../../redux/genre/GenreAction";
+import {createGenre, updateGenre} from "../../../../redux/genre/GenreAction";
 import GenreValidator from "../../../../validation/GenreValidator";
+import 'react-toastify/dist/ReactToastify.css'
 
 function CreateUpdateGenreDialog(props) {
     const dispatch = useDispatch()
-    const {genre, loading, currentPage, sizePage} = useSelector(state => state.dataGenres)
+    const {genre, loading} = useSelector(state => state.dataGenres)
     const [id, setId] = useState(0);
     const [name, setName] = useState('');
 
@@ -28,7 +29,6 @@ function CreateUpdateGenreDialog(props) {
                 dispatch(createGenre(request))
                     .then((response) => {
                         console.log(response)
-                        dispatch(getGenres(currentPage, sizePage))
                         notifySuccess('The new genre was created successfully!')
                     })
                     .catch((error) => {
@@ -39,7 +39,6 @@ function CreateUpdateGenreDialog(props) {
                 dispatch(updateGenre(request, id))
                     .then((response) => {
                         console.log(response)
-                        dispatch(getGenres(currentPage, sizePage))
                         notifySuccess('The genre was updated successfully!')
                     })
                     .catch((error) => {
@@ -63,10 +62,12 @@ function CreateUpdateGenreDialog(props) {
     }
 
     const notifySuccess = (text) => toast.success(text, {
+        autoClose: 2000,
         position: "top-right",
     });
 
     const notifyError = (text) => toast.error(text, {
+        autoClose: 2000,
         position: "top-right",
     });
 
@@ -99,7 +100,7 @@ function CreateUpdateGenreDialog(props) {
                                         type="text"
                                         className="my-input"
                                         placeholder="Enter name"
-                                        autocomplete="off"
+                                        autoComplete="off"
                                         value={name}
                                         onChange={changeNameHandler}
                                         isInvalid={nameError}

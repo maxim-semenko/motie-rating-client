@@ -8,7 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 import PaginationComponent from "../../../common/PaginationComponent";
 import CreateUpdateGenreDialog from "./CreateUpdateGenreDialog";
 import RemoveGenreDialog from "./RemoveGenreDialog";
-import BackControllersButtonComponent from "../../../common/BackControllersButtonComponent";
+import BackControlsButtonComponent from "../../../common/BackControlsButtonComponent";
 
 function AllGenresPage() {
     const dispatch = useDispatch()
@@ -65,7 +65,7 @@ function AllGenresPage() {
                         {
                             genres.map((genre, index) =>
                                 <tr key={index}>
-                                    <td><b>{index + 1}</b></td>
+                                    <td><b>{index + 1 + sizePage * (currentPage - 1)}</b></td>
                                     <td><b>{genre.name}</b></td>
                                     <td>
                                         <Button variant="outline-success"
@@ -119,7 +119,7 @@ function AllGenresPage() {
                 <Col lg={12} style={{marginTop: "20px"}}>
                     <Jumbotron className="bg-dark text-white">
                         <div style={{margin: "0 auto"}}>
-                            <BackControllersButtonComponent/>
+                            <BackControlsButtonComponent/>
                             <Button variant="outline-primary"
                                     style={{marginBottom: "20px"}} onClick={() => createGenre()}>
                                 <b>Add a new genre</b>

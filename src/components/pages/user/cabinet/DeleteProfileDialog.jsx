@@ -74,12 +74,14 @@ function DeleteProfileDialog(props) {
                                         variant="danger"
                                         textHeader="Oh snap! You got an error!"
                                         text={showError}
-                                        close={() => setShowError(false)}/>
+                                        close={() => setShowError(false)}
+                    />
                     <AlertCSSTransition in={showSuccess}
                                         variant="success"
                                         textHeader="It's OK!"
                                         text={showSuccess}
-                                        close={() => setShowSuccess(false)}/>
+                                        close={() => setShowSuccess(false)}
+                    />
                     <h5>
                         <p>For security, you should to input your password of account:</p>
                         <Form>

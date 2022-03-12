@@ -112,7 +112,7 @@ function SignInDialog(props) {
                         <Form.Control className="my-input"
                                       type="text"
                                       placeholder="Enter username"
-                                      autocomplete="off"
+                                      autoComplete="off"
                                       onChange={changeUsernameHandler}
                                       isInvalid={usernameError}/>
                         <Form.Control.Feedback type='invalid'>{usernameError}</Form.Control.Feedback>
@@ -122,7 +122,7 @@ function SignInDialog(props) {
                         <Form.Control className="my-input"
                                       type="password"
                                       placeholder="Enter password"
-                                      autocomplete="off"
+                                      autoComplete="off"
                                       onChange={changePasswordHandler}
                                       isInvalid={passwordError}/>
                         <Form.Control.Feedback type='invalid'>{passwordError}</Form.Control.Feedback>
