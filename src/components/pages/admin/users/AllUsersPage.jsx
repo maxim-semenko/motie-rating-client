@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
+import {Button, Col, Container, Jumbotron, Table} from "react-bootstrap"
 import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
 import {getUsers, setCurrentPage, setSizePage} from "../../../../redux/user/UserAction";
@@ -68,59 +68,52 @@ function AllUsersPage() {
     }
 
     const showContent = () => {
-        return (
-            <Table striped bordered hover variant="dark">
-                <thead>
-                <tr>
-                    <th width={"20%"}>Username</th>
-                    <th width={"20%"}>Firstname</th>
-                    <th width={"20%"}>Lastname</th>
-                    <th width={"20%"}>Email</th>
-                    <th width={"5%"}>Role</th>
-                    <th width={"15%"}>Action</th>
-                </tr>
-                </thead>
-                {
-                    loading && users.length === 0 ?
-                        <div>
-                            <span style={{paddingTop: "2%", paddingLeft: "40%", position: "absolute"}}>
-                                <Spinner animation="border"/>
-                            </span>
-                        </div>
-                        :
-                        <tbody>
-                        {
-                            users.map(user =>
-                                <tr key={user.id}>
-                                    <td><b>{user.username}</b></td>
-                                    <td><b>{user.firstname}</b></td>
-                                    <td><b>{user.lastname}</b></td>
-                                    <td><b>{user.email}</b></td>
-                                    <td>
-                                        <b>{getRole(user.isAdmin)}</b>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <Button variant={getVariantButtonRole(user.isAdmin)}
-                                                    disabled={user.id === userId}
-                                                    onClick={() => updateUserRoles(user)}>
-                                                <b>{getTextButtonRole(user.isAdmin)}</b>
-                                            </Button>{' '}
-                                            <Button
-                                                variant={user.isAccountNonLocked ? "outline-danger" : "outline-warning"}
+        if (loading && users.length === 0) {
+            return <h1 className={"text-center"}><Spinner animation="border"/></h1>
+        } else {
+            return (
+                <Table striped bordered hover variant="dark">
+                    <thead>
+                    <tr>
+                        <th width={"19%"}>Username</th>
+                        <th width={"19%"}>Firstname</th>
+                        <th width={"19%"}>Lastname</th>
+                        <th width={"20%"}>Email</th>
+                        <th width={"5%"}>Role</th>
+                        <th width={"18%"}>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        users.map(user =>
+                            <tr key={user.id}>
+                                <td><b>{user.username}</b></td>
+                                <td><b>{user.firstname}</b></td>
+                                <td><b>{user.lastname}</b></td>
+                                <td><b>{user.email}</b></td>
+                                <td><b>{getRole(user.isAdmin)}</b></td>
+                                <td>
+                                    <div>
+                                        <Button variant={getVariantButtonRole(user.isAdmin)}
                                                 disabled={user.id === userId}
-                                                onClick={() => updateUserIsNonLocked(user.id, !user.isAccountNonLocked)}>
-                                                <b>{user.isAccountNonLocked ? "Ban" : "No ban"}</b>
-                                            </Button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        }
-                        </tbody>
-                }
-            </Table>
-        )
+                                                onClick={() => updateUserRoles(user)}>
+                                            <b>{getTextButtonRole(user.isAdmin)}</b>
+                                        </Button>{' '}
+                                        <Button
+                                            variant={user.isAccountNonLocked ? "outline-danger" : "outline-warning"}
+                                            disabled={user.id === userId}
+                                            onClick={() => updateUserIsNonLocked(user.id, !user.isAccountNonLocked)}>
+                                            <b>{user.isAccountNonLocked ? "Ban" : "No ban"}</b>
+                                        </Button>
+                                    </div>
+                                </td>
+                            </tr>
+                        )
+                    }
+                    </tbody>
+                </Table>
+            )
+        }
     }
 
     /**
@@ -139,7 +132,7 @@ function AllUsersPage() {
                 <Col lg={12} style={{marginTop: "20px"}}>
                     <Jumbotron className="bg-dark text-white">
                         <BackControlsButtonComponent/>
-                        <Row>
+                        <div>
                             <PaginationComponent
                                 sizePage={sizePage}
                                 totalElements={totalElements}
@@ -148,7 +141,7 @@ function AllUsersPage() {
                                 changeCurrentPage={(pageNumber) => dispatch(setCurrentPage(pageNumber))}
                             />
                             {showContent()}
-                        </Row>
+                        </div>
                     </Jumbotron>
                 </Col>
             </Container>

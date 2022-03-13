@@ -102,7 +102,7 @@ function FeedbackPage() {
                     console.log(error)
                     setSending(false)
                     setShowError(true)
-                    setTextError("Please, check your input date!")
+                    setErrorText("Please, check your input date!")
                 })
         }
     }
@@ -157,11 +157,11 @@ function FeedbackPage() {
                                               onChange={changeTypeHandler}
                                 >
                                     <option key={0} value={"null"}>Select...</option>
-                                    {listTypes.map((type, index) =>
+                                    {listTypes.map((item, index) =>
                                         <option
                                             key={index}
                                             value={JSON.stringify(type)}>
-                                            {type.name}
+                                            {item.name}
                                         </option>
                                     )}
                                 </Form.Control>

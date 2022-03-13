@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
+import {Button, Col, Container, Jumbotron, Table} from "react-bootstrap"
 import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
 import {getCountries, getCountryById, setCurrentPage, setSizePage} from "../../../../redux/country/CountryAction";
@@ -43,43 +43,46 @@ function AllCountriesPage() {
         setMethod("update")
     }
 
-    const showContent = () => {
+    const ActionButtons = (props) => {
         return (
-            <Table striped bordered hover variant="dark">
-                <thead>
-                <tr>
-                    <th style={{minWidth: "9rem"}}>№</th>
-                    <th style={{minWidth: "15rem"}}>Name</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                {
-                    loading && countries.length === 0 ?
-                        <span style={{paddingTop: "2%", paddingLeft: "35%", position: "absolute"}}>
-                                <Spinner animation="border"/>
-                        </span>
-                        :
-                        <tbody>
-                        {
-                            countries.map((country, index) =>
-                                <tr key={index}>
-                                    <td><b>{index + 1 + sizePage * (currentPage - 1)}</b></td>
-                                    <td><b>{country.name}</b></td>
-                                    <td>
-                                        <Button variant="outline-success" onClick={() => editCountry(country.id)}>
-                                            <b>Edit</b>
-                                        </Button>{' '}
-                                        <Button variant="outline-danger" onClick={() => removeCountry(country.id)}>
-                                            <b>Remove</b>
-                                        </Button>
-                                    </td>
-                                </tr>
-                            )
-                        }
-                        </tbody>
-                }
-            </Table>
+            <div>
+                <Button variant="outline-success" onClick={() => editCountry(props.id)}>
+                    <b>Edit</b>
+                </Button>{' '}
+                <Button variant="outline-danger" onClick={() => removeCountry(props.id)}>
+                    <b>Remove</b>
+                </Button>
+            </div>
         )
+    }
+
+    const showContent = () => {
+        if (loading && countries.length === 0) {
+            return <h1 className={"text-center"}><Spinner animation="border"/></h1>
+        } else {
+            return (
+                <Table striped bordered hover variant="dark">
+                    <thead>
+                    <tr>
+                        <th style={{minWidth: "9rem"}}>№</th>
+                        <th style={{minWidth: "15rem"}}>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        countries.map((country, index) =>
+                            <tr key={index}>
+                                <td><b>{index + 1 + sizePage * (currentPage - 1)}</b></td>
+                                <td><b>{country.name}</b></td>
+                                <td><ActionButtons id={country.id}/></td>
+                            </tr>
+                        )
+                    }
+                    </tbody>
+                </Table>
+            )
+        }
     }
 
     const changeSizePage = (event) => {
@@ -121,7 +124,7 @@ function AllCountriesPage() {
                                 <b>Add a new country</b>
                             </Button>
                         </div>
-                        <Row>
+                        <div>
                             <PaginationComponent
                                 sizePage={sizePage}
                                 totalElements={totalElements}
@@ -130,7 +133,7 @@ function AllCountriesPage() {
                                 changeCurrentPage={(pageNumber) => dispatch(setCurrentPage(pageNumber))}
                             />
                             {showContent()}
-                        </Row>
+                        </div>
                     </Jumbotron>
                 </Col>
             </Container>

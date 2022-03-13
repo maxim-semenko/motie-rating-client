@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Button, Col, Container, Jumbotron, Row, Table} from "react-bootstrap"
+import {Button, Col, Container, Jumbotron, Table} from "react-bootstrap"
 import NavigationBar from "../../../common/NavigationBar"
 import Footer from "../../../common/Footer"
 import {getGenreById, getGenres, setCurrentPage, setSizePage} from "../../../../redux/genre/GenreAction";
@@ -44,46 +44,39 @@ function AllGenresPage() {
     }
 
     const showContent = () => {
-        return (
-            <Table striped bordered hover variant="dark">
-                <thead>
-                <tr>
-                    <th style={{minWidth: "9rem"}}>№</th>
-                    <th style={{minWidth: "15rem"}}>Name</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                {
-                    loading && genres.length === 0 ?
-                        <div>
-                            <span style={{paddingTop: "2%", paddingLeft: "35%", position: "absolute"}}>
-                                <Spinner animation="border"/>
-                            </span>
-                        </div>
-                        :
-                        <tbody>
-                        {
-                            genres.map((genre, index) =>
-                                <tr key={index}>
-                                    <td><b>{index + 1 + sizePage * (currentPage - 1)}</b></td>
-                                    <td><b>{genre.name}</b></td>
-                                    <td>
-                                        <Button variant="outline-success"
-                                                onClick={() => editGenre(genre.id)}>
-                                            <b>Edit</b>
-                                        </Button>{' '}
-                                        <Button variant="outline-danger"
-                                                onClick={() => removeGenre(genre.id)}>
-                                            <b>Remove</b>
-                                        </Button>
-                                    </td>
-                                </tr>
-                            )
-                        }
-                        </tbody>
-                }
-            </Table>
-        )
+        if (loading && genres.length === 0) {
+            return <h1 className={"text-center"}><Spinner animation="border"/></h1>
+        } else {
+            return (
+                <Table striped bordered hover variant="dark">
+                    <thead>
+                    <tr>
+                        <th style={{minWidth: "9rem"}}>№</th>
+                        <th style={{minWidth: "15rem"}}>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        genres.map((genre, index) =>
+                            <tr key={index}>
+                                <td><b>{index + 1 + sizePage * (currentPage - 1)}</b></td>
+                                <td><b>{genre.name}</b></td>
+                                <td>
+                                    <Button variant="outline-success" onClick={() => editGenre(genre.id)}>
+                                        <b>Edit</b>
+                                    </Button>{' '}
+                                    <Button variant="outline-danger" onClick={() => removeGenre(genre.id)}>
+                                        <b>Remove</b>
+                                    </Button>
+                                </td>
+                            </tr>
+                        )
+                    }
+                    </tbody>
+                </Table>
+            )
+        }
     }
 
     const changeSizePage = (event) => {
@@ -125,7 +118,7 @@ function AllGenresPage() {
                                 <b>Add a new genre</b>
                             </Button>
                         </div>
-                        <Row>
+                        <div>
                             <PaginationComponent
                                 sizePage={sizePage}
                                 totalElements={totalElements}
@@ -134,7 +127,7 @@ function AllGenresPage() {
                                 changeCurrentPage={(pageNumber) => dispatch(setCurrentPage(pageNumber))}
                             />
                             {showContent()}
-                        </Row>
+                        </div>
                     </Jumbotron>
                 </Col>
             </Container>

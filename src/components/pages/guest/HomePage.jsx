@@ -47,9 +47,7 @@ function HomePage() {
             setSearchByName(true)
             setCurrentPage(1)
             FilmService.getAllByName(1, 9, nameForSearch).then(resp => {
-                setFilms(resp.data.content)
-                setTotalFilms(resp.data.totalElements)
-                setLoadingFilms(false)
+                gotFilmsSuccess(resp)
             })
         }
     }
@@ -60,6 +58,12 @@ function HomePage() {
         getAllFilms();
     }
 
+    const gotFilmsSuccess = (resp) => {
+        setFilms(resp.data.content)
+        setTotalFilms(resp.data.totalElements)
+        setLoadingFilms(false)
+    }
+
     const changePage = (page) => {
         getAllFilms(page, 9)
     }
@@ -68,9 +72,7 @@ function HomePage() {
         setLoadingFilms(true)
         setCurrentPage(page)
         FilmService.getAll(page, size).then(resp => {
-            setFilms(resp.data.content)
-            setTotalFilms(resp.data.totalElements)
-            setLoadingFilms(false)
+            gotFilmsSuccess(resp)
         })
     }
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import NavigationBar from "../../../common/NavigationBar";
 import {Button, Col, Container, Form, Jumbotron, Row} from "react-bootstrap";
 import Footer from "../../../common/Footer";
@@ -31,10 +31,6 @@ function PaymentOrderPage() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [textSuccess, setTextSuccess] = useState('')
 
-    useEffect(() => {
-
-    })
-
     const changeCardNameHandler = (event) => {
         setCardName(event.target.value)
         setCardNameError("")
@@ -54,7 +50,6 @@ function PaymentOrderPage() {
         setCVV(event.target.value)
         setCVVError("")
     }
-
 
     const changeEmailCodeHandler = (event) => {
         setEmailCode(event.target.value)
@@ -95,11 +90,12 @@ function PaymentOrderPage() {
             console.log(request)
             PaymentService.pay(request)
                 .then((response) => {
+                    setShowSuccess(true)
                     console.log(response)
                 })
                 .catch((error) => {
+                    setShowError(true)
                     console.log(error)
-                    // notifyError('Error to update the genre, please check your input data!')
                 });
         }
     }

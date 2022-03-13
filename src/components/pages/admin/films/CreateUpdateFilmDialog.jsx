@@ -133,7 +133,7 @@ function CreateUpdateFilmDialog(props) {
     }
 
     const removeCountry = (item) => {
-        setCountriesList(countriesList.filter(country => country.name !== item.name));
+        setCountriesList(countriesList.filter(countryItem => countryItem.name !== item.name));
     }
 
     const addGenre = () => {
@@ -143,7 +143,7 @@ function CreateUpdateFilmDialog(props) {
     }
 
     const removeGenre = (item) => {
-        setGenresList(genresList.filter(genre => genre.name !== item.name));
+        setGenresList(genresList.filter(genreItem => genreItem.name !== item.name));
     }
 
     const handleSubmit = (event) => {
