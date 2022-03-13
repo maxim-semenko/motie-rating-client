@@ -212,6 +212,16 @@ function CreateUpdateFilmDialog(props) {
         position: "top-right",
     });
 
+    const OptionItem = (props) => {
+        return (
+            <option
+                key={props.index}
+                value={JSON.stringify(props.item)}>
+                {props.item.name}
+            </option>
+        )
+    }
+
     const showContent = () => {
         if (genres.length === 0 || countries.length === 0 || (loadingFilm && props.method === "updated")) {
             return <div>loading...</div>
@@ -288,11 +298,7 @@ function CreateUpdateFilmDialog(props) {
                                                           onChange={changeCountryHandler}>
                                                 <option key={0} value={"null"}>Select...</option>
                                                 {countries.map((item, index) =>
-                                                    <option
-                                                        key={index}
-                                                        value={JSON.stringify(item)}>
-                                                        {item.name}
-                                                    </option>
+                                                    <OptionItem index={index} item={item}/>
                                                 )}
                                             </Form.Control>
                                             <Form.Control.Feedback type='invalid'>{countryError}</Form.Control.Feedback>
@@ -330,11 +336,7 @@ function CreateUpdateFilmDialog(props) {
                                                           onChange={changeGenreHandler}>
                                                 <option key={0} value={"null"}>Select...</option>
                                                 {genres.map((item, index) =>
-                                                    <option
-                                                        key={index}
-                                                        value={JSON.stringify(item)}>
-                                                        {item.name}
-                                                    </option>
+                                                    <OptionItem index={index} item={item}/>
                                                 )}
                                             </Form.Control>
                                             <Form.Control.Feedback type='invalid'>{genreError}</Form.Control.Feedback>
