@@ -22,7 +22,6 @@ class FilmService {
     }
 
     async create(request, image) {
-        console.log("[" + FILM_API_BASE_URL + `/test?file=${image}]`)
         return axios.post(FILM_API_BASE_URL, request, {
             headers: {'Authorization': `Bearer_${cookies.get("jwt")}`}
         })

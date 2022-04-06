@@ -25,7 +25,7 @@ function TransactionItem(props) {
 
     return (
         <div>
-            <p><b>Summa:</b> {props.transaction.summa}$</p>
+            <p><b>Summa:</b> {props.transaction.summa.toFixed(2)}$</p>
             <p><b>Purchases list: </b>{getList(props.transaction.filmList)}</p>
             <p><b>Status: </b>{getStatus(props.transaction.transactionStatus)}</p>
             <p><b>Date: </b>{props.transaction.date}</p>
