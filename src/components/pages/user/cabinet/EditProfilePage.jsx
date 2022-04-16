@@ -151,8 +151,8 @@ function EditProfilePage() {
             UserService.updatePasswordById(request, userId)
                 .then((response) => {
                     console.log(response.data);
-                    cookies.set("jwt", response.data.token, {path: "/", sameSite: "strict", maxAge: 3600 * 24 * 60})
-                    setShowSuccess("Your profile was edited successfully!")
+                    // cookies.set("jwt", response.data.token, {path: "/", sameSite: "strict", maxAge: 3600 * 24 * 60})
+                    setShowSuccess("Your password was edited successfully!")
                 }).catch(function (error) {
                     console.log(error.response);
                     setShowError(error.response.data.message)

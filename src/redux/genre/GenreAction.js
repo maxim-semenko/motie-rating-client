@@ -79,7 +79,7 @@ export function createGenre(genre) {
         return new Promise((resolve, reject) => {
             GenreService.create(genre)
                 .then((response) => {
-                    dispatch(createdGenreSuccess(genre))
+                    dispatch(createdGenreSuccess(response.data))
                     console.log(response)
                     return resolve(response);
                 })

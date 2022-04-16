@@ -158,6 +158,7 @@ function CreateUpdateFilmDialog(props) {
             genres: genresList,
             imageURL: imageURL
         }
+        console.log(request)
 
         if (!findFormErrors(request)) {
             if (props.method === "create") {
@@ -294,6 +295,7 @@ function CreateUpdateFilmDialog(props) {
                                             <Form.Label style={{marginBottom: "0px"}}><b>COUNTRY</b></Form.Label>
                                             <Form.Control className="my-input"
                                                           as="select" aria-label="Default select example"
+                                                          value={JSON.stringify(country)}
                                                           isInvalid={countryError}
                                                           onChange={changeCountryHandler}>
                                                 <option key={0} value={"null"}>Select...</option>
@@ -333,6 +335,7 @@ function CreateUpdateFilmDialog(props) {
                                             <Form.Control className="my-input" as="select"
                                                           aria-label="Default select example"
                                                           isInvalid={genreError}
+                                                          value={JSON.stringify(genre)}
                                                           onChange={changeGenreHandler}>
                                                 <option key={0} value={"null"}>Select...</option>
                                                 {genres.map((item, index) =>

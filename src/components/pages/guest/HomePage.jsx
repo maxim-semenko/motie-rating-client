@@ -132,7 +132,7 @@ function HomePage() {
         if (loadingFilms) {
             return <span style={{paddingTop: "2%"}}><Spinner animation="border" size={"lg"}/></span>
         } else {
-            return <Content/>
+            return <div>{Content()}</div>
         }
     }
 

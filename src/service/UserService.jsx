@@ -54,9 +54,9 @@ class UserService {
      * @returns {Promise<AxiosResponse<any>>} AxiosResponse
      */
     async updatePasswordById(request, id) {
-        console.log(USER_API_BASE_URL + '/password/' + id)
+        console.log(`${USER_API_BASE_URL}/${id}/password/`)
         let jwt = cookies.get("jwt");
-        return axios.put(USER_API_BASE_URL + '/password/' + id, request, {
+        return axios.patch(`${USER_API_BASE_URL}/${id}/password/`, request, {
             headers: {
                 'Authorization': `Bearer_${jwt}`
             },
